@@ -15,14 +15,16 @@ def test_project_goal():
     
     # Verify mission
     assert "NetWeaver" in content
-    assert "browser-native world model" in content
-    assert "evidence-first automation framework" in content
+    assert "browser-native AI OS" in content
+    assert "evidence-first web cognition engine" in content
     
-    # Verify objectives
-    assert "Enable seamless integration with web browsers" in content
-    assert "Prioritize evidence-based approaches" in content
-    assert "Facilitate automation tasks" in content
+    # Verify principles
+    assert "Evidence-first" in content or "evidence" in content.lower()
+    assert "WebSceneGraph" in content
+    assert "WNAL" in content
     
     # Check sections
     assert "## Mission" in content
-    assert "## Objectives" in content
+    assert "## Principles" in content
+    assert "## Architecture" in content
+    assert "## Current Status" in content

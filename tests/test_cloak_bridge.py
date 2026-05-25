@@ -451,7 +451,7 @@ class TestObserverCloakDelegation:
             instance = MockBridge.return_value
             instance.observe.side_effect = CloakBrowserLaunchError("no install")
 
-            with pytest.raises(RuntimeError, match="no install"):
+            with pytest.raises(CloakBrowserError, match="no install"):
                 observe_page_cloak("https://example.com")
 
     def test_observe_page_cloak_nav_error_becomes_runtime_error(self):
@@ -461,7 +461,7 @@ class TestObserverCloakDelegation:
             instance = MockBridge.return_value
             instance.observe.side_effect = CloakBrowserNavigationError("timeout")
 
-            with pytest.raises(RuntimeError, match="timeout"):
+            with pytest.raises(CloakBrowserError, match="timeout"):
                 observe_page_cloak("https://example.com")
 
     def test_observe_page_mock_unchanged(self):
