@@ -1,0 +1,83 @@
+{
+  "url": "https://example.com/login",
+  "title": "Login",
+  "html": "<html><head><title>Login</title></head><body><form id='login-form'><label for='username'>Username</label><input type='text' id='username' name='username' /><label for='password'>Password</label><input type='password' id='password' name='password' /><label><input type='checkbox' id='remember' name='remember' /> Remember me</label><button type='submit'>Sign In</button></form><a href='/forgot'>Forgot password?</a></body></html>",
+  "interactive_elements": [
+    {
+      "selector": "input#username",
+      "tag": "input",
+      "role": "textbox",
+      "text": "",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": true,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "input#password",
+      "tag": "input",
+      "role": "textbox",
+      "text": "",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": true,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "input#remember",
+      "tag": "input",
+      "role": "checkbox",
+      "text": "Remember me",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": true,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "button[type='submit']",
+      "tag": "button",
+      "role": "button",
+      "text": "Sign In",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "a[href='/forgot']",
+      "tag": "a",
+      "role": "link",
+      "text": "Forgot password?",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    }
+  ],
+  "network": []
+}

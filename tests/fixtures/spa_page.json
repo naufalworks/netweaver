@@ -1,0 +1,201 @@
+{
+  "url": "https://example.com/dashboard",
+  "title": "Dashboard",
+  "html": "<html><head><title>Dashboard</title></head><body><nav><a href='/home'>Home</a><a href='/settings'>Settings</a><a href='/profile'>Profile</a></nav><aside><button id='menu-toggle'>Menu</button><div id='shadow-widget'><!-- shadow root --></div></aside><main><input type='search' id='search' placeholder='Search dashboard...' /><button id='refresh' disabled>Refresh</button><div id='hidden-section' style='display:none'><a href='/hidden'>Hidden Link</a></div><div id='content'><button id='action1'>Action 1</button><button id='action2'>Action 2</button><a href='/details'>View Details</a></div></main></body></html>",
+  "interactive_elements": [
+    {
+      "selector": "a[href='/home']",
+      "tag": "a",
+      "role": "link",
+      "text": "Home",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "a[href='/settings']",
+      "tag": "a",
+      "role": "link",
+      "text": "Settings",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "a[href='/profile']",
+      "tag": "a",
+      "role": "link",
+      "text": "Profile",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "button#menu-toggle",
+      "tag": "button",
+      "role": "button",
+      "text": "Menu",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "button#shadow-action",
+      "tag": "button",
+      "role": "button",
+      "text": "Shadow Button",
+      "shadow_root": true,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "input#shadow-filter",
+      "tag": "input",
+      "role": "searchbox",
+      "text": "",
+      "shadow_root": true,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": true,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "input#search",
+      "tag": "input",
+      "role": "searchbox",
+      "text": "",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": true,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "button#refresh",
+      "tag": "button",
+      "role": "button",
+      "text": "Refresh",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": false,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "a[href='/hidden']",
+      "tag": "a",
+      "role": "link",
+      "text": "Hidden Link",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": false,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "button#action1",
+      "tag": "button",
+      "role": "button",
+      "text": "Action 1",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "button#action2",
+      "tag": "button",
+      "role": "button",
+      "text": "Action 2",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "a[href='/details']",
+      "tag": "a",
+      "role": "link",
+      "text": "View Details",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    }
+  ],
+  "network": [
+    {
+      "url": "https://api.example.com/dashboard/data",
+      "method": "GET",
+      "status": 200,
+      "type": "fetch"
+    },
+    {
+      "url": "https://api.example.com/user/preferences",
+      "method": "GET",
+      "status": 200,
+      "type": "fetch"
+    }
+  ]
+}

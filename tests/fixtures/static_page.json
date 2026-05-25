@@ -1,0 +1,53 @@
+{
+  "url": "https://example.com/static",
+  "title": "Test Page",
+  "html": "<html><head><title>Test Page</title></head><body><h1>Static Page</h1><button id='btn1'>Click Me</button><a href='/about'>About</a><input type='text' name='search' placeholder='Search...' /></body></html>",
+  "interactive_elements": [
+    {
+      "selector": "button#btn1",
+      "tag": "button",
+      "role": "button",
+      "text": "Click Me",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "a[href='/about']",
+      "tag": "a",
+      "role": "link",
+      "text": "About",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "input[name='search']",
+      "tag": "input",
+      "role": "textbox",
+      "text": "",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": true,
+        "stable": true,
+        "pointer_events": true
+      }
+    }
+  ],
+  "network": []
+}

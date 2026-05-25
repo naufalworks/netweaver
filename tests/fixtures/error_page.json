@@ -1,0 +1,30 @@
+{
+  "url": "https://example.com/not-found",
+  "title": "Not Found",
+  "html": "<html><head><title>Not Found</title></head><body><h1>404</h1><p>The page you are looking for does not exist.</p><a href='/'>Go Home</a></body></html>",
+  "interactive_elements": [
+    {
+      "selector": "a[href='/']",
+      "tag": "a",
+      "role": "link",
+      "text": "Go Home",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    }
+  ],
+  "network": [
+    {
+      "url": "https://example.com/not-found",
+      "method": "GET",
+      "status": 404,
+      "type": "document"
+    }
+  ]
+}
