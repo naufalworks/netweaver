@@ -85,4 +85,6 @@ cython_debug/
 # Project specific
 .tini/
 DEV_LOG.md
-PROJECT_GOAL.md
+
+# Embedded vendor repos (tracked separately)
+vendor/CloakBrowser/

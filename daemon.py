@@ -18,6 +18,7 @@ TINI = WORKDIR / ".tini"
 MODEL = os.environ.get("NETWEAVER_MODEL", "claude-combo")
 API_URL = os.environ.get("NETWEAVER_API_URL", "http://localhost:20128/v1/chat/completions")
 API_KEY = os.environ.get("NETWEAVER_API_KEY", "")
+PLAN_ONLY = os.environ.get("NETWEAVER_PLAN_ONLY", "").lower() in ("1", "true", "yes")
 POLL_INTERVAL = float(os.environ.get("NETWEAVER_POLL", "2"))
 SELF_DIAGNOSE_INTERVAL = int(os.environ.get("NETWEAVER_DIAGNOSE", "10"))
 IDLE_TIMEOUT = int(os.environ.get("NETWEAVER_IDLE_TIMEOUT", "21600"))  # 6h
@@ -419,7 +420,37 @@ def execute_task(task: dict) -> dict:
         return {"done": False, "error": "Could not generate plan"}
     
     steps = plan["steps"]
-    log(f"   Plan: {len(steps)} step(s)")
+    
+    # PLAN_ONLY mode: write plan to review queue, don't execute
+    if PLAN_ONLY:
+        review_path = TINI / "netweaver" / "company" / "REVIEW_QUEUE.md"
+        review_path.parent.mkdir(parents=True, exist_ok=True)
+        
+        plan_entry = f"""## PLAN-{task.get('id', '?')}
+**Status:** PENDING_APPROVAL
+**Goal:** {task.get('goal', '?')}
+**Scope:** {', '.join([s.get('write_files', []) for s in steps])}
+**Steps:** {len(steps)}
+**Owner:** {task.get('model', MODEL)}
+
+"""
+        for s in steps:
+            plan_entry += f"""### Step {s['id']}
+Goal: {s.get('goal', '?')}
+Read: {', '.join(s.get('read_files', []))}
+Write: {', '.join(s.get('write_files', []))}
+
+"""
+        plan_entry += "---\n"
+        
+        if review_path.exists():
+            existing = review_path.read_text()
+            review_path.write_text(plan_entry + "\n" + existing)
+        else:
+            review_path.write_text("# NetWeaver Review Queue\n\nSet **Status** to **APPROVED** to execute.\n\n" + plan_entry)
+        
+        log(f"  Plan written to REVIEW_QUEUE.md (task {task.get('id','?')})")
+        return {"done": True, "plan_written": True, "plan_file": str(review_path)}
     
     completed = 0
     for step in steps:

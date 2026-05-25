@@ -157,7 +157,7 @@ Source of truth: `VISION_CLOAK_NET_AGENT.md`, `ARCHITECTURE_DECISIONS.md`, `.tin
 | ~~`scene_builder.py` dead code~~ | ~~Low~~ | ~~Removed 2026-05-24~~ |
 | ~~`EvidenceReport.summary()` mutates via `verify()`~~ | ~~Medium~~ | ~~Fixed 2026-05-24 — `_check_verified()` added~~ |
 | ~~`FillAction` stores raw text params (credential leak risk)~~ | ~~Medium~~ | ~~Fixed 2026-05-24 — `is_sensitive` + `masked_value`~~ |
-| No git history (all files untracked) | High | Project root |
+| ~~No git history (all files untracked)~~ | ~~High~~ | ~~Resolved 2026-05-25 — initial commit done~~ |
 | `PROJECT_GOAL.md` still TINI-oriented | Medium | Project root |
 | Cron prompt inlines ~25K skill doc | Critical | Cron job config |
 | ~~History perspective scaffolded but empty~~ | ~~Low~~ | ~~Implemented in `netweaver/perspective.py` — HistoryPerspective assesses past failures and known patterns~~ |

@@ -260,7 +260,7 @@ class VerifiedExecutor:
     def __init__(
         self,
         mode: str = "mock",
-        cloak_bridge: Optional[CloakBrowserBridge] = None,
+        cloak_bridge: Optional[Any] = None,
         scene_graph: Optional[Any] = None,
         evidence_collector: Optional[EvidenceCollector] = None,
         action_executor: Optional[ActionExecutor] = None,

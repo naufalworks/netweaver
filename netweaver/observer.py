@@ -201,7 +201,9 @@ def observe_page_mock(url: str) -> PageObservation:
 
 
 def observe_page_cloak(url: str, headless: bool = True, timeout: float = 30.0) -> PageObservation:
-    """Observe page using CloakBrowser via the CloakBrowserBridge.
+    """Observe page using real browser (CloakBrowser or Playwright fallback).
+    
+    Tries CloakBrowser first, falls back to Playwright.
     
     Args:
         url: Target URL to observe
@@ -212,15 +214,21 @@ def observe_page_cloak(url: str, headless: bool = True, timeout: float = 30.0) -
         PageObservation with real browser data
         
     Raises:
-        ImportError: If cloakbrowser is not installed
         RuntimeError: If browser launch or page load fails
     """
-    from netweaver.cloak_bridge import CloakBrowserBridge, CloakBrowserError
+    try:
+        from netweaver.cloak_bridge import CloakBrowserBridge, CloakBrowserError
+        bridge = CloakBrowserBridge()
+        return bridge.observe(url, headless=headless, timeout=timeout)
+    except (ImportError, CloakBrowserError):
+        pass
     
-    bridge = CloakBrowserBridge()
+    # Fallback: Playwright
+    from netweaver.playwright_bridge import PlaywrightBridge, PlaywrightError
+    bridge = PlaywrightBridge()
     try:
         return bridge.observe(url, headless=headless, timeout=timeout)
-    except CloakBrowserError as e:
+    except PlaywrightError as e:
         raise RuntimeError(str(e)) from e
 
 
