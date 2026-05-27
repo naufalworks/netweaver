@@ -6,5 +6,13 @@
     "run_count": 1,
     "success_count": 1,
     "last_error": ""
+  },
+  "github_trending_daily": {
+    "task_id": "github_trending_daily",
+    "last_run": "2026-05-28T01:45:57.375890",
+    "last_result_hash": "5ce36cbfd88b23d3",
+    "run_count": 1,
+    "success_count": 1,
+    "last_error": ""
   }
 }
