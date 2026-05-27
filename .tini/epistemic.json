@@ -237,7 +237,9 @@
           "trustworthiness": 0.9
         }
       ],
-      "contradictions": [],
+      "contradictions": [
+        "291ab36b7898ff61"
+      ],
       "supports": [],
       "depends_on": [],
       "citations": [],
@@ -260,13 +262,73 @@
       "last_verified": "2026-05-27T18:09:34.147979+00:00",
       "decay_rate": 0.02,
       "sources": [],
-      "contradictions": [],
+      "contradictions": [
+        "9d00d4a25043f0e8"
+      ],
       "supports": [],
       "depends_on": [],
       "citations": [],
       "access_count": 0,
       "last_accessed": null,
       "_id": "2d8e252ace73e907"
+    },
+    "291ab36b7898ff61": {
+      "content": "Task explore_https://httpbin.org/forms/post outcome: success",
+      "topic": "worker_outcomes",
+      "tags": [
+        "worker",
+        "outcome",
+        "success",
+        "explore_https://httpbin.org/forms/post"
+      ],
+      "context": "{'elements': 12, 'actions': 0, 'links': 0, 'depth': 0}",
+      "confidence": 0.85,
+      "created": "2026-05-27T18:09:35.664973+00:00",
+      "last_verified": "2026-05-27T18:09:35.664973+00:00",
+      "decay_rate": 0.0,
+      "sources": [
+        {
+          "type": "worker_outcome",
+          "ref": "daemon.py:record_outcome(explore_https://httpbin.org/forms/post)",
+          "author": "",
+          "created": "2026-05-27T18:09:35.664969+00:00",
+          "trustworthiness": 0.9
+        }
+      ],
+      "contradictions": [
+        "8dd9a4df195eb1df"
+      ],
+      "supports": [],
+      "depends_on": [],
+      "citations": [],
+      "access_count": 0,
+      "last_accessed": null,
+      "_id": "291ab36b7898ff61"
+    },
+    "9d00d4a25043f0e8": {
+      "content": "Agent web_explorer succeeded at web_interaction task explore_https://httpbin.org/forms/post",
+      "topic": "competence",
+      "tags": [
+        "agent",
+        "web_explorer",
+        "web_interaction",
+        "outcome"
+      ],
+      "context": "{\"success\": true, \"duration\": 1.458204984664917, \"files\": []}",
+      "confidence": 0.85,
+      "created": "2026-05-27T18:09:35.665712+00:00",
+      "last_verified": "2026-05-27T18:09:35.665713+00:00",
+      "decay_rate": 0.02,
+      "sources": [],
+      "contradictions": [
+        "2d8e252ace73e907"
+      ],
+      "supports": [],
+      "depends_on": [],
+      "citations": [],
+      "access_count": 0,
+      "last_accessed": null,
+      "_id": "9d00d4a25043f0e8"
     }
   },
   "contradictions": [
@@ -278,7 +340,25 @@
       "detected": "2026-05-27T16:31:07.495945+00:00",
       "resolved": false,
       "resolution": ""
+    },
+    {
+      "node_a_id": "291ab36b7898ff61",
+      "node_b_id": "8dd9a4df195eb1df",
+      "severity": 0.22727272727272727,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-27T18:09:35.665006+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "9d00d4a25043f0e8",
+      "node_b_id": "2d8e252ace73e907",
+      "severity": 0.3,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-27T18:09:35.665728+00:00",
+      "resolved": false,
+      "resolution": ""
     }
   ],
-  "saved_at": "2026-05-27T18:09:34.148027+00:00"
+  "saved_at": "2026-05-27T18:09:35.665758+00:00"
 }
