@@ -206,7 +206,9 @@
           "trustworthiness": 0.7
         }
       ],
-      "contradictions": [],
+      "contradictions": [
+        "8e737b39d7af5578"
+      ],
       "supports": [],
       "depends_on": [],
       "citations": [],
@@ -240,7 +242,10 @@
       "contradictions": [
         "291ab36b7898ff61",
         "9bcf0a82db58ec34",
-        "6b417e78fdf56a64"
+        "6b417e78fdf56a64",
+        "63fc2ab13ab471e8",
+        "fcc29a1eef0ea8d1",
+        "a0266935729e5f83"
       ],
       "supports": [],
       "depends_on": [],
@@ -267,7 +272,10 @@
       "contradictions": [
         "9d00d4a25043f0e8",
         "dcf70d0c5300ebc2",
-        "b65a5590b2abfad9"
+        "b65a5590b2abfad9",
+        "440ac1bd89ebcf38",
+        "8fb22c6d022cb2e2",
+        "04fed0d8a6151115"
       ],
       "supports": [],
       "depends_on": [],
@@ -302,7 +310,10 @@
       "contradictions": [
         "8dd9a4df195eb1df",
         "9bcf0a82db58ec34",
-        "6b417e78fdf56a64"
+        "6b417e78fdf56a64",
+        "63fc2ab13ab471e8",
+        "fcc29a1eef0ea8d1",
+        "a0266935729e5f83"
       ],
       "supports": [],
       "depends_on": [],
@@ -329,7 +340,10 @@
       "contradictions": [
         "2d8e252ace73e907",
         "dcf70d0c5300ebc2",
-        "b65a5590b2abfad9"
+        "b65a5590b2abfad9",
+        "440ac1bd89ebcf38",
+        "8fb22c6d022cb2e2",
+        "04fed0d8a6151115"
       ],
       "supports": [],
       "depends_on": [],
@@ -364,7 +378,10 @@
       "contradictions": [
         "8dd9a4df195eb1df",
         "291ab36b7898ff61",
-        "6b417e78fdf56a64"
+        "6b417e78fdf56a64",
+        "63fc2ab13ab471e8",
+        "fcc29a1eef0ea8d1",
+        "a0266935729e5f83"
       ],
       "supports": [],
       "depends_on": [],
@@ -391,7 +408,10 @@
       "contradictions": [
         "2d8e252ace73e907",
         "9d00d4a25043f0e8",
-        "b65a5590b2abfad9"
+        "b65a5590b2abfad9",
+        "440ac1bd89ebcf38",
+        "8fb22c6d022cb2e2",
+        "04fed0d8a6151115"
       ],
       "supports": [],
       "depends_on": [],
@@ -426,7 +446,10 @@
       "contradictions": [
         "8dd9a4df195eb1df",
         "291ab36b7898ff61",
-        "9bcf0a82db58ec34"
+        "9bcf0a82db58ec34",
+        "63fc2ab13ab471e8",
+        "fcc29a1eef0ea8d1",
+        "a0266935729e5f83"
       ],
       "supports": [],
       "depends_on": [],
@@ -453,7 +476,10 @@
       "contradictions": [
         "2d8e252ace73e907",
         "9d00d4a25043f0e8",
-        "dcf70d0c5300ebc2"
+        "dcf70d0c5300ebc2",
+        "440ac1bd89ebcf38",
+        "8fb22c6d022cb2e2",
+        "04fed0d8a6151115"
       ],
       "supports": [],
       "depends_on": [],
@@ -461,6 +487,245 @@
       "access_count": 0,
       "last_accessed": null,
       "_id": "b65a5590b2abfad9"
+    },
+    "63fc2ab13ab471e8": {
+      "content": "Task explore_https://en.wikipedia.org/wiki/Wikipedia:Sandbox outcome: success",
+      "topic": "worker_outcomes",
+      "tags": [
+        "worker",
+        "outcome",
+        "success",
+        "explore_https://en.wikipedia.org/wiki/Wikipedia:Sandbox"
+      ],
+      "context": "{'elements': 37, 'actions': 0, 'links': 1, 'depth': 2}",
+      "confidence": 0.85,
+      "created": "2026-05-27T18:09:46.680462+00:00",
+      "last_verified": "2026-05-27T18:09:46.680463+00:00",
+      "decay_rate": 0.0,
+      "sources": [
+        {
+          "type": "worker_outcome",
+          "ref": "daemon.py:record_outcome(explore_https://en.wikipedia.org/wiki/Wikipedia:Sandbox)",
+          "author": "",
+          "created": "2026-05-27T18:09:46.680458+00:00",
+          "trustworthiness": 0.9
+        }
+      ],
+      "contradictions": [
+        "8dd9a4df195eb1df",
+        "291ab36b7898ff61",
+        "9bcf0a82db58ec34",
+        "6b417e78fdf56a64",
+        "fcc29a1eef0ea8d1",
+        "a0266935729e5f83"
+      ],
+      "supports": [],
+      "depends_on": [],
+      "citations": [],
+      "access_count": 0,
+      "last_accessed": null,
+      "_id": "63fc2ab13ab471e8"
+    },
+    "440ac1bd89ebcf38": {
+      "content": "Agent web_explorer succeeded at web_interaction task explore_https://en.wikipedia.org/wiki/Wikipedia:Sandbox",
+      "topic": "competence",
+      "tags": [
+        "agent",
+        "web_explorer",
+        "web_interaction",
+        "outcome"
+      ],
+      "context": "{\"success\": true, \"duration\": 0.6153616905212402, \"files\": []}",
+      "confidence": 0.85,
+      "created": "2026-05-27T18:09:46.681154+00:00",
+      "last_verified": "2026-05-27T18:09:46.681155+00:00",
+      "decay_rate": 0.02,
+      "sources": [],
+      "contradictions": [
+        "2d8e252ace73e907",
+        "9d00d4a25043f0e8",
+        "dcf70d0c5300ebc2",
+        "b65a5590b2abfad9",
+        "8fb22c6d022cb2e2",
+        "04fed0d8a6151115"
+      ],
+      "supports": [],
+      "depends_on": [],
+      "citations": [],
+      "access_count": 0,
+      "last_accessed": null,
+      "_id": "440ac1bd89ebcf38"
+    },
+    "fcc29a1eef0ea8d1": {
+      "content": "Task explore_https://donate.wikimedia.org/?wmf_source=donate&wm outcome: success",
+      "topic": "worker_outcomes",
+      "tags": [
+        "worker",
+        "outcome",
+        "success",
+        "explore_https://donate.wikimedia.org/?wmf_source=donate&wm"
+      ],
+      "context": "{'elements': 55, 'actions': 0, 'links': 5, 'depth': 1}",
+      "confidence": 0.85,
+      "created": "2026-05-27T18:09:46.681794+00:00",
+      "last_verified": "2026-05-27T18:09:46.681794+00:00",
+      "decay_rate": 0.0,
+      "sources": [
+        {
+          "type": "worker_outcome",
+          "ref": "daemon.py:record_outcome(explore_https://donate.wikimedia.org/?wmf_source=donate&wm)",
+          "author": "",
+          "created": "2026-05-27T18:09:46.681792+00:00",
+          "trustworthiness": 0.9
+        }
+      ],
+      "contradictions": [
+        "8dd9a4df195eb1df",
+        "291ab36b7898ff61",
+        "9bcf0a82db58ec34",
+        "6b417e78fdf56a64",
+        "63fc2ab13ab471e8",
+        "a0266935729e5f83"
+      ],
+      "supports": [],
+      "depends_on": [],
+      "citations": [],
+      "access_count": 0,
+      "last_accessed": null,
+      "_id": "fcc29a1eef0ea8d1"
+    },
+    "8fb22c6d022cb2e2": {
+      "content": "Agent web_explorer succeeded at web_interaction task explore_https://donate.wikimedia.org/?wmf_source=donate&wm",
+      "topic": "competence",
+      "tags": [
+        "agent",
+        "web_explorer",
+        "web_interaction",
+        "outcome"
+      ],
+      "context": "{\"success\": true, \"duration\": 2.4997687339782715, \"files\": []}",
+      "confidence": 0.85,
+      "created": "2026-05-27T18:09:46.682246+00:00",
+      "last_verified": "2026-05-27T18:09:46.682246+00:00",
+      "decay_rate": 0.02,
+      "sources": [],
+      "contradictions": [
+        "2d8e252ace73e907",
+        "9d00d4a25043f0e8",
+        "dcf70d0c5300ebc2",
+        "b65a5590b2abfad9",
+        "440ac1bd89ebcf38",
+        "04fed0d8a6151115"
+      ],
+      "supports": [],
+      "depends_on": [],
+      "citations": [],
+      "access_count": 0,
+      "last_accessed": null,
+      "_id": "8fb22c6d022cb2e2"
+    },
+    "a0266935729e5f83": {
+      "content": "Task explore_https://en.wikipedia.org/wiki/Web_scraping outcome: success",
+      "topic": "worker_outcomes",
+      "tags": [
+        "worker",
+        "outcome",
+        "success",
+        "explore_https://en.wikipedia.org/wiki/Web_scraping"
+      ],
+      "context": "{'elements': 93, 'actions': 0, 'links': 1, 'depth': 0}",
+      "confidence": 0.85,
+      "created": "2026-05-27T18:09:46.682784+00:00",
+      "last_verified": "2026-05-27T18:09:46.682784+00:00",
+      "decay_rate": 0.0,
+      "sources": [
+        {
+          "type": "worker_outcome",
+          "ref": "daemon.py:record_outcome(explore_https://en.wikipedia.org/wiki/Web_scraping)",
+          "author": "",
+          "created": "2026-05-27T18:09:46.682783+00:00",
+          "trustworthiness": 0.9
+        }
+      ],
+      "contradictions": [
+        "8dd9a4df195eb1df",
+        "291ab36b7898ff61",
+        "9bcf0a82db58ec34",
+        "6b417e78fdf56a64",
+        "63fc2ab13ab471e8",
+        "fcc29a1eef0ea8d1",
+        "8e737b39d7af5578"
+      ],
+      "supports": [],
+      "depends_on": [],
+      "citations": [],
+      "access_count": 0,
+      "last_accessed": null,
+      "_id": "a0266935729e5f83"
+    },
+    "04fed0d8a6151115": {
+      "content": "Agent web_explorer succeeded at web_interaction task explore_https://en.wikipedia.org/wiki/Web_scraping",
+      "topic": "competence",
+      "tags": [
+        "agent",
+        "web_explorer",
+        "web_interaction",
+        "outcome"
+      ],
+      "context": "{\"success\": true, \"duration\": 3.7188169956207275, \"files\": []}",
+      "confidence": 0.85,
+      "created": "2026-05-27T18:09:46.683335+00:00",
+      "last_verified": "2026-05-27T18:09:46.683336+00:00",
+      "decay_rate": 0.02,
+      "sources": [],
+      "contradictions": [
+        "2d8e252ace73e907",
+        "9d00d4a25043f0e8",
+        "dcf70d0c5300ebc2",
+        "b65a5590b2abfad9",
+        "440ac1bd89ebcf38",
+        "8fb22c6d022cb2e2"
+      ],
+      "supports": [],
+      "depends_on": [],
+      "citations": [],
+      "access_count": 0,
+      "last_accessed": null,
+      "_id": "04fed0d8a6151115"
+    },
+    "8e737b39d7af5578": {
+      "content": "Task web_learning_cycle outcome: success",
+      "topic": "worker_outcomes",
+      "tags": [
+        "worker",
+        "outcome",
+        "success",
+        "web_learning_cycle"
+      ],
+      "context": "{'sites': 5, 'successes': 5, 'elements': 136}",
+      "confidence": 0.85,
+      "created": "2026-05-27T18:09:47.075412+00:00",
+      "last_verified": "2026-05-27T18:09:47.075412+00:00",
+      "decay_rate": 0.0,
+      "sources": [
+        {
+          "type": "worker_outcome",
+          "ref": "daemon.py:record_outcome(web_learning_cycle)",
+          "author": "",
+          "created": "2026-05-27T18:09:47.075408+00:00",
+          "trustworthiness": 0.9
+        }
+      ],
+      "contradictions": [
+        "4d523c4a11dcfb72",
+        "a0266935729e5f83"
+      ],
+      "supports": [],
+      "depends_on": [],
+      "citations": [],
+      "access_count": 0,
+      "last_accessed": null,
+      "_id": "8e737b39d7af5578"
     }
   },
   "contradictions": [
@@ -580,7 +845,295 @@
       "detected": "2026-05-27T18:09:42.610422+00:00",
       "resolved": false,
       "resolution": ""
+    },
+    {
+      "node_a_id": "63fc2ab13ab471e8",
+      "node_b_id": "8dd9a4df195eb1df",
+      "severity": 0.20833333333333334,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-27T18:09:46.680511+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "63fc2ab13ab471e8",
+      "node_b_id": "291ab36b7898ff61",
+      "severity": 0.23076923076923078,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-27T18:09:46.680517+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "63fc2ab13ab471e8",
+      "node_b_id": "9bcf0a82db58ec34",
+      "severity": 0.19230769230769232,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-27T18:09:46.680522+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "63fc2ab13ab471e8",
+      "node_b_id": "6b417e78fdf56a64",
+      "severity": 0.19230769230769232,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-27T18:09:46.680525+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "440ac1bd89ebcf38",
+      "node_b_id": "2d8e252ace73e907",
+      "severity": 0.28125,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-27T18:09:46.681168+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "440ac1bd89ebcf38",
+      "node_b_id": "9d00d4a25043f0e8",
+      "severity": 0.29411764705882354,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-27T18:09:46.681172+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "440ac1bd89ebcf38",
+      "node_b_id": "dcf70d0c5300ebc2",
+      "severity": 0.2647058823529412,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-27T18:09:46.681175+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "440ac1bd89ebcf38",
+      "node_b_id": "b65a5590b2abfad9",
+      "severity": 0.2647058823529412,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-27T18:09:46.681178+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "fcc29a1eef0ea8d1",
+      "node_b_id": "8dd9a4df195eb1df",
+      "severity": 0.19230769230769232,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-27T18:09:46.681806+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "fcc29a1eef0ea8d1",
+      "node_b_id": "291ab36b7898ff61",
+      "severity": 0.21428571428571427,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-27T18:09:46.681809+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "fcc29a1eef0ea8d1",
+      "node_b_id": "9bcf0a82db58ec34",
+      "severity": 0.17857142857142858,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-27T18:09:46.681812+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "fcc29a1eef0ea8d1",
+      "node_b_id": "6b417e78fdf56a64",
+      "severity": 0.17857142857142858,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-27T18:09:46.681814+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "fcc29a1eef0ea8d1",
+      "node_b_id": "63fc2ab13ab471e8",
+      "severity": 0.2,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-27T18:09:46.681817+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "8fb22c6d022cb2e2",
+      "node_b_id": "2d8e252ace73e907",
+      "severity": 0.2647058823529412,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-27T18:09:46.682256+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "8fb22c6d022cb2e2",
+      "node_b_id": "9d00d4a25043f0e8",
+      "severity": 0.2777777777777778,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-27T18:09:46.682259+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "8fb22c6d022cb2e2",
+      "node_b_id": "dcf70d0c5300ebc2",
+      "severity": 0.25,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-27T18:09:46.682262+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "8fb22c6d022cb2e2",
+      "node_b_id": "b65a5590b2abfad9",
+      "severity": 0.25,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-27T18:09:46.682264+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "8fb22c6d022cb2e2",
+      "node_b_id": "440ac1bd89ebcf38",
+      "severity": 0.2631578947368421,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-27T18:09:46.682268+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "a0266935729e5f83",
+      "node_b_id": "8dd9a4df195eb1df",
+      "severity": 0.19230769230769232,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-27T18:09:46.682793+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "a0266935729e5f83",
+      "node_b_id": "291ab36b7898ff61",
+      "severity": 0.21428571428571427,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-27T18:09:46.682796+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "a0266935729e5f83",
+      "node_b_id": "9bcf0a82db58ec34",
+      "severity": 0.17857142857142858,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-27T18:09:46.682798+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "a0266935729e5f83",
+      "node_b_id": "6b417e78fdf56a64",
+      "severity": 0.17857142857142858,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-27T18:09:46.682800+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "a0266935729e5f83",
+      "node_b_id": "63fc2ab13ab471e8",
+      "severity": 0.375,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-27T18:09:46.682803+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "a0266935729e5f83",
+      "node_b_id": "fcc29a1eef0ea8d1",
+      "severity": 0.1875,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-27T18:09:46.682806+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "04fed0d8a6151115",
+      "node_b_id": "2d8e252ace73e907",
+      "severity": 0.28125,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-27T18:09:46.683344+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "04fed0d8a6151115",
+      "node_b_id": "9d00d4a25043f0e8",
+      "severity": 0.29411764705882354,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-27T18:09:46.683347+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "04fed0d8a6151115",
+      "node_b_id": "dcf70d0c5300ebc2",
+      "severity": 0.2647058823529412,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-27T18:09:46.683350+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "04fed0d8a6151115",
+      "node_b_id": "b65a5590b2abfad9",
+      "severity": 0.2647058823529412,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-27T18:09:46.683352+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "04fed0d8a6151115",
+      "node_b_id": "440ac1bd89ebcf38",
+      "severity": 0.43333333333333335,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-27T18:09:46.683355+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "04fed0d8a6151115",
+      "node_b_id": "8fb22c6d022cb2e2",
+      "severity": 0.2631578947368421,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-27T18:09:46.683358+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "8e737b39d7af5578",
+      "node_b_id": "4d523c4a11dcfb72",
+      "severity": 0.03571428571428575,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-27T18:09:47.075435+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "8e737b39d7af5578",
+      "node_b_id": "a0266935729e5f83",
+      "severity": 0.15384615384615385,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-27T18:09:47.075454+00:00",
+      "resolved": false,
+      "resolution": ""
     }
   ],
-  "saved_at": "2026-05-27T18:09:42.610466+00:00"
+  "saved_at": "2026-05-27T18:09:47.075545+00:00"
 }
