@@ -252,6 +252,148 @@ def cmd_memory():
         print()
 
 
+def cmd_kg(args):
+    """Knowledge graph operations."""
+    from netweaver.knowledge_graph import KnowledgeGraph
+    
+    kg_file = TINI / "knowledge_graph.json"
+    
+    if args.kg_action == "scan":
+        print("═══ SCANNING PROJECTS ═══\n")
+        kg = KnowledgeGraph()
+        
+        workspace = Path(args.workspace) if args.workspace else Path.home() / "Documents"
+        scanned = 0
+        
+        for project_dir in sorted(workspace.iterdir()):
+            if project_dir.is_dir() and (project_dir / ".git").exists():
+                print(f"  Scanning: {project_dir.name}...")
+                try:
+                    project = kg.scan_project(str(project_dir))
+                    print(f"    ✓ {project.module_count} modules, {project.total_loc:,} LOC")
+                    scanned += 1
+                except Exception as e:
+                    print(f"    ✗ Error: {e}")
+        
+        print(f"\nScanned {scanned} projects")
+        print("\nAnalyzing patterns...")
+        patterns = kg.analyze_patterns()
+        print(f"Found {len(patterns)} cross-project patterns")
+        
+        kg.save(str(kg_file))
+        print(f"\nSaved to: {kg_file}")
+    
+    elif args.kg_action == "visualize":
+        if not kg_file.exists():
+            print("❌ Knowledge graph not found. Run 'netweaver kg scan' first.")
+            return
+        
+        kg = KnowledgeGraph()
+        kg.load(str(kg_file))
+        
+        output_path = args.output if args.output else TINI / "knowledge_graph.md"
+        viz = kg.visualize(output_path=str(output_path))
+        
+        if args.output:
+            print(f"Visualization saved to: {output_path}")
+        else:
+            print(viz)
+    
+    elif args.kg_action == "query":
+        if not kg_file.exists():
+            print("❌ Knowledge graph not found. Run 'netweaver kg scan' first.")
+            return
+        
+        kg = KnowledgeGraph()
+        kg.load(str(kg_file))
+        results = kg.query(args.query)
+        
+        if not results:
+            print(f"No results for: {args.query}")
+            return
+        
+        print(f"═══ RESULTS ({len(results)}) ═══\n")
+        for r in results:
+            if r['type'] == 'project':
+                print(f"Project: {r['name']}")
+                print(f"  Modules: {r['modules']}, LOC: {r['loc']:,}\n")
+            elif r['type'] == 'module':
+                print(f"Module: {r['name']} ({r['project']})")
+                print(f"  Path: {r['path']}")
+                print(f"  Classes: {r['classes']}, Functions: {r['functions']}\n")
+    
+    elif args.kg_action == "patterns":
+        if not kg_file.exists():
+            print("❌ Knowledge graph not found. Run 'netweaver kg scan' first.")
+            return
+        
+        kg = KnowledgeGraph()
+        kg.load(str(kg_file))
+        
+        print("═══ CROSS-PROJECT PATTERNS ═══\n")
+        
+        shared = [p for p in kg.cross_project_patterns if p['type'] == 'shared_library']
+        if shared:
+            print("Shared Libraries:")
+            for p in sorted(shared, key=lambda x: x['count'], reverse=True)[:10]:
+                projects = ", ".join(p['projects'][:3])
+                if len(p['projects']) > 3:
+                    projects += f" (+{len(p['projects'])-3} more)"
+                print(f"  • {p['library']}: {p['count']} projects ({projects})")
+            print()
+        
+        patterns = [p for p in kg.cross_project_patterns if p['type'] == 'design_pattern']
+        if patterns:
+            print("Design Patterns:")
+            for p in sorted(patterns, key=lambda x: x['count'], reverse=True):
+                projects = ", ".join(list(p['projects'].keys())[:3])
+                print(f"  • {p['pattern']}: {p['count']} occurrences ({projects})")
+    
+    elif args.kg_action == "suggest":
+        if not kg_file.exists():
+            print("❌ Knowledge graph not found. Run 'netweaver kg scan' first.")
+            return
+        
+        kg = KnowledgeGraph()
+        kg.load(str(kg_file))
+        suggestions = kg.suggest_cross_pollination()
+        
+        if not suggestions:
+            print("No cross-pollination suggestions found")
+            return
+        
+        print("═══ CROSS-POLLINATION SUGGESTIONS ═══\n")
+        for s in suggestions[:20]:
+            if s['type'] == 'similar_module':
+                print(f"Similar module: {s['name']}")
+                for proj, path in s['locations']:
+                    print(f"  - {proj}: {path}")
+                print(f"  💡 {s['suggestion']}\n")
+            elif s['type'] == 'standardize_library':
+                print(f"Standardize library: {s['library']}")
+                print(f"  Used by {len(s['projects'])} projects: {', '.join(s['projects'])}")
+                print(f"  💡 {s['suggestion']}\n")
+    
+    elif args.kg_action == "stats":
+        if not kg_file.exists():
+            print("❌ Knowledge graph not found. Run 'netweaver kg scan' first.")
+            return
+        
+        kg = KnowledgeGraph()
+        kg.load(str(kg_file))
+        
+        print("═══ KNOWLEDGE GRAPH STATISTICS ═══\n")
+        print(f"Projects: {len(kg.projects)}")
+        total_modules = sum(p.module_count for p in kg.projects.values())
+        total_loc = sum(p.total_loc for p in kg.projects.values())
+        print(f"Total modules: {total_modules:,}")
+        print(f"Total LOC: {total_loc:,}\n")
+        
+        print("Projects:")
+        for name, proj in sorted(kg.projects.items(), key=lambda x: x[1].total_loc, reverse=True):
+            print(f"  • {name}: {proj.module_count} modules, {proj.total_loc:,} LOC")
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="NetWeaver CLI — Query pipeline state",
@@ -268,6 +410,23 @@ def main():
     subparsers.add_parser("backlog", help="Show backlog tasks")
     subparsers.add_parser("dashboard", help="Launch live TUI dashboard (Rich)")
     subparsers.add_parser("memory", help="Show agent memory palace stats")
+    
+    # Knowledge graph subcommand
+    kg_parser = subparsers.add_parser("kg", help="Knowledge graph operations")
+    kg_subparsers = kg_parser.add_subparsers(dest="kg_action", help="Knowledge graph action")
+    
+    kg_scan = kg_subparsers.add_parser("scan", help="Scan all projects and build knowledge graph")
+    kg_scan.add_argument("--workspace", "-w", help="Workspace directory (default: ~/Documents)")
+    
+    kg_viz = kg_subparsers.add_parser("visualize", help="Generate Mermaid visualization")
+    kg_viz.add_argument("--output", "-o", help="Output file (default: .tini/knowledge_graph.md)")
+    
+    kg_query = kg_subparsers.add_parser("query", help="Query the knowledge graph")
+    kg_query.add_argument("query", help="Search query")
+    
+    kg_subparsers.add_parser("patterns", help="Show cross-project patterns")
+    kg_subparsers.add_parser("suggest", help="Show cross-pollination suggestions")
+    kg_subparsers.add_parser("stats", help="Show knowledge graph statistics")
     
     args = parser.parse_args()
     
@@ -287,6 +446,11 @@ def main():
         cmd_dashboard()
     elif args.command == "memory":
         cmd_memory()
+    elif args.command == "kg":
+        if hasattr(args, 'kg_action') and args.kg_action:
+            cmd_kg(args)
+        else:
+            kg_parser.print_help()
     else:
         parser.print_help()
 

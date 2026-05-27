@@ -56,10 +56,11 @@ class Project:
     total_loc: int = 0
     languages: Set[str] = field(default_factory=set)
     dependencies: Set[str] = field(default_factory=set)
+    _module_count: int = 0  # Cached count for when modules dict is not loaded
     
     @property
     def module_count(self) -> int:
-        return len(self.modules)
+        return len(self.modules) if self.modules else self._module_count
 
 
 class KnowledgeGraph:
@@ -95,6 +96,9 @@ class KnowledgeGraph:
                     if not imp.startswith('.') and not imp.startswith(project_name):
                         project.dependencies.add(imp.split('.')[0])
                         self.shared_libraries[imp.split('.')[0]].add(project_name)
+        
+        # Cache module count
+        project._module_count = len(project.modules)
         
         self.projects[project_name] = project
         return project
@@ -178,9 +182,9 @@ class KnowledgeGraph:
                 # Heuristics for design patterns
                 code = mod.path.read_text(encoding='utf-8', errors='ignore') if mod.path.exists() else ""
                 
-                if 'class.*Factory' in code or 'Factory' in mod.name:
+                if re.search(r'class\s+\w*Factory', code) or 'Factory' in mod.name:
                     pattern_counts['Factory'][project.name] += 1
-                if 'class.*Singleton' in code or 'singleton' in code.lower():
+                if re.search(r'class\s+\w*Singleton', code) or 'singleton' in code.lower():
                     pattern_counts['Singleton'][project.name] += 1
                 if '@dataclass' in code or 'from dataclasses' in code:
                     pattern_counts['Dataclass'][project.name] += 1
@@ -190,7 +194,8 @@ class KnowledgeGraph:
                     pattern_counts['Abstract'][project.name] += 1
         
         for pattern, project_counts in pattern_counts.items():
-            if len(project_counts) >= 2:
+            # Report patterns that appear in at least 1 project (with at least 1 occurrence)
+            if sum(project_counts.values()) >= 1:
                 patterns.append({
                     'type': 'design_pattern',
                     'pattern': pattern,
@@ -319,8 +324,18 @@ class KnowledgeGraph:
             'projects': {
                 name: {
                     'path': str(proj.path),
-                    'modules': proj.module_count,
-                    'loc': proj.total_loc,
+                    'modules': {
+                        mod_name: {
+                            'name': mod.name,
+                            'path': str(mod.path),
+                            'loc': mod.loc,
+                            'classes': mod.classes,
+                            'functions': mod.functions,
+                            'imports': list(mod.imports)
+                        }
+                        for mod_name, mod in proj.modules.items()
+                    },
+                    'total_loc': proj.total_loc,
                     'languages': list(proj.languages),
                     'dependencies': list(proj.dependencies)
                 }
@@ -341,15 +356,32 @@ class KnowledgeGraph:
     def load(self, path: str):
         """Load knowledge graph from file."""
         data = json.loads(Path(path).read_text())
-        # Note: This is a simplified loader - full reconstruction would need more logic
+        
         for name, proj_data in data.get('projects', {}).items():
             project = Project(
                 name=name,
                 path=Path(proj_data['path']),
-                total_loc=proj_data['loc'],
+                total_loc=proj_data.get('total_loc', proj_data.get('loc', 0)),
                 languages=set(proj_data['languages']),
                 dependencies=set(proj_data['dependencies'])
             )
+            
+            # Reconstruct modules if they exist
+            if 'modules' in proj_data and isinstance(proj_data['modules'], dict):
+                for mod_name, mod_data in proj_data['modules'].items():
+                    module = Module(
+                        name=mod_data['name'],
+                        path=Path(mod_data['path']),
+                        project=name,
+                        loc=mod_data['loc'],
+                        classes=mod_data.get('classes', []),
+                        functions=mod_data.get('functions', []),
+                        imports=set(mod_data.get('imports', []))
+                    )
+                    project.modules[mod_name] = module
+            
+            # Set module count for backward compatibility
+            project._module_count = proj_data.get('_module_count', len(project.modules))
             self.projects[name] = project
         
         for lib, projects in data.get('shared_libraries', {}).items():
