@@ -3,6 +3,14 @@
 > Real task tracking lives in `.tini/netweaver/company/KANBAN.md`
 > This file is a high-level summary for humans.
 
+## Setup
+
+| ID | Description | Status |
+|----|-------------|--------|
+| NW-A001 | Fix PROJECT_GOAL.md | Done |
+| NW-A002 | Cron Template Refactor | Done |
+| NW-A003 | CI Setup | Done |
+
 ## NetWeaver
 
 | ID | Description | Status |
