@@ -245,17 +245,17 @@
   ],
   "expected_graph": {
     "element_count": 14,
-    "min_dom_nodes": 15,
-    "min_a11y_nodes": 6,
+    "min_dom_nodes": 14,
+    "min_a11y_nodes": 8,
     "min_visual_nodes": 14,
     "min_intent_nodes": 14,
     "min_network_nodes": 1,
-    "min_total_nodes": 40,
-    "min_containment_edges": 15,
+    "min_total_nodes": 60,
+    "min_containment_edges": 50,
     "min_evidence_edges": 14,
-    "min_dependency_edges": 20,
-    "navigable_count": 8,
-    "clickable_count": 4,
+    "min_dependency_edges": 36,
+    "navigable_count": 7,
+    "clickable_count": 3,
     "fillable_count": 4
   }
 }
