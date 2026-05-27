@@ -1,0 +1,47 @@
+# NetWeaver Automation Tasks
+# Each task runs on schedule, extracts data, notifies on changes
+
+tasks:
+  - name: "GitHub Trending (2 weeks)"
+    id: github_trending_2w
+    url: "https://github.com/trending?since=weekly"
+    schedule: "2 weeks"  # human-readable, converted to seconds
+    extractors:
+      - type: "list"
+        selector: "article.Box-row"
+        fields:
+          repo: "h2 a"
+          description: "p"
+          stars: "span.d-inline-block.float-sm-right"
+          language: "span[itemprop='programmingLanguage']"
+    notify_on: "change"  # notify when results differ from last run
+    last_run: null
+    last_result_hash: null
+
+  - name: "GitHub Trending (Today)"
+    id: github_trending_daily
+    url: "https://github.com/trending?since=daily"
+    schedule: "1 day"
+    extractors:
+      - type: "list"
+        selector: "article.Box-row"
+        fields:
+          repo: "h2 a"
+          description: "p"
+          stars: "span.d-inline-block.float-sm-right"
+    notify_on: "change"
+    last_run: null
+    last_result_hash: null
+
+  # Add more tasks here:
+  # - name: "YouTube - Fireship"
+  #   id: yt_fireship
+  #   url: "https://youtube.com/@Fireship/videos"
+  #   schedule: "6 hours"
+  #   extractors:
+  #     - type: "list"
+  #       selector: "ytd-rich-item-renderer"
+  #       fields:
+  #         title: "#video-title"
+  #         views: "#metadata-line span"
+  #   notify_on: "new_items"
