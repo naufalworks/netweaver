@@ -1,0 +1,261 @@
+{
+  "url": "https://blog.example.com/post/getting-started-with-web-automation",
+  "title": "Getting Started with Web Automation | Example Blog",
+  "description": "Static blog page with navigation, article content, comment form, and social links",
+  "html": "<!DOCTYPE html><html lang='en'><head><title>Getting Started with Web Automation</title></head><body><header><nav><a href='/'>Home</a><a href='/archive'>Archive</a><a href='/about'>About</a><input type='search' id='nav-search' placeholder='Search posts...' aria-label='Search blog posts' /></nav></header><main><article><h1>Getting Started with Web Automation</h1><p>Learn how to automate browser tasks.</p><a href='/tag/automation' aria-label='Tag: Automation'>Automation</a><a href='/tag/tutorial' aria-label='Tag: Tutorial'>Tutorial</a><button id='share-twitter' aria-label='Share on Twitter'>Share on Twitter</button><button id='share-linkedin' aria-label='Share on LinkedIn'>Share on LinkedIn</button></article><section id='comments'><h2>Comments</h2><textarea id='comment-body' placeholder='Write a comment...' aria-label='Comment body'></textarea><input type='text' id='comment-name' placeholder='Your name' aria-label='Your name' /><input type='email' id='comment-email' placeholder='Email address' aria-label='Email address' /><button id='submit-comment'>Post Comment</button></section></main><footer><a href='/privacy'>Privacy Policy</a><a href='/terms'>Terms of Service</a></footer></body></html>",
+  "interactive_elements": [
+    {
+      "selector": "a[href='/']",
+      "tag": "a",
+      "type": null,
+      "text": "Home",
+      "aria_label": null,
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "a[href='/archive']",
+      "tag": "a",
+      "type": null,
+      "text": "Archive",
+      "aria_label": null,
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "a[href='/about']",
+      "tag": "a",
+      "type": null,
+      "text": "About",
+      "aria_label": null,
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "input#nav-search",
+      "tag": "input",
+      "type": "search",
+      "text": "",
+      "aria_label": "Search blog posts",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": true,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "a[href='/tag/automation']",
+      "tag": "a",
+      "type": null,
+      "text": "Automation",
+      "aria_label": "Tag: Automation",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "a[href='/tag/tutorial']",
+      "tag": "a",
+      "type": null,
+      "text": "Tutorial",
+      "aria_label": "Tag: Tutorial",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "button#share-twitter",
+      "tag": "button",
+      "type": null,
+      "text": "Share on Twitter",
+      "aria_label": "Share on Twitter",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "button#share-linkedin",
+      "tag": "button",
+      "type": null,
+      "text": "Share on LinkedIn",
+      "aria_label": "Share on LinkedIn",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "textarea#comment-body",
+      "tag": "textarea",
+      "type": null,
+      "text": "",
+      "aria_label": "Comment body",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": true,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "input#comment-name",
+      "tag": "input",
+      "type": "text",
+      "text": "",
+      "aria_label": "Your name",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": true,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "input#comment-email",
+      "tag": "input",
+      "type": "email",
+      "text": "",
+      "aria_label": "Email address",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": true,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "button#submit-comment",
+      "tag": "button",
+      "type": null,
+      "text": "Post Comment",
+      "aria_label": null,
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "a[href='/privacy']",
+      "tag": "a",
+      "type": null,
+      "text": "Privacy Policy",
+      "aria_label": null,
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "a[href='/terms']",
+      "tag": "a",
+      "type": null,
+      "text": "Terms of Service",
+      "aria_label": null,
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    }
+  ],
+  "network": [
+    {
+      "url": "https://blog.example.com/static/main.css",
+      "method": "GET",
+      "status": 200,
+      "type": "stylesheet"
+    },
+    {
+      "url": "https://blog.example.com/static/blog.js",
+      "method": "GET",
+      "status": 200,
+      "type": "script"
+    }
+  ],
+  "expected_graph": {
+    "element_count": 14,
+    "min_dom_nodes": 15,
+    "min_a11y_nodes": 6,
+    "min_visual_nodes": 14,
+    "min_intent_nodes": 14,
+    "min_network_nodes": 1,
+    "min_total_nodes": 40,
+    "min_containment_edges": 15,
+    "min_evidence_edges": 14,
+    "min_dependency_edges": 20,
+    "navigable_count": 8,
+    "clickable_count": 4,
+    "fillable_count": 4
+  }
+}
