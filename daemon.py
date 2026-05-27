@@ -31,6 +31,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Set
 
 from netweaver.memory_palace import MemoryPalace
+from netweaver.epistemic_daemon import EpistemicDaemon
 
 # --- Configuration ---
 WORKDIR = Path(os.environ.get("NETWEAVER_WORKDIR", str(Path.home() / "Documents/myhermes")))
@@ -83,6 +84,7 @@ logger = logging.getLogger("daemon")
 shutdown_event = asyncio.Event()
 inflight_tasks: Set[asyncio.Task] = set()
 daemon_palace = MemoryPalace("daemon")
+epistemic_daemon = EpistemicDaemon()
 file_hashes: Dict[str, str] = {}
 cycle_count = 0
 
@@ -575,23 +577,31 @@ def detect_gaps() -> List[Dict[str, str]]:
 
 
 def generate_plan(task: Dict[str, str]) -> str:
-    """Generate a plan entry for REVIEW_QUEUE.md."""
+    """Generate a plan entry for REVIEW_QUEUE.md with epistemic analysis."""
     tid = task["id"]
     title = task.get("title", tid)
     tiny_goal = task.get("tiny_goal", f"Implement {tid}")
     files = task.get("files_to_touch", "TBD")
     acceptance = task.get("acceptance", "Tests pass; no regressions.")
 
-    return f"""### {tid} {title}
+    base_plan = f"""### {tid} {title}
 **Status**: PENDING
 **Risk**: MEDIUM
 **Scope**: {files}
 **Tiny Goal**: {tiny_goal}
 **Acceptance**: {acceptance}
 **Generated**: {now_iso()}
-
----
 """
+
+    # Enrich with epistemic analysis
+    try:
+        enriched, warnings = epistemic_daemon.enrich_plan_with_epistemic(task, base_plan)
+        if warnings:
+            log_event("epistemic_warnings", {"task_id": tid, "warnings": warnings})
+        return enriched + "\n\n---\n"
+    except Exception as e:
+        logger.warning(f"Epistemic enrichment failed for {tid}: {e}")
+        return base_plan + "\n---\n"
 
 
 def write_plans_to_review_queue(plans: List[str]) -> int:
@@ -897,6 +907,12 @@ async def scan_loop() -> None:
                             outcome="pending",
                             tags=["plan-gen", task_id],
                         )
+                        # Record epistemic outcome for plan generation
+                        epistemic_daemon.record_outcome(
+                            task_id=task_id,
+                            success=True,
+                            evidence={"phase": "plan_generated", "cycle": cycle_count},
+                        )
             else:
                 logger.debug(f"Cycle {cycle_count}: no gaps")
 
@@ -931,6 +947,20 @@ async def scan_loop() -> None:
                 else:
                     record_failure("daemon", f"periodic test fail: {summary}")
                     log_event("periodic_test_fail", {"summary": summary})
+
+            # 5. Epistemic health check (every 15 cycles = ~30min)
+            if cycle_count % 15 == 0 and cycle_count > 0:
+                try:
+                    health = epistemic_daemon.get_health_report()
+                    stale = epistemic_daemon.get_stale_knowledge()
+                    if stale:
+                        logger.info(f"Cycle {cycle_count}: {len(stale)} stale epistemic facts")
+                        log_event("epistemic_stale", {"count": len(stale), "items": stale[:3]})
+                    if health["health_score"] < 70:
+                        logger.warning(f"Cycle {cycle_count}: epistemic health low ({health['health_score']}/100)")
+                        log_event("epistemic_health_low", {"health": health})
+                except Exception as e:
+                    logger.warning(f"Epistemic health check failed: {e}")
 
         except Exception as e:
             logger.error(f"Cycle {cycle_count} error: {e}\n{traceback.format_exc()}")

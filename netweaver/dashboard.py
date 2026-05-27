@@ -79,6 +79,20 @@ def get_test_count():
     return 0, "unknown"
 
 
+def get_epistemic_health():
+    """Get epistemic OS health status."""
+    ep_file = TINI / "epistemic.json"
+    if not ep_file.exists():
+        return {"total_knowledge": 0, "health_score": 0, "health_label": "empty", "stale_count": 0, "contradictions": 0}
+    
+    try:
+        from netweaver.epistemic import EpistemicOS
+        os = EpistemicOS(storage_path=str(ep_file))
+        return os.health_report()
+    except Exception:
+        return {"total_knowledge": 0, "health_score": 0, "health_label": "error", "stale_count": 0, "contradictions": 0}
+
+
 def get_kanban_counts():
     """Count tasks in each Kanban column."""
     kanban_file = COMPANY / "KANBAN.md"
@@ -174,6 +188,7 @@ def build_dashboard():
     )
     
     layout["right"].split_column(
+        Layout(name="epistemic", size=10),
         Layout(name="metrics"),
         Layout(name="events"),
     )
@@ -266,6 +281,23 @@ def update_dashboard(layout):
     )
     
     layout["queue"].update(Panel(queue_table, title="Review Queue", border_style="yellow"))
+    
+    # Epistemic OS
+    ep_health = get_epistemic_health()
+    ep_table = Table(show_header=False, box=None, padding=(0, 1))
+    ep_table.add_column("Metric", style="magenta")
+    ep_table.add_column("Value", justify="right")
+    
+    health_label = ep_health.get("health_label", "empty")
+    health_color = {"excellent": "green", "good": "green", "fair": "yellow", "poor": "red", "empty": "dim", "error": "red"}.get(health_label, "dim")
+    
+    ep_table.add_row("Knowledge", str(ep_health.get("total_knowledge", 0)))
+    ep_table.add_row("Confidence", f"{ep_health.get('avg_confidence', 0):.0%}")
+    ep_table.add_row("Stale", str(ep_health.get("stale_count", 0)))
+    ep_table.add_row("Contradictions", str(ep_health.get("contradictions", 0)))
+    ep_table.add_row("Health", f"[{health_color}]{ep_health.get('health_score', 0)}/100 ({health_label})[/{health_color}]")
+    
+    layout["epistemic"].update(Panel(ep_table, title="Epistemic OS", border_style="magenta"))
     
     # Metrics
     metrics_table = Table(show_header=True, box=box.SIMPLE)

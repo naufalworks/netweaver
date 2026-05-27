@@ -27,8 +27,8 @@
       "supports": [],
       "depends_on": [],
       "citations": [],
-      "access_count": 1,
-      "last_accessed": null,
+      "access_count": 2,
+      "last_accessed": "2026-05-27T16:38:30.735467+00:00",
       "_id": "a66634924faaff1d"
     },
     "579ac4534c4be3e2": {
@@ -148,8 +148,8 @@
       "supports": [],
       "depends_on": [],
       "citations": [],
-      "access_count": 1,
-      "last_accessed": null,
+      "access_count": 2,
+      "last_accessed": "2026-05-27T16:38:30.735478+00:00",
       "_id": "01ca44a230d43935"
     },
     "e4f7e21a908da5fc": {
@@ -179,8 +179,8 @@
       "supports": [],
       "depends_on": [],
       "citations": [],
-      "access_count": 0,
-      "last_accessed": null,
+      "access_count": 1,
+      "last_accessed": "2026-05-27T16:38:30.735482+00:00",
       "_id": "e4f7e21a908da5fc"
     }
   },
@@ -195,5 +195,5 @@
       "resolution": ""
     }
   ],
-  "saved_at": "2026-05-27T16:31:07.495980+00:00"
+  "saved_at": "2026-05-27T16:38:30.735534+00:00"
 }
