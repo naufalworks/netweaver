@@ -807,6 +807,58 @@ def cmd_web_learn():
         explorer.close()
 
 
+def cmd_tasks(action: str):
+    """Task scheduler commands."""
+    from netweaver.task_scheduler import TaskScheduler
+    from pathlib import Path
+
+    scheduler = TaskScheduler(
+        tasks_file=Path("netweaver/tasks.yaml"),
+        state_dir=Path(".tini/task_scheduler"),
+        headless=True,
+    )
+
+    try:
+        if action == "run":
+            print("🎯 Running due tasks...\n")
+            results = scheduler.run_due_tasks()
+            print(scheduler.format_results(results))
+            
+            changes = scheduler.detect_changes(results)
+            if changes:
+                print(f"\n⚡ Changes detected in {len(changes)} tasks:")
+                for c in changes:
+                    print(f"  - {c['task_id']}: {c['items_count']} items")
+        
+        elif action == "list":
+            print("📋 Task definitions:\n")
+            for task in scheduler.tasks:
+                state = scheduler.state.get(task["id"])
+                status = "never run" if not state else f"last={state.last_run[:19]}"
+                print(f"  • {task['name']}")
+                print(f"    ID: {task['id']}")
+                print(f"    URL: {task['url']}")
+                print(f"    Schedule: {task['schedule']}")
+                print(f"    Status: {status}")
+                print()
+        
+        elif action == "results":
+            print("📊 Latest state:\n")
+            for tid, state in scheduler.state.items():
+                print(f"  {tid}:")
+                print(f"    Last run: {state.last_run}")
+                print(f"    Runs: {state.run_count}, Success: {state.success_count}")
+                if state.last_error:
+                    print(f"    Last error: {state.last_error[:80]}")
+                print()
+        
+        else:
+            print("Usage: netweaver tasks {run|list|results}")
+    
+    finally:
+        scheduler.close()
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="NetWeaver CLI — Query pipeline state",
