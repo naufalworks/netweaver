@@ -198,19 +198,22 @@ class TaskScheduler:
                 result = self._run_task(task)
                 results.append(result)
                 
-                # Update state
-                state.last_run = datetime.now().isoformat()
-                state.run_count += 1
-                if result.success:
-                    state.success_count += 1
-                    state.last_result_hash = result.to_hash()
-                else:
-                    state.last_error = result.error[:200]
-                
-                logger.info(
-                    f"[{task_id}] {'✓' if result.success else '✗'} "
-                    f"extracted {len(result.data)} items"
-                )
+# Update state
+            state.last_run = datetime.now().isoformat()
+            state.run_count += 1
+            if result.success:
+                state.success_count += 1
+                state.last_result_hash = result.to_hash()
+            else:
+                state.last_error = result.error[:200]
+            
+            logger.info(
+                f"[{task_id}] {'✓' if result.success else '✗'} "
+                f"extracted {len(result.data)} items"
+            )
+            
+            # Save state after EACH task (not just at end of cycle)
+            self._save_state()
                 
             except Exception as e:
                 logger.error(f"[{task_id}] Error: {e}")
