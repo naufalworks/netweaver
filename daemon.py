@@ -1186,10 +1186,12 @@ async def main_loop() -> None:
     scan_task = asyncio.create_task(scan_loop())
     cleanup_task = asyncio.create_task(cleanup_loop())
     web_learn_task = asyncio.create_task(web_learning_loop())
+    task_sched_task = asyncio.create_task(task_scheduler_loop())
     inflight_tasks.add(hb_task)
     inflight_tasks.add(scan_task)
     inflight_tasks.add(cleanup_task)
     inflight_tasks.add(web_learn_task)
+    inflight_tasks.add(task_sched_task)
 
     log_event("daemon_start", {"pid": os.getpid()})
 
