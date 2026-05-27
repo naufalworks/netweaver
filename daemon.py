@@ -99,6 +99,11 @@ web_explorer = AutonomousWebExplorer(
     competence_matrix=competence_matrix,
     headless=True,
 )
+task_scheduler = TaskScheduler(
+    tasks_file=NETWEAVER_DIR / "tasks.yaml",
+    state_dir=NETWEAVER_DIR / ".tini" / "task_scheduler",
+    headless=True,
+)
 file_hashes: Dict[str, str] = {}
 cycle_count = 0
 
