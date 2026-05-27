@@ -181,9 +181,9 @@ class TestStaticBlogGolden:
         expected = data["expected_graph"]
         graph = result.graph
 
-        containment = [e for e in graph.edges if e.edge_type == EdgeType.CONTAINMENT]
-        evidence = [e for e in graph.edges if e.edge_type == EdgeType.EVIDENCE]
-        dependency = [e for e in graph.edges if e.edge_type == EdgeType.DEPENDENCY]
+        containment = graph.get_edges_by_type(EdgeType.CONTAINMENT)
+        evidence = graph.get_edges_by_type(EdgeType.EVIDENCE)
+        dependency = graph.get_edges_by_type(EdgeType.DEPENDENCY)
 
         assert len(containment) >= expected["min_containment_edges"]
         assert len(evidence) >= expected["min_evidence_edges"]
@@ -572,13 +572,14 @@ class TestCrossFixtureInvariants:
     @pytest.mark.parametrize("fixture_name", list(GOLDEN_BASELINES.keys()))
     def test_no_browser_imports(self, fixture_name):
         """Test module has no browser/Playwright/vendor imports."""
-        import sys
-        test_module = sys.modules.get(__name__)
-        if test_module:
-            source_file = getattr(test_module, "__file__", "")
-            if source_file and os.path.exists(source_file):
-                with open(source_file) as f:
-                    source = f.read()
-                assert "playwright" not in source.lower() or "no real" in source.lower()
-                assert "from playwright" not in source
-                assert "import playwright" not in source
+        # Verify no actual playwright imports in this test file
+        source_file = Path(__file__)
+        source = source_file.read_text()
+        # Check actual import statements, not docstring mentions
+        for line in source.splitlines():
+            stripped = line.strip()
+            # Skip comments and docstrings
+            if stripped.startswith("#") or stripped.startswith('"') or stripped.startswith("'"):
+                continue
+            assert "import playwright" not in stripped, f"Browser import found: {stripped}"
+            assert "from playwright" not in stripped, f"Browser import found: {stripped}"
