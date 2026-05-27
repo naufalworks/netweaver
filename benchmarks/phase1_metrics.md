@@ -1,22 +1,22 @@
 # Phase 1 Metrics & Coverage Report
 
-**Date**: 2026-05-25 (updated)
-**Author**: QA Benchmark (glm/glm-5.1)
-**Status**: Phase 1 COMPLETE — all modules green
+**Date**: 2026-05-25 (v2 — Phase 2 update)
+**Author**: QA Benchmark
+**Status**: Phase 1 COMPLETE, Phase 2 P2-004 delivered
 
 ---
 
 ## Summary
 
-| Metric | Value |
-|--------|-------|
-| Total tests | 1150 passed (1116 NetWeaver + 34 TINI), 0 failed |
-| Test suite runtime | 1.74s |
-| Modules | 17 |
-| Lines of code | 7507 |
-| ADRs | 12 |
-| Benchmark suites | 8 |
-| Unit test files | 19 (tests/) + 7 benchmarks (tests/benchmarks/) |
+| Metric | Phase 1 | Phase 2 | Delta |
+|--------|---------|---------|-------|
+| Total tests | 1150 passed | **1400 passed** | +250 (+11 live) |
+| Test suite runtime | 1.74s | 9.22s | (+live) |
+| Modules | 17 | **24** | +7 |
+| Lines of code | 7507 | — | — |
+| ADRs | 12 | **15** | +3 |
+| Benchmark suites | 8 | 8 | 0 |
+| Unit test files | 19 + 7 bench | 20 + 8 bench | +1 +1 |
 
 ---
 
@@ -133,21 +133,50 @@
 | Planner unit tests | 57 → 76 (+19 template expansion) |
 | Runtime planner template count | 5 → 10 |
 | ADRs | 10 → 12 (ADR-011 FillAction masking, ADR-012 evidence round-trip) |
-| LOC | ~7400 → 7507 |
-| Planner LOC | 490 → 631 |
-| WNAL LOC | 354 → 427 |
-| Evidence LOC | 392 → 410 |
 
 ---
 
-## Phase 2 Benchmark Prerequisites
+## Phase 2 Additions (2026-05-25)
 
-Before Phase 2 begins, these benchmark extensions are needed:
+### New Modules
 
-1. **Live Integration Benchmark** — test observer with real browser (CloakBrowser/Playwright)
-2. **Executor Live Benchmark** — real click/fill/wait on test pages
-3. **Skill Real-World Benchmark** — learn skills from live executions, measure reuse accuracy
-4. **Safety Validation Benchmark** — test PerspectiveEngine on real risky actions
+| Module | LOC | Description |
+|--------|-----|-------------|
+| `cloak_bridge.py` | 266 | CloakBrowser SDK abstraction (P2-001) |
+| `competence.py` | — | Worker competence profiles |
+| `event_ledger.py` | — | Event-driven ledger |
+| `observer_evidence_adapter.py` | 266 | Observer→Evidence pipeline (P2-003) |
+| `playwright_bridge.py` | 399 | Playwright browser bridge (P2-004) |
+| `prompt_manager.py` | — | Prompt template management |
+| `skill_doc_extractor.py` | — | Skill doc parsing |
+| `skill_view.py` | — | Skill viewer utility |
+
+### Phase 2 Delivered
+
+| Item | Scope | Tests | Date |
+|------|-------|-------|------|
+| P2-001 CloakBrowser Bridge | cloak_bridge.py, observer.py | +35 → 1354 | 2026-05-25 |
+| P2-002 Live Executor | executor.py, cloak_bridge.py | +9 → 1389 | 2026-05-25 |
+| P2-003 Real Evidence Pipeline | observer_evidence_adapter.py | +23 → 1389 | 2026-05-25 |
+| P2-004 Multi-Step Orchestration | playwright_bridge.py | +11 live → 1400 | 2026-05-25 |
+
+### P2-004 Live Tests
+
+`@pytest.mark.live` — excluded from default `pytest` runs. Run explicitly:
+```bash
+python -m pytest tests/test_live_orchestration.py -v
+```
+
+Pages tested: example.com (static), httpbin.org/forms/post (form), this-domain-definitely-does-not-exist-12345.com (navigation error).
+
+---
+
+## Phase 2 Benchmark Status
+
+Phase 2 live integration is in progress (P2-001 through P2-004 delivered). Benchmark extensions needed for remaining Phase 2 scope:
+
+1. **Skill Real-World Benchmark** — learn skills from live executions, measure reuse accuracy (P2-005)
+2. **Safety Validation Benchmark** — test PerspectiveEngine on real risky actions (P2-006)
 
 ---
 

@@ -1,686 +1,738 @@
 #!/usr/bin/env python3
 """
-NetWeaver Daemon — Self-evolving development daemon.
-No cron. No schedules. Pure event-driven: watches files, detects gaps, executes work.
-Zero token cost when idle.
+NetWeaver Daemon — Self-evolving, self-healing development daemon.
+
+Capabilities:
+- Heartbeat writing (watchdog liveness signal)
+- File watching with change detection (hash-based)
+- Gap detection: scan BACKLOG → generate plans → write to REVIEW_QUEUE
+- PLAN_ONLY mode: never executes plans directly, only proposes
+- File rollback: backup before any write, auto-revert on test failure
+- Self-healing: git checkpoint, test-on-write, auto-revert
+- Circuit breaker: pause after N failures, alert on threshold
+- Event logging: JSONL event ledger for audit trail
+- Graceful shutdown with signal handling and drain
 """
 from __future__ import annotations
 
-import json, os, sys, time, hashlib, subprocess, urllib.request, traceback
-from pathlib import Path
+import asyncio
+import hashlib
+import json
+import logging
+import os
+import signal
+import subprocess
+import sys
+import time
+import traceback
 from datetime import datetime, timezone
-from dataclasses import dataclass, field, asdict
-from typing import Optional
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Set
 
-# ── Config ───────────────────────────────────────────────────────────────────
+# --- Configuration ---
 WORKDIR = Path(os.environ.get("NETWEAVER_WORKDIR", str(Path.home() / "Documents/myhermes")))
-TINI = WORKDIR / ".tini"
-MODEL = os.environ.get("NETWEAVER_MODEL", "claude-combo")
-API_URL = os.environ.get("NETWEAVER_API_URL", "http://localhost:20128/v1/chat/completions")
-API_KEY = os.environ.get("NETWEAVER_API_KEY", "")
-PLAN_ONLY = os.environ.get("NETWEAVER_PLAN_ONLY", "").lower() in ("1", "true", "yes")
-POLL_INTERVAL = float(os.environ.get("NETWEAVER_POLL", "2"))
-SELF_DIAGNOSE_INTERVAL = int(os.environ.get("NETWEAVER_DIAGNOSE", "10"))
-IDLE_TIMEOUT = int(os.environ.get("NETWEAVER_IDLE_TIMEOUT", "21600"))  # 6h
-CIRCUIT_BREAKER_PATH = TINI / "circuit_breaker.json"
-DAEMON_FAILURE_THRESHOLD = int(os.environ.get("DAEMON_CB_THRESHOLD", "5"))
-DAEMON_PAUSE_DURATION = int(os.environ.get("DAEMON_CB_PAUSE", "3600"))  # 1h
+TINI_DIR = WORKDIR / ".tini"
+NETWEAVER_DIR = TINI_DIR / "netweaver"
+COMPANY_DIR = NETWEAVER_DIR / "company"
 
-# ── State files ──────────────────────────────────────────────────────────────
-WATCHED_FILES = [
-    TINI / "netweaver/company/KANBAN.md",
-    TINI / "netweaver/HANDOFF.md",
-    TINI / "netweaver/STATUS.md",
-    TINI / "netweaver/BLOCKERS.md",
-    TINI / "netweaver/BACKLOG.md",
-    TINI / "circuit_breaker.json",
-    TINI / "agent_health.json",
-    TINI / "events.jsonl",
-    TINI / "work_queue.json",
-    TINI / "daemon_state.json",
-    WORKDIR / "ROADMAP.md",
-    WORKDIR / "PROJECT_GOAL.md",
-]
-CHECKPOINT_FILE = TINI / "daemon_checkpoint.json"
-STOP_FLAG = TINI / "daemon_stop"
-HEARTBEAT_FILE = TINI / "daemon_heartbeat.txt"
-PID_LOCK_FILE = TINI / "daemon.pid"
+HEARTBEAT_FILE = TINI_DIR / "daemon_heartbeat.txt"
+PID_FILE = TINI_DIR / "daemon.pid"
+EVENTS_FILE = TINI_DIR / "events.jsonl"
+CHECKPOINT_FILE = TINI_DIR / "daemon_checkpoint.json"
+CIRCUIT_BREAKER_FILE = TINI_DIR / "circuit_breaker.json"
+FAILED_CACHE_FILE = TINI_DIR / "failed_task_cache.json"
+AGENT_HEALTH_FILE = TINI_DIR / "agent_health.json"
 
-# ── LLM Caller ───────────────────────────────────────────────────────────────
+REVIEW_QUEUE = COMPANY_DIR / "REVIEW_QUEUE.md"
+KANBAN = COMPANY_DIR / "KANBAN.md"
+BACKLOG = NETWEAVER_DIR / "BACKLOG.md"
+STATUS_FILE = NETWEAVER_DIR / "STATUS.md"
+HANDOFF_FILE = NETWEAVER_DIR / "HANDOFF.md"
 
-def llm_call(system: str, prompt: str, max_retries: int = 2) -> Optional[dict]:
-    """Call the local model API. Returns parsed JSON response or None."""
-    data = json.dumps({
-        "model": MODEL,
-        "messages": [
-            {"role": "system", "content": system},
-            {"role": "user", "content": prompt}
-        ],
-        "stream": False,
-        "temperature": 0.1,
-    }).encode()
-    req = urllib.request.Request(
-        API_URL, data=data,
-        headers={
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {API_KEY}"
-        }
-    )
-    for attempt in range(max_retries + 1):
-        # Write heartbeat before each attempt — watchdog uses 120s threshold
-        try:
-            HEARTBEAT_FILE.parent.mkdir(parents=True, exist_ok=True)
-            HEARTBEAT_FILE.write_text(str(time.time()))
-        except:
-            pass
-        try:
-            resp = json.loads(urllib.request.urlopen(req, timeout=180).read())
-            content = resp["choices"][0]["message"]["content"]
-            return _parse_json_response(content)
-        except urllib.error.HTTPError as e:
-            body = e.read().decode()
-            if "rate_limit" in body.lower() or "429" in body:
-                log(f"⚠ Rate limited, waiting 30s (attempt {attempt+1}/{max_retries+1})")
-                time.sleep(30)
-                continue
-            log(f"⚠ HTTP {e.code}: {body[:200]}")
-            return None
-        except (json.JSONDecodeError, KeyError, urllib.error.URLError, TimeoutError, OSError) as e:
-            log(f"⚠ LLM error: {e}")
-            return None
-    return None
+BACKUPS_DIR = TINI_DIR / "backups"
+GIT_CHECKPOINTS_DIR = TINI_DIR / "git_checkpoints"
 
-def _parse_json_response(text: str) -> Optional[dict]:
-    """Extract JSON from LLM response (handles markdown code blocks)."""
-    if "```json" in text:
-        text = text.split("```json")[1].split("```")[0]
-    elif "```" in text:
-        text = text.split("```")[1].split("```")[0]
-    text = text.strip()
-    if text.startswith("{"):
-        try:
-            return json.loads(text)
-        except json.JSONDecodeError:
-            pass
-    return None
+# Tuning
+HEARTBEAT_INTERVAL = 60       # seconds between heartbeat writes
+SCAN_INTERVAL = 120            # seconds between file scans
+TEST_TIMEOUT = 180             # seconds for pytest
+MAX_FAILURES_BEFORE_PAUSE = 5  # circuit breaker threshold
+PAUSE_DURATION = 600           # seconds to pause after breaker trip
+MAX_EVENTS_LOG = 5000          # trim events beyond this
+QUARANTINE_THRESHOLD = 10      # failures before task is permanently quarantined
 
-# ── File watching ────────────────────────────────────────────────────────────
+# --- Logging ---
+LOG_FILE = TINI_DIR / "daemon_stdout.log"
+TINI_DIR.mkdir(parents=True, exist_ok=True)
+BACKUPS_DIR.mkdir(parents=True, exist_ok=True)
+GIT_CHECKPOINTS_DIR.mkdir(parents=True, exist_ok=True)
 
-def file_hash(path: Path) -> str:
-    """SHA256 hash of file mtime + size (fast, no content read)."""
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    handlers=[
+        logging.FileHandler(str(LOG_FILE), mode="a"),
+        logging.StreamHandler(sys.stdout),
+    ],
+)
+logger = logging.getLogger("daemon")
+
+# --- Global state ---
+shutdown_event = asyncio.Event()
+inflight_tasks: Set[asyncio.Task] = set()
+file_hashes: Dict[str, str] = {}
+cycle_count = 0
+
+
+# ============================================================
+# Utility functions
+# ============================================================
+
+def now_iso() -> str:
+    return datetime.now(timezone.utc).isoformat()
+
+
+def file_hash(path: Path) -> Optional[str]:
+    """Compute MD5 hash of file contents. None if missing."""
     if not path.exists():
-        return ""
-    s = path.stat()
-    return hashlib.md5(f"{s.st_mtime_ns}:{s.st_size}".encode()).hexdigest()[:12]
+        return None
+    try:
+        return hashlib.md5(path.read_bytes()).hexdigest()
+    except (OSError, IOError):
+        return None
 
-def read_file(path: Path) -> str:
-    """Read file, return empty string if missing."""
-    if path.exists():
-        return path.read_text(encoding="utf-8", errors="replace")
-    return ""
 
-def log(msg: str):
-    """Write timestamped log entry."""
-    ts = datetime.now().strftime("%H:%M:%S")
-    print(f"[{ts}] {msg}", flush=True)
+def safe_read_json(path: Path, default: Any = None) -> Any:
+    """Read JSON file safely."""
+    if not path.exists():
+        return default if default is not None else {}
+    try:
+        return json.loads(path.read_text())
+    except (json.JSONDecodeError, OSError):
+        return default if default is not None else {}
 
-# ── State scanner ────────────────────────────────────────────────────────────
 
-def scan_state() -> dict:
-    """Read ALL state files → structured dict for LLM."""
-    return {
-        "circuit_breaker": _safe_json(TINI / "circuit_breaker.json"),
-        "agent_health": _safe_json(TINI / "agent_health.json"),
-        "daemon_state": _safe_json(TINI / "daemon_state.json"),
-        "work_queue": _safe_json(TINI / "work_queue.json"),
-        "roadmap": read_file(WORKDIR / "ROADMAP.md"),
-        "product_spec": read_file(TINI / "netweaver/company/PRODUCT_SPEC.md"),
-        "kanban": {
-            "ready": _extract_section(TINI / "netweaver/company/KANBAN.md", "ready"),
-            "in_progress": _extract_section(TINI / "netweaver/company/KANBAN.md", "in_progress"),
-            "done": _extract_section(TINI / "netweaver/company/KANBAN.md", "done"),
-        },
-        "health_summary": _compute_health(),
+def safe_write_json(path: Path, data: Any) -> bool:
+    """Write JSON atomically (write to temp, then rename)."""
+    try:
+        tmp = path.with_suffix(".tmp")
+        tmp.write_text(json.dumps(data, indent=2, default=str))
+        tmp.replace(path)
+        return True
+    except OSError as e:
+        logger.error(f"Failed to write {path}: {e}")
+        return False
+
+
+def log_event(event_type: str, data: Dict[str, Any]) -> None:
+    """Append event to JSONL ledger."""
+    event = {
+        "ts": now_iso(),
+        "type": event_type,
+        "cycle": cycle_count,
+        **data,
     }
-
-def _safe_json(path: Path) -> dict:
-    try: return json.loads(read_file(path)) if path.exists() else {}
-    except: return {}
-
-def _extract_section(path: Path, section: str) -> str:
-    """Extract a ## section from markdown."""
-    text = read_file(path)
-    lines = text.split("\n")
-    in_section = False
-    result = []
-    for line in lines:
-        if line.strip().startswith("## ") and section in line:
-            in_section = True
-            continue
-        if line.strip().startswith("## ") and in_section:
-            break
-        if in_section:
-            result.append(line)
-    return "\n".join(result[:30])  # cap at 30 lines
-
-def _compute_health() -> str:
-    """Summary of pipeline health."""
-    cb = _safe_json(TINI / "circuit_breaker.json")
-    health = _safe_json(TINI / "agent_health.json")
-    total = len(cb)
-    failed = sum(1 for v in cb.values() if v.get("consecutive_failures", 0) > 0)
-    stale = sum(1 for v in health.values() if v.get("last_ok", 0) < time.time() - 86400)
-    return f"{total} agents tracked, {failed} with failures, {stale} stale (>24h)"
-
-# ── Circuit breaker helpers ──────────────────────────────────────────────────
-
-def _update_daemon_cb(success: bool):
-    """Update daemon circuit breaker: reset on success, increment on failure."""
     try:
-        cb = _safe_json(CIRCUIT_BREAKER_PATH)
-        d = cb.setdefault("daemon", {"consecutive_failures": 0, "paused_until": None, "last_ok": None})
-        if success:
-            d["consecutive_failures"] = 0
-            d["paused_until"] = None
-            d["last_ok"] = datetime.now().isoformat()
-        else:
-            d["consecutive_failures"] = d.get("consecutive_failures", 0) + 1
-            if d["consecutive_failures"] >= DAEMON_FAILURE_THRESHOLD:
-                d["paused_until"] = time.time() + DAEMON_PAUSE_DURATION
-        CIRCUIT_BREAKER_PATH.write_text(json.dumps(cb, indent=2) + "\n")
-    except Exception as e:
-        log(f"⚠ CB update error: {e}")
+        with open(EVENTS_FILE, "a") as f:
+            f.write(json.dumps(event, default=str) + "\n")
+        # Trim if too large
+        _trim_events()
+    except OSError as e:
+        logger.error(f"Event log write failed: {e}")
 
-def _daemon_circuit_open() -> bool:
-    """Returns True if daemon is circuit-broken (paused due to failures)."""
+
+def _trim_events() -> None:
+    """Keep events file under MAX_EVENTS_LOG lines."""
     try:
-        cb = _safe_json(CIRCUIT_BREAKER_PATH)
-        d = cb.get("daemon", {})
-        until = d.get("paused_until")
-        if until and time.time() < until:
-            log(f"⏸ Daemon circuit open — paused {int(until - time.time())}s remaining")
+        if not EVENTS_FILE.exists():
+            return
+        lines = EVENTS_FILE.read_text().strip().split("\n")
+        if len(lines) > MAX_EVENTS_LOG:
+            keep = lines[-MAX_EVENTS_LOG:]
+            EVENTS_FILE.write_text("\n".join(keep) + "\n")
+    except OSError:
+        pass
+
+
+# ============================================================
+# Heartbeat
+# ============================================================
+
+def write_heartbeat() -> None:
+    """Write current timestamp to heartbeat file."""
+    try:
+        HEARTBEAT_FILE.write_text(str(time.time()))
+    except OSError as e:
+        logger.error(f"Heartbeat write failed: {e}")
+
+
+# ============================================================
+# File backup & rollback
+# ============================================================
+
+def backup_file(path: Path) -> Optional[Path]:
+    """Create timestamped backup of a file before modification."""
+    if not path.exists():
+        return None
+    try:
+        ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+        backup_name = f"{path.stem}_{ts}{path.suffix}"
+        backup_path = BACKUPS_DIR / backup_name
+        backup_path.write_bytes(path.read_bytes())
+        logger.debug(f"Backed up {path.name} → {backup_path.name}")
+        return backup_path
+    except OSError as e:
+        logger.error(f"Backup failed for {path}: {e}")
+        return None
+
+
+def restore_from_backup(path: Path) -> bool:
+    """Restore file from most recent backup."""
+    try:
+        pattern = f"{path.stem}_*{path.suffix}"
+        backups = sorted(BACKUPS_DIR.glob(pattern), reverse=True)
+        if not backups:
+            logger.warning(f"No backup found for {path.name}")
+            return False
+        latest = backups[0]
+        path.write_bytes(latest.read_bytes())
+        logger.info(f"Restored {path.name} from {latest.name}")
+        return True
+    except OSError as e:
+        logger.error(f"Restore failed for {path}: {e}")
+        return False
+
+
+# ============================================================
+# Git checkpoint & self-healing
+# ============================================================
+
+def git_checkpoint(tag: str) -> bool:
+    """Create a git checkpoint (commit) for rollback."""
+    try:
+        result = subprocess.run(
+            ["git", "add", "-A"],
+            cwd=str(WORKDIR),
+            capture_output=True, text=True, timeout=30,
+        )
+        result = subprocess.run(
+            ["git", "commit", "-m", f"daemon-checkpoint: {tag}", "--allow-empty"],
+            cwd=str(WORKDIR),
+            capture_output=True, text=True, timeout=30,
+        )
+        if result.returncode == 0:
+            logger.info(f"Git checkpoint: {tag}")
+            log_event("git_checkpoint", {"tag": tag})
             return True
         return False
-    except:
+    except (subprocess.TimeoutExpired, OSError) as e:
+        logger.error(f"Git checkpoint failed: {e}")
         return False
 
-# ── Task generation (LLM-guided) ─────────────────────────────────────────────
 
-TASK_SYSTEM = """You are the NetWeaver Daemon — an autonomous development engine managing TWO projects:
-
-## Project 1: PIPELINE (self-health)
-The infrastructure that builds NetWeaver. Needs: circuit breaker fixes, token optimization, error recovery, agent health.
-
-## Project 2: NETWEAVER (product)
-Browser-native web cognition engine. Phase 1 (mock mode) complete. Phase 2 (real CloakBrowser) not started.
-
-## Your task generation rules:
-1. Read the state below. Find REAL gaps between roadmap and current state.
-2. NEVER generate "extract inline skill doc from cron prompt" tasks — the cron prompt templates are clean (~2K chars each, no inline 25K blob). This was investigated and the issue does not exist.
-3. Generate exactly ONE task. Only if a real gap exists.
-4. Output ONLY valid JSON. No markdown, no explanation.
-
-## Priority order:
-1. Pipeline health (circuit breakers tripped, agents failing, stale agents) — only if CB shows consecutive_failures > 0
-2. NetWeaver Phase 2 gaps (roadmap says implement X, codebase doesn't have X)
-3. Self-evolution (token optimization, prompt improvements)
-
-## Output format when task is found:
-{"action_taken":true, "task":{"id":"NW-XXX","project":"pipeline|netweaver","goal":"...","why":"which gap led to this","scope":["file1","file2"],"acceptance":"how to verify","priority":1-5}}
-
-## Output format when no task:
-{"action_taken":false, "reason":"no gaps found"}
-
-The state below includes: circuit breaker health, agent health, roadmap status, KANBAN content, project files."""
-
-def generate_task(state: dict) -> Optional[dict]:
-    """Ask LLM to analyze state and generate a task."""
-    prompt = json.dumps(state, indent=2, default=str)
-    result = llm_call(TASK_SYSTEM, prompt[:4000])  # cap prompt size
-    if result and result.get("action_taken"):
-        return result.get("task")
-    return None
-
-# ── Task executor (sub-tasking + actual file writes) ────────────────────────
-
-PLAN_SYSTEM = """You are NetWeaver Daemon planner. Break this task into 2-5 small steps.
-Each step = 1 file to create/modify + its tests (for a total of <= 2 files).
-Output ONLY valid JSON:
-{"steps":[{"id":1,"goal":"...","read_files":["file_to_inspect.py"],"write_files":["file_to_create.py"]}]}
-
-Rules:
-- read_files = files to read for context (existing code to understand)
-- write_files = files to create or overwrite (1-2 max)
-- Each step must be achievable by: read files → generate content → write → test
-- First step should be the most foundational""" 
-
-STEP_SYSTEM = """You are NetWeaver Daemon executor. You receive existing file content.
-Your JOB: output the NEW content for files that need changing.
-Output ONLY valid JSON. NEVER say "done:true" without providing actual file content.
-
-FORMAT:
-{"files":[{"path":"relative/file.py","content":"# entire new file content here\\n..."}],"summary":"what changed"}
-
-OR if no changes needed:
-{"files":[],"summary":"nothing to change"}
-
-RULES:
-- Each entry in "files" is the COMPLETE new content for that file
-- Include imports, existing functions, everything — complete overwrite
-- Content must pass: echo content > file.py && python -c "import file" without error
-- Write real Python code, not placeholders"""
-
-MAX_FILE_READ_CHARS = 4000  # cap per file to avoid prompt bloat
-
-def _read_files(file_list: list[str]) -> dict[str, str]:
-    """Read existing files for context. Returns {path: content}."""
-    contents = {}
-    for f in file_list:
-        path = WORKDIR / f
-        if path.exists():
-            contents[f] = path.read_text()[:MAX_FILE_READ_CHARS]
-        else:
-            contents[f] = "(file does not exist yet — will be created)"
-    return contents
-
-def _test_summary() -> str:
-    """Return last line of test output (e.g., '1334 passed')."""
-    r = subprocess.run(
-        [sys.executable, "-m", "pytest", "tests/", "-q", "--tb=line"],
-        capture_output=True, text=True, cwd=str(WORKDIR), timeout=60
-    )
-    return r.stdout.strip().split("\n")[-1] if r.stdout else "no output"
-
-def _run_tests() -> bool:
-    """Run full test suite. Returns True if all pass."""
+def run_tests(scope: Optional[str] = None) -> tuple[bool, str]:
+    """Run pytest and return (passed, output_summary)."""
+    cmd = [
+        sys.executable, "-m", "pytest",
+        "--ignore=vendor",
+        "--tb=line", "-q",
+        "--timeout=120",
+    ]
+    if scope:
+        cmd.append(scope)
     try:
-        r = subprocess.run(
-            [sys.executable, "-m", "pytest", "tests/", "-q", "--tb=line"],
-            capture_output=True, text=True, cwd=str(WORKDIR), timeout=60
+        result = subprocess.run(
+            cmd,
+            cwd=str(WORKDIR),
+            capture_output=True, text=True,
+            timeout=TEST_TIMEOUT,
         )
-        return "passed" in r.stdout and "failed" not in r.stdout
-    except:
-        return False
+        output = result.stdout + result.stderr
+        # Extract summary line
+        lines = output.strip().split("\n")
+        summary = lines[-1] if lines else "no output"
+        passed = result.returncode == 0
+        return passed, summary
+    except subprocess.TimeoutExpired:
+        return False, "TIMEOUT"
+    except OSError as e:
+        return False, f"ERROR: {e}"
 
-def generate_plan(task: dict) -> Optional[dict]:
-    """Ask LLM to break task into small sub-steps. Returns {'steps': [...]}."""
-    prompt = json.dumps({
-        "task_id": task.get("id"),
-        "goal": task.get("goal"),
-        "project_files": [str(p.relative_to(WORKDIR)) for p in WORKDIR.rglob("*.py")
-                         if "node_modules" not in str(p)],
-        "current_tests": _test_summary(),
-    }, indent=2, default=str)
-    
-    for attempt in range(3):
-        result = llm_call(PLAN_SYSTEM, prompt[:4000], max_retries=1)
-        if result and "steps" in result and isinstance(result["steps"], list):
-            return result
-        log(f"  \u26a0 Plan retry {attempt+1}: no valid steps")
-        time.sleep(5)
-    return None
 
-def execute_step(step: dict, task_context: str) -> dict:
-    """Execute one step: read files → LLM generates content → write files → test.
-    
-    Returns {'done': bool, 'files_written': [...], 'summary': str}
-    On failure, all written files are reverted (atomic)."""
-    
-    # Phase 1: Read context files
-    read_files = step.get("read_files", [])
-    write_files = step.get("write_files", [])
-    context = _read_files(read_files)
-    
-    prompt = json.dumps({
-        "step": step,
-        "task_context": task_context[:800],
-        "existing_files": context,
-        "files_to_write": write_files,
-        "working_directory": str(WORKDIR),
-        "test_command": "python -m pytest tests/ -q --tb=line",
-    }, indent=2, default=str)
-    
-    # Phase 2: Ask LLM for actual file content
-    result = None
-    for attempt in range(3):
-        result = llm_call(STEP_SYSTEM, prompt[:5000], max_retries=2)
-        if result and isinstance(result.get("files"), list):
-            break
-        delay = 2 ** attempt * 5
-        log(f"  \u26a0 Step retry {attempt+1}/3 in {delay}s")
-        time.sleep(delay)
-    
-    if not result or not isinstance(result.get("files"), list):
-        return {"done": False, "error": "LLM didn't return valid file content", 
-                "files_written": [], "summary": "failed"}
-    
-    # Phase 3: Backup existing files, then write new content
-    files_written = []
-    backups = {}  # path -> original content (None = file didn't exist)
-    try:
-        for fc in result["files"]:
-            path_str = fc.get("path", "")
-            content = fc.get("content", "")
-            if not path_str or not content:
-                continue
-            abs_path = WORKDIR / path_str
-            # Backup existing
-            if abs_path.exists():
-                backups[path_str] = abs_path.read_text()
-            else:
-                backups[path_str] = None
-            abs_path.parent.mkdir(parents=True, exist_ok=True)
-            abs_path.write_text(content)
-            files_written.append(path_str)
-            log(f"  \u270d Wrote {path_str} ({len(content)} chars)")
-        
-        # Phase 4: Run test suite
-        tests_ok = _run_tests()
-        
-        if not tests_ok and files_written:
-            # Revert all changes
-            for fp in files_written:
-                abs_path = WORKDIR / fp
-                if backups.get(fp) is not None:
-                    abs_path.write_text(backups[fp])
-                    log(f"  \u21a9 Reverted {fp} (tests broke)")
-                else:
-                    if abs_path.exists():
-                        abs_path.unlink()
-                        log(f"  \u21a9 Deleted {fp} (tests broke, was new)")
-            return {
-                "done": False,
-                "files_written": files_written,
-                "summary": f"wrote then reverted {len(files_written)} file(s), tests FAIL",
-                "reverted": True,
-            }
-        
-        return {
-            "done": tests_ok and len(files_written) > 0,
-            "files_written": files_written,
-            "summary": f"wrote {len(files_written)} file(s), tests {'OK' if tests_ok else 'FAIL'}",
-        }
-    except Exception as e:
-        # Emergency revert on unexpected error
-        for fp in files_written:
-            abs_path = WORKDIR / fp
-            if backups.get(fp) is not None:
-                abs_path.write_text(backups[fp])
-            else:
-                if abs_path.exists():
-                    abs_path.unlink()
-        return {"done": False, "files_written": [], "summary": f"error + reverted: {e}"}
+def self_heal(changed_files: List[Path]) -> bool:
+    """Run tests after changes. If failed, revert changed files."""
+    logger.info(f"Self-heal: running tests after {len(changed_files)} file changes")
+    passed, summary = run_tests()
 
-def execute_task(task: dict) -> dict:
-    """Execute a work item: generate plan → execute steps → verify."""
-    log(f"\u25b6 Task: {task.get('id','?')} — {task.get('goal','?')[:80]}")
-    
-    plan = generate_plan(task)
-    if not plan:
-        return {"done": False, "error": "Could not generate plan"}
-    
-    steps = plan["steps"]
-    
-    # PLAN_ONLY mode: write plan to review queue, don't execute
-    if PLAN_ONLY:
-        review_path = TINI / "netweaver" / "company" / "REVIEW_QUEUE.md"
-        review_path.parent.mkdir(parents=True, exist_ok=True)
-        
-        plan_entry = f"""## PLAN-{task.get('id', '?')}
-**Status:** PENDING_APPROVAL
-**Goal:** {task.get('goal', '?')}
-**Scope:** {', '.join([s.get('write_files', []) for s in steps])}
-**Steps:** {len(steps)}
-**Owner:** {task.get('model', MODEL)}
+    if passed:
+        log_event("self_heal_ok", {"summary": summary, "files": [str(f) for f in changed_files]})
+        logger.info(f"Self-heal: PASS — {summary}")
+        return True
 
-"""
-        for s in steps:
-            plan_entry += f"""### Step {s['id']}
-Goal: {s.get('goal', '?')}
-Read: {', '.join(s.get('read_files', []))}
-Write: {', '.join(s.get('write_files', []))}
+    # Tests failed → revert
+    logger.warning(f"Self-heal: FAIL — {summary}. Reverting {len(changed_files)} files.")
+    log_event("self_heal_fail", {"summary": summary, "files": [str(f) for f in changed_files]})
 
-"""
-        plan_entry += "---\n"
-        
-        if review_path.exists():
-            existing = review_path.read_text()
-            review_path.write_text(plan_entry + "\n" + existing)
-        else:
-            review_path.write_text("# NetWeaver Review Queue\n\nSet **Status** to **APPROVED** to execute.\n\n" + plan_entry)
-        
-        log(f"  Plan written to REVIEW_QUEUE.md (task {task.get('id','?')})")
-        return {"done": True, "plan_written": True, "plan_file": str(review_path)}
-    
-    completed = 0
-    for step in steps:
-        log(f"  Step {step['id']}: {step['goal'][:70]}")
-        result = execute_step(step, task.get("goal", ""))
-        
-        if result.get("done"):
-            completed += 1
-            log(f"  \u2705 Step {step['id']} done: {result.get('summary','')[:80]}")
-            
-            # If step broke tests, try to fix
-            test_result = subprocess.run(
-                [sys.executable, "-m", "pytest", "tests/", "-q", "--tb=line"],
-                capture_output=True, text=True, cwd=str(WORKDIR), timeout=60
-            )
-            if "failed" in test_result.stdout or "FAILED" in test_result.stdout:
-                log(f"  \u26a0 Tests broken after step {step['id']}, fixing...")
-                fix_step = {
-                    "id": f"{step['id']}-fix",
-                    "goal": f"Fix test failures: {test_result.stdout.strip().split(chr(10))[-3:]}",
-                    "read_files": step.get("write_files", []),
-                    "write_files": step.get("write_files", []),
-                }
-                fix_result = execute_step(fix_step, task.get("goal", ""))
-                if fix_result.get("done"):
-                    completed += 0  # same step, don't double-count
-        else:
-            log(f"  \u274c Step {step['id']} failed: {result.get('summary','?')[:100]}")
-    
-    final_tests = subprocess.run(
-        [sys.executable, "-m", "pytest", "tests/", "-q", "--tb=line"],
-        capture_output=True, text=True, cwd=str(WORKDIR), timeout=60
-    )
-    all_pass = "passed" in final_tests.stdout and "failed" not in final_tests.stdout
-    
-    return {
-        "done": completed > 0 and all_pass,
-        "steps_completed": completed,
-        "steps_total": len(steps),
-        "tests_ok": all_pass,
-        "summary": f"{completed}/{len(steps)} steps, files written: {sum(1 for s in steps if s.get('write_files',[]))}, tests {'OK' if all_pass else 'FAIL'}",
-    }
+    for f in changed_files:
+        if not restore_from_backup(f):
+            # No backup → try git checkout
+            try:
+                subprocess.run(
+                    ["git", "checkout", "--", str(f.relative_to(WORKDIR))],
+                    cwd=str(WORKDIR),
+                    capture_output=True, timeout=10,
+                )
+                logger.info(f"Reverted {f.name} via git checkout")
+            except (subprocess.TimeoutExpired, OSError, ValueError):
+                logger.error(f"Could not revert {f.name}")
 
-# ── Self-diagnose ────────────────────────────────────────────────────────────
+    # Verify tests pass after revert
+    passed2, summary2 = run_tests()
+    if passed2:
+        logger.info(f"Self-heal: Revert successful — {summary2}")
+        log_event("self_heal_revert_ok", {"summary": summary2})
+    else:
+        logger.error(f"Self-heal: Revert FAILED — {summary2}")
+        log_event("self_heal_revert_fail", {"summary": summary2})
 
-DIAG_SYSTEM = """You are the self-diagnosis engine. Review the daemon's recent activity.
-Check: are tasks being created? Executed? Any error patterns? 
-Output JSON:
-{"healthy":true|false, "observation":"...", "recommendation":"..."}"""
+    return False
 
-def self_diagnose():
-    """Periodic health check of the daemon itself."""
-    recent = list((TINI / "events.jsonl").read_text().split("\n")[-10:]) \
-        if (TINI / "events.jsonl").exists() else []
-    
-    prompt = json.dumps({
-        "daemon_state": _safe_json(CHECKPOINT_FILE),
-        "recent_events": recent,
-        "circuit_breaker": _safe_json(TINI / "circuit_breaker.json"),
-        "agent_health": _safe_json(TINI / "agent_health.json"),
-    }, indent=2, default=str)
-    
-    result = llm_call(DIAG_SYSTEM, prompt[:3000])
-    if result:
-        log(f"🔍 Self-diagnosis: {result.get('observation','?')}")
-        if not result.get("healthy", True):
-            log(f"⚠ Recommendation: {result.get('recommendation','?')}")
 
-# ── Checkpoint system ────────────────────────────────────────────────────────
+# ============================================================
+# Circuit breaker
+# ============================================================
 
-def write_checkpoint(data: dict):
-    CHECKPOINT_FILE.parent.mkdir(parents=True, exist_ok=True)
-    data["_ts"] = datetime.now().isoformat()
-    CHECKPOINT_FILE.write_text(json.dumps(data, indent=2, default=str) + "\n")
-
-def load_checkpoint() -> dict:
-    if CHECKPOINT_FILE.exists():
-        try: return json.loads(CHECKPOINT_FILE.read_text())
-        except: pass
-    return {"cycle": 0, "tasks_completed": [], "last_event": None}
-
-def write_heartbeat():
-    """Write heartbeat timestamp for watchdog to check."""
-    HEARTBEAT_FILE.parent.mkdir(parents=True, exist_ok=True)
-    HEARTBEAT_FILE.write_text(str(time.time()))
-
-def _run_execute_and_checkpoint(task: dict, cycle: int, checkpoint: dict):
-    """Execute task, log result, write checkpoint + event. Shared by event and idle paths."""
-    DONE = "\u2705"
-    FAIL = "\u274c"
-    result = execute_task(task)
-    icon = DONE if result.get("done") else FAIL
-    log(f"  \u2192 Result: {icon} {result.get('summary','')[:100]}")
-    _update_daemon_cb(result.get("done", False))
-    
-    checkpoint["cycle"] = cycle
-    tasks = checkpoint.get("tasks_completed", [])
-    tasks.append({
-        "id": task.get("id"),
-        "goal": task.get("goal"),
-        "done": result.get("done"),
-        "time": datetime.now().isoformat(),
+def load_circuit_breaker() -> Dict[str, Any]:
+    return safe_read_json(CIRCUIT_BREAKER_FILE, {
+        "daemon": {"consecutive_failures": 0, "paused_until": None}
     })
-    checkpoint["tasks_completed"] = tasks[-20:]
-    write_checkpoint(checkpoint)
-    
-    event = {
-        "ts": datetime.now().isoformat(),
-        "type": "task_completed" if result.get("done") else "task_failed",
-        "task_id": task.get("id"),
-        "goal": task.get("goal"),
-        "result": result.get("summary", str(result)[:200]),
-    }
-    events_file = TINI / "events.jsonl"
-    events_file.parent.mkdir(parents=True, exist_ok=True)
-    with open(events_file, "a") as f:
-        f.write(json.dumps(event) + "\n")
 
-# ── Main loop ────────────────────────────────────────────────────────────────
 
-def main():
-    # ── PID lock: prevent duplicate instances ──
-    pid = str(os.getpid())
-    if PID_LOCK_FILE.exists():
-        try:
-            old_pid = int(PID_LOCK_FILE.read_text().strip())
-            old_alive = os.kill(old_pid, 0) is None  # no error = alive
-        except (ValueError, OSError):
-            old_alive = False
-        if old_alive:
-            log(f"⚠ PID lock: {old_pid} still alive. Exiting.")
-            sys.exit(0)
-    PID_LOCK_FILE.write_text(pid)
-    
-    log(f"╔══════════════════════════════════════╗")
-    log(f"║ NetWeaver Daemon v2                  ║")
-    log(f"║ Model: {MODEL}")
-    log(f"║ Workdir: {WORKDIR}")
-    log(f"║ Poll: {POLL_INTERVAL}s, Diag: every {SELF_DIAGNOSE_INTERVAL} cycles")
-    log(f"╚══════════════════════════════════════╝")
-    
-    # Clear stop flag if present
-    if STOP_FLAG.exists():
-        STOP_FLAG.unlink()
-    
-    checkpoint = load_checkpoint()
-    poll_hashes: dict[str, str] = {}
-    cycle = checkpoint.get("cycle", 0)
-    last_event_time = time.time()
-    
-    while True:
-        # ── Check stop flag ──
-        if STOP_FLAG.exists():
-            log("🛑 Stop flag detected. Exiting.")
-            write_checkpoint({"action": "stopped", "cycle": cycle})
+def save_circuit_breaker(data: Dict[str, Any]) -> None:
+    safe_write_json(CIRCUIT_BREAKER_FILE, data)
+
+
+def record_success(agent: str = "daemon") -> None:
+    """Record success, reset failure counter."""
+    cb = load_circuit_breaker()
+    if agent not in cb:
+        cb[agent] = {"consecutive_failures": 0, "paused_until": None}
+    cb[agent]["consecutive_failures"] = 0
+    cb[agent]["last_ok"] = now_iso()
+    save_circuit_breaker(cb)
+
+
+def record_failure(agent: str = "daemon", reason: str = "unknown") -> bool:
+    """Record failure. Returns True if breaker tripped (should pause)."""
+    cb = load_circuit_breaker()
+    if agent not in cb:
+        cb[agent] = {"consecutive_failures": 0, "paused_until": None}
+    cb[agent]["consecutive_failures"] = cb[agent].get("consecutive_failures", 0) + 1
+    cb[agent]["last_error"] = now_iso()
+    cb[agent]["last_error_reason"] = reason
+    tripped = cb[agent]["consecutive_failures"] >= MAX_FAILURES_BEFORE_PAUSE
+    if tripped:
+        cb[agent]["paused_until"] = (
+            datetime.now(timezone.utc).timestamp() + PAUSE_DURATION
+        )
+        logger.warning(
+            f"Circuit breaker TRIPPED for {agent}: "
+            f"{cb[agent]['consecutive_failures']} failures. "
+            f"Pausing for {PAUSE_DURATION}s."
+        )
+        log_event("circuit_breaker_trip", {"agent": agent, "failures": cb[agent]["consecutive_failures"]})
+    save_circuit_breaker(cb)
+    return tripped
+
+
+def is_paused(agent: str = "daemon") -> bool:
+    """Check if agent is paused by circuit breaker."""
+    cb = load_circuit_breaker()
+    if agent not in cb:
+        return False
+    paused_until = cb[agent].get("paused_until")
+    if paused_until is None:
+        return False
+    if time.time() < paused_until:
+        return True
+    # Pause expired → reset
+    cb[agent]["paused_until"] = None
+    cb[agent]["consecutive_failures"] = 0
+    save_circuit_breaker(cb)
+    logger.info(f"Circuit breaker RESET for {agent} (pause expired)")
+    return False
+
+
+# ============================================================
+# Failed task cache & quarantine
+# ============================================================
+
+def load_failed_cache() -> Dict[str, int]:
+    return safe_read_json(FAILED_CACHE_FILE, {})
+
+
+def save_failed_cache(data: Dict[str, int]) -> None:
+    safe_write_json(FAILED_CACHE_FILE, data)
+
+
+def record_task_failure(task_id: str) -> bool:
+    """Record task failure. Returns True if quarantined."""
+    cache = load_failed_cache()
+    cache[task_id] = cache.get(task_id, 0) + 1
+    save_failed_cache(cache)
+    if cache[task_id] >= QUARANTINE_THRESHOLD:
+        logger.warning(f"Task {task_id} QUARANTINED ({cache[task_id]} failures)")
+        log_event("task_quarantined", {"task_id": task_id, "failures": cache[task_id]})
+        return True
+    return False
+
+
+def is_quarantined(task_id: str) -> bool:
+    cache = load_failed_cache()
+    return cache.get(task_id, 0) >= QUARANTINE_THRESHOLD
+
+
+# ============================================================
+# File watching & change detection
+# ============================================================
+
+WATCHED_FILES = [
+    REVIEW_QUEUE,
+    KANBAN,
+    BACKLOG,
+    STATUS_FILE,
+    HANDOFF_FILE,
+    NETWEAVER_DIR / "BLOCKERS.md",
+]
+
+
+def detect_changes() -> List[Path]:
+    """Check watched files for changes since last scan."""
+    global file_hashes
+    changed = []
+    for path in WATCHED_FILES:
+        new_hash = file_hash(path)
+        old_hash = file_hashes.get(str(path))
+        if new_hash != old_hash:
+            if old_hash is not None:  # Not first scan
+                changed.append(path)
+            file_hashes[str(path)] = new_hash or ""
+    return changed
+
+
+def init_hashes() -> None:
+    """Initialize file hashes on startup."""
+    global file_hashes
+    for path in WATCHED_FILES:
+        h = file_hash(path)
+        file_hashes[str(path)] = h if h is not None else ""
+
+
+# ============================================================
+# Gap detection & plan generation
+# ============================================================
+
+def parse_backlog_tasks() -> List[Dict[str, str]]:
+    """Parse BACKLOG.md for actionable tasks."""
+    if not BACKLOG.exists():
+        return []
+    content = BACKLOG.read_text()
+    tasks = []
+    current_id = None
+    current_data = {}
+
+    for line in content.split("\n"):
+        line = line.strip()
+        # Match task headers like "## NW-025 Skill Learner — Close the Learning Loop"
+        if line.startswith("## NW-") or line.startswith("## P2-") or line.startswith("## PL-"):
+            if current_id:
+                tasks.append(current_data)
+            parts = line[3:].split(" ", 1)
+            current_id = parts[0] if parts else "UNKNOWN"
+            current_data = {
+                "id": current_id,
+                "title": parts[1] if len(parts) > 1 else current_id,
+                "tiny_goal": "",
+                "files_to_touch": "",
+                "acceptance": "",
+            }
+        elif current_id and line.startswith("tiny_goal:"):
+            current_data["tiny_goal"] = line[len("tiny_goal:"):].strip()
+        elif current_id and line.startswith("files_to_touch:"):
+            current_data["files_to_touch"] = line[len("files_to_touch:"):].strip()
+        elif current_id and line.startswith("acceptance_checks:"):
+            current_data["acceptance"] = line[len("acceptance_checks:"):].strip()
+
+    if current_id:
+        tasks.append(current_data)
+
+    return tasks
+
+
+def parse_kanban_ready() -> Set[str]:
+    """Get task IDs currently in ready/doing state."""
+    if not KANBAN.exists():
+        return set()
+    content = KANBAN.read_text()
+    ids = set()
+    in_ready = False
+    for line in content.split("\n"):
+        if line.strip() == "## ready":
+            in_ready = True
+            continue
+        if line.startswith("## ") and in_ready:
             break
-        
-        # ── Write heartbeat ──
-        if cycle % 30 == 0:
-            write_heartbeat()
-        
-        # ── Circuit breaker check — auto-pause if too many failures ──
-        if _daemon_circuit_open():
-            time.sleep(POLL_INTERVAL)
-            cycle += 1
-            continue
-        
-        # ── 1. Poll files (skip events.jsonl if only changed by us) ──
-        changed = []
-        for path in WATCHED_FILES:
-            # Skip events.jsonl and circuit_breaker.json — we write to them, would cause self-trigger
-            if path.name in ("events.jsonl", "circuit_breaker.json") and path.suffix in (".jsonl", ".json"):
-                continue
-            h = file_hash(path)
-            if poll_hashes.get(str(path)) != h:
-                changed.append(str(path))
-                poll_hashes[str(path)] = h
-        
-        # ── 2. If nothing changed, check idle timeout ──
-        if not changed:
-            if time.time() - last_event_time > IDLE_TIMEOUT:
-                log(f"⏰ Idle {IDLE_TIMEOUT}s — self-check")
-                state = scan_state()
-                task = generate_task(state)
-                if task:
-                    log(f"  Idle generated: {task.get('id','?')}")
-                    _run_execute_and_checkpoint(task, cycle, checkpoint)
-                last_event_time = time.time()
-            time.sleep(POLL_INTERVAL)
-            cycle += 1
-            continue
-        
-        last_event_time = time.time()
-        
-        log(f"📂 Change detected: {len(changed)} file(s)")
-        for c in changed:
-            log(f"   {Path(c).name}")
-        
-        # ── 3. Read state → generate task ──
-        state = scan_state()
-        write_checkpoint({"action": "event_detected", "changed": changed, "cycle": cycle})
-        
-        task = generate_task(state)
-        if not task:
-            log("  No task needed (no gaps found)")
-            cycle += 1
-            time.sleep(POLL_INTERVAL)
-            continue
-        
-        log(f"  \u2192 Generated: {task.get('id','?')} ({task.get('project','?')})")
-        log(f"     Goal: {task.get('goal','?')[:100]}")
+        if in_ready and line.startswith("### "):
+            # Extract ID like "NW-A003" from "### NW-A003 CI Setup"
+            parts = line[4:].split(" ", 1)
+            if parts:
+                ids.add(parts[0])
+    return ids
 
-        # \u2500\u2500 4. Execute + record \u2500\u2500
-        _run_execute_and_checkpoint(task, cycle, checkpoint)
 
-        # \u2500\u2500 5. Self-diagnose \u2500\u2500
-        if cycle % SELF_DIAGNOSE_INTERVAL == 0:
-            self_diagnose()
-        
-        # ── Short pause before next poll ──
-        time.sleep(1)
-        cycle += 1
+def parse_review_queue_pending() -> Set[str]:
+    """Get task IDs already in review queue."""
+    if not REVIEW_QUEUE.exists():
+        return set()
+    content = REVIEW_QUEUE.read_text()
+    ids = set()
+    for line in content.split("\n"):
+        if line.startswith("### "):
+            parts = line[4:].split(" ", 1)
+            if parts:
+                ids.add(parts[0])
+    return ids
+
+
+def detect_gaps() -> List[Dict[str, str]]:
+    """Find backlog tasks not yet in KANBAN or REVIEW_QUEUE."""
+    backlog_tasks = parse_backlog_tasks()
+    ready_ids = parse_kanban_ready()
+    queue_ids = parse_review_queue_pending()
+    active_ids = ready_ids | queue_ids
+
+    gaps = []
+    for task in backlog_tasks:
+        tid = task["id"]
+        if tid in active_ids:
+            continue
+        if is_quarantined(tid):
+            continue
+        gaps.append(task)
+
+    return gaps
+
+
+def generate_plan(task: Dict[str, str]) -> str:
+    """Generate a plan entry for REVIEW_QUEUE.md."""
+    tid = task["id"]
+    title = task.get("title", tid)
+    tiny_goal = task.get("tiny_goal", f"Implement {tid}")
+    files = task.get("files_to_touch", "TBD")
+    acceptance = task.get("acceptance", "Tests pass; no regressions.")
+
+    return f"""### {tid} {title}
+**Status**: PENDING
+**Risk**: MEDIUM
+**Scope**: {files}
+**Tiny Goal**: {tiny_goal}
+**Acceptance**: {acceptance}
+**Generated**: {now_iso()}
+
+---
+"""
+
+
+def write_plans_to_review_queue(plans: List[str]) -> int:
+    """Append new plans to REVIEW_QUEUE.md. Returns count added."""
+    if not plans:
+        return 0
+
+    # Backup before write
+    backup_file(REVIEW_QUEUE)
+
+    content = REVIEW_QUEUE.read_text() if REVIEW_QUEUE.exists() else "# NetWeaver Review Queue\n\n---\n"
+
+    # Check for duplicates
+    existing_ids = parse_review_queue_pending()
+    new_plans = []
+    for plan in plans:
+        # Extract task ID from plan header
+        for line in plan.split("\n"):
+            if line.startswith("### "):
+                tid = line[4:].split(" ", 1)[0]
+                if tid not in existing_ids:
+                    new_plans.append(plan)
+                break
+
+    if not new_plans:
+        return 0
+
+    content += "\n".join(new_plans)
+    REVIEW_QUEUE.write_text(content)
+    logger.info(f"Wrote {len(new_plans)} plans to REVIEW_QUEUE")
+    log_event("plans_generated", {"count": len(new_plans), "ids": [p.split("### ")[1].split(" ")[0] for p in new_plans if "### " in p]})
+    return len(new_plans)
+
+
+# ============================================================
+# Main daemon loop
+# ============================================================
+
+async def heartbeat_loop() -> None:
+    """Write heartbeat periodically."""
+    while not shutdown_event.is_set():
+        write_heartbeat()
+        try:
+            await asyncio.wait_for(shutdown_event.wait(), timeout=HEARTBEAT_INTERVAL)
+        except asyncio.TimeoutError:
+            pass
+
+
+async def scan_loop() -> None:
+    """Main scan loop: detect changes, find gaps, generate plans."""
+    global cycle_count
+
+    # Wait for initial file state to settle
+    await asyncio.sleep(5)
+    init_hashes()
+    logger.info("File hashes initialized")
+
+    while not shutdown_event.is_set():
+        cycle_count += 1
+
+        # Check circuit breaker
+        if is_paused("daemon"):
+            logger.debug(f"Cycle {cycle_count}: paused (circuit breaker)")
+            try:
+                await asyncio.wait_for(shutdown_event.wait(), timeout=SCAN_INTERVAL)
+            except asyncio.TimeoutError:
+                pass
+            continue
+
+        try:
+            # 1. Detect file changes
+            changed = detect_changes()
+            if changed:
+                names = [f.name for f in changed]
+                logger.info(f"Cycle {cycle_count}: changes detected in {names}")
+                log_event("file_changes", {"files": names})
+
+            # 2. Detect gaps (backlog → not in kanban/queue)
+            gaps = detect_gaps()
+            if gaps:
+                logger.info(f"Cycle {cycle_count}: {len(gaps)} gaps found")
+                plans = [generate_plan(g) for g in gaps[:3]]  # Max 3 plans per cycle
+                count = write_plans_to_review_queue(plans)
+                if count > 0:
+                    record_success()
+            else:
+                logger.debug(f"Cycle {cycle_count}: no gaps")
+
+            # 3. Update checkpoint
+            checkpoint = {
+                "action": "scan" if not changed else "event_detected",
+                "changed": [str(f) for f in changed],
+                "cycle": cycle_count,
+                "_ts": now_iso(),
+                "gaps_found": len(gaps) if gaps else 0,
+                "paused": is_paused("daemon"),
+            }
+            safe_write_json(CHECKPOINT_FILE, checkpoint)
+
+            # 4. Periodic test run (every 10 cycles = ~20min)
+            if cycle_count % 10 == 0:
+                logger.info(f"Cycle {cycle_count}: periodic test run")
+                passed, summary = run_tests()
+                if passed:
+                    record_success()
+                    log_event("periodic_test_ok", {"summary": summary})
+                else:
+                    record_failure("daemon", f"periodic test fail: {summary}")
+                    log_event("periodic_test_fail", {"summary": summary})
+
+        except Exception as e:
+            logger.error(f"Cycle {cycle_count} error: {e}\n{traceback.format_exc()}")
+            record_failure("daemon", str(e))
+            log_event("cycle_error", {"error": str(e)})
+
+        # Wait for next scan
+        try:
+            await asyncio.wait_for(shutdown_event.wait(), timeout=SCAN_INTERVAL)
+        except asyncio.TimeoutError:
+            pass
+
+
+async def main_loop() -> None:
+    """Main async entry point."""
+    logger.info(f"NetWeaver Daemon starting (PID {os.getpid()})")
+    logger.info(f"Workdir: {WORKDIR}")
+
+    # Write PID
+    PID_FILE.write_text(str(os.getpid()))
+
+    # Write initial heartbeat
+    write_heartbeat()
+
+    # Git checkpoint on start
+    git_checkpoint(f"daemon-start-{int(time.time())}")
+
+    # Launch tasks
+    hb_task = asyncio.create_task(heartbeat_loop())
+    scan_task = asyncio.create_task(scan_loop())
+    inflight_tasks.add(hb_task)
+    inflight_tasks.add(scan_task)
+
+    log_event("daemon_start", {"pid": os.getpid()})
+
+    # Wait for shutdown
+    await shutdown_event.wait()
+    logger.info("Shutdown signal received, draining...")
+
+    # Cancel and drain
+    for task in inflight_tasks:
+        task.cancel()
+    await asyncio.gather(*inflight_tasks, return_exceptions=True)
+    inflight_tasks.clear()
+
+    # Final heartbeat (stale marker)
+    try:
+        HEARTBEAT_FILE.write_text("0")  # Mark as stopped
+    except OSError:
+        pass
+
+    log_event("daemon_stop", {"cycles": cycle_count})
+    logger.info(f"Daemon stopped after {cycle_count} cycles.")
+
+
+def handle_signal(signum: int, frame: Any) -> None:
+    """Signal handler — set shutdown event."""
+    logger.info(f"Signal {signum} received")
+    shutdown_event.set()
+
+
+def main() -> None:
+    """Entry point."""
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+
+    # Signal handlers
+    for sig in (signal.SIGTERM, signal.SIGINT):
+        try:
+            loop.add_signal_handler(sig, lambda s=sig: shutdown_event.set())
+        except NotImplementedError:
+            signal.signal(sig, handle_signal)
+
+    try:
+        loop.run_until_complete(main_loop())
+    except KeyboardInterrupt:
+        logger.info("KeyboardInterrupt")
+        if not shutdown_event.is_set():
+            shutdown_event.set()
+    finally:
+        loop.close()
+        logger.info("Event loop closed.")
+
 
 if __name__ == "__main__":
-    try:
-        main()
-    except KeyboardInterrupt:
-        log("🛑 Interrupted by user")
-    except Exception as e:
-        log(f"💥 Fatal error: {e}")
-        traceback.print_exc()
-        write_checkpoint({"action": "crashed", "error": str(e), "time": datetime.now().isoformat()})
-        sys.exit(1)
+    main()

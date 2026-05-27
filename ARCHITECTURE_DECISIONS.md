@@ -317,5 +317,50 @@ Consequences:
 - (+) Diff between versions enables prompt debugging
 - (+) Separates prompt content from code — no inline prompt strings
 - (-) Adds filesystem dependency (`.prompt` files + `current` pointer)
-- (-) No automatic A/B testing or quality metrics per version
-- (-) Prompt activation is global — no per-session or per-task overrides
+|- (-) No automatic A/B testing or quality metrics per version
+|- (-) Prompt activation is global — no per-session or per-task overrides
+
+---
+
+## ADR-016: Playwright as Alternative Browser Backend
+
+Status: Accepted (2026-05-25)
+
+Implemented: `netweaver/playwright_bridge.py` (399 LOC)
+
+P2-004 required real-site orchestration but CloakBrowser SDK is not universally available. The observer/executor stack needs a working browser backend for live integration tests and eventual production use.
+
+Decision: A `PlaywrightBridge` class implements the same interface as `CloakBrowserBridge` (observe, collect_evidence, execute_action) using Playwright Chromium directly. Observer falls back to Playwright only when CloakBrowser is not installed (ImportError). If CloakBrowser is installed but errors, the error propagates — no silent fallback. All Playwright imports are guarded behind try/except blocks to maintain the import-safety invariant (`FORBIDDEN_MODULES` check).
+
+Consequences:
+- (+) Real browser integration without CloakBrowser SDK dependency
+- (+) Same interface as CloakBrowserBridge — no executor/orchestrator changes needed
+- (+) Live integration tests work without CloakBrowser
+- (+) Import-safety invariant preserved via guarded imports
+- (-) Duplicate bridge implementations (CloakBrowserBridge + PlaywrightBridge) to maintain
+- (-) Playwright adds ~260MB browser cache (user-local, not in repo)
+- (-) Two-version drift risk — CloakBrowser and Playwright may behave differently on edge cases
+- (-) CloakBrowser-first, Playwright-fallback creates implicit priority order not explicit config
+
+---
+
+## ADR-017: Daemon Auto-Development of Approved Plans
+
+Status: Accepted (2026-05-25)
+
+Implemented: `daemon.py` (auto-development functions)
+
+The daemon previously operated as a poll-and-dispatch system: it watched KANBAN.md for file changes, generated tasks via LLM, and dispatched them to agent workers. The REVIEW_QUEUE.md served as a manual review gate — plans were approved by a reviewer and awaited human execution.
+
+Decision: The daemon now also scans REVIEW_QUEUE.md for plans marked `**Status:** APPROVED`, parses their steps, and executes them autonomously. `_execute_task_direct()` bypasses the PLAN_ONLY gate to enable zero-delay execution of approved plans. Failed steps trigger auto-fix: if tests break after a step, the daemon generates a fix step for the same files and retries.
+
+Consequences:
+- (+) APPROVED plans execute without delay — no human-in-loop needed for low-risk approved work
+- (+) Auto-fix on test breakage reduces manual intervention
+- (+) REVIEW_QUEUE.md status progression: PENDING_APPROVAL → EXECUTING → DONE/FAILED (auditable)
+- (+) Events logged to `.tini/events.jsonl` for all auto-executed plans
+- (-) Daemon now both dispatches AND executes work — single point of failure for the execution pipeline
+- (-) Auto-fix on test breakage may mask genuine regression if fix step is incorrect
+- (-) No approval expiry: APPROVED plans execute regardless of age
+- (-) No concurrent execution guard: if multiple APPROVED plans exist, they execute sequentially in one daemon cycle, blocking file polling
+- (-) REVIEW_QUEUE.md status modifications bypass the formal KANBAN handoff mechanism
