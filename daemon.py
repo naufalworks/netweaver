@@ -313,11 +313,12 @@ def save_circuit_breaker(data: Dict[str, Any]) -> None:
 
 
 def record_success(agent: str = "daemon") -> None:
-    """Record success, reset failure counter."""
+    """Record success, reset failure counter and clear pause."""
     cb = load_circuit_breaker()
     if agent not in cb:
         cb[agent] = {"consecutive_failures": 0, "paused_until": None}
     cb[agent]["consecutive_failures"] = 0
+    cb[agent]["paused_until"] = None
     cb[agent]["last_ok"] = now_iso()
     save_circuit_breaker(cb)
 

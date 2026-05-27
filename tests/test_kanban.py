@@ -19,28 +19,26 @@ KANBAN_PATH = Path(__file__).parent.parent / "KANBAN.md"
 
 def test_moved_ids_not_in_ready():
     text = KANBAN_PATH.read_text()
-    sections = text.split("## ")
-    ready_section = None
-    for section in sections:
-        if section.startswith("Ready"):
-            ready_section = section
-            break
-    assert ready_section is not None, "Ready section not found"
+    # Root KANBAN is now a summary table — check status column instead
     for id_ in ["NW-A003", "P2-002", "P2-005"]:
-        assert id_ not in ready_section, f"{id_} still found in Ready section"
+        # These should show as Done, not appear in a "Ready" row
+        if id_ in text:
+            # If present, should be in Done status
+            for line in text.split("\n"):
+                if id_ in line:
+                    assert "Ready" not in line or "Done" in line, f"{id_} still in Ready status"
 
 
 def test_moved_ids_in_done():
     text = KANBAN_PATH.read_text()
-    sections = text.split("## ")
-    done_section = None
-    for section in sections:
-        if section.startswith("Done"):
-            done_section = section
-            break
-    assert done_section is not None, "Done section not found"
+    # Root KANBAN shows all tasks with their actual status from company KANBAN
+    # These IDs should appear in the Done section of the root summary
     for id_ in ["NW-A003", "P2-002", "P2-005"]:
-        assert id_ in done_section, f"{id_} not found in Done section"
+        assert id_ in text, f"{id_} not found in root KANBAN"
+        # Find the line and verify it's marked Done
+        for line in text.split("\n"):
+            if id_ in line:
+                assert "Done" in line, f"{id_} not marked as Done"
 
 
 def test_backlog_has_no_stale_items():
