@@ -626,6 +626,55 @@ def write_plans_to_review_queue(plans: List[str]) -> int:
 # Main daemon loop
 # ============================================================
 
+async def cleanup_loop() -> None:
+    """Periodic cleanup: rotate logs, prune backups, archive old ideas."""
+    while not shutdown_event.is_set():
+        try:
+            await asyncio.sleep(3600)  # Run every hour
+            if shutdown_event.is_set():
+                break
+            
+            # 1. Rotate daemon log (keep last 1000 lines)
+            log_file = TINI_DIR / "daemon_stdout.log"
+            if log_file.exists() and log_file.stat().st_size > 100_000:
+                lines = log_file.read_text().splitlines()
+                if len(lines) > 1000:
+                    log_file.write_text("\n".join(lines[-1000:]) + "\n")
+            
+            # 2. Prune old backups (keep last 20)
+            backups_dir = TINI_DIR / "backups"
+            if backups_dir.exists():
+                backups = sorted(backups_dir.glob("*"), key=lambda p: p.stat().st_mtime, reverse=True)
+                for old in backups[20:]:
+                    try:
+                        old.unlink()
+                    except OSError:
+                        pass
+            
+            # 3. Rotate events log (keep last 2000)
+            events_file = TINI_DIR / "events.jsonl"
+            if events_file.exists():
+                lines = events_file.read_text().strip().splitlines()
+                if len(lines) > 2000:
+                    events_file.write_text("\n".join(lines[-2000:]) + "\n")
+            
+            # 4. Clean stale PID files
+            pid_file = TINI_DIR / "daemon.pid"
+            if pid_file.exists():
+                try:
+                    pid = int(pid_file.read_text().strip())
+                    # Check if process exists
+                    import os
+                    os.kill(pid, 0)
+                except (ValueError, OSError, ProcessLookupError):
+                    pid_file.unlink(missing_ok=True)
+        
+        except Exception as e:
+            logger.error(f"Cleanup error: {e}")
+    
+    logger.info("Cleanup loop exited")
+
+
 async def heartbeat_loop() -> None:
     """Write heartbeat periodically."""
     while not shutdown_event.is_set():
@@ -727,8 +776,10 @@ async def main_loop() -> None:
     # Launch tasks
     hb_task = asyncio.create_task(heartbeat_loop())
     scan_task = asyncio.create_task(scan_loop())
+    cleanup_task = asyncio.create_task(cleanup_loop())
     inflight_tasks.add(hb_task)
     inflight_tasks.add(scan_task)
+    inflight_tasks.add(cleanup_task)
 
     log_event("daemon_start", {"pid": os.getpid()})
 

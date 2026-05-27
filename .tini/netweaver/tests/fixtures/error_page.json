@@ -1,0 +1,31 @@
+{
+  "url": "https://example.com/not-found",
+  "title": "404 Not Found",
+  "interactive_elements": [
+    {
+      "selector": "a.home",
+      "tag": "a",
+      "text": "Go Home",
+      "actionability": {
+        "visible": true,
+        "enabled": true,
+        "attached": true,
+        "stable": true,
+        "pointer_events": true
+      }
+    }
+  ],
+  "actionability": {
+    "total": 1,
+    "actionable": 1,
+    "blocked": 0
+  },
+  "network": [
+    {
+      "url": "https://example.com/not-found",
+      "method": "GET",
+      "status": 404,
+      "duration_ms": 45
+    }
+  ]
+}

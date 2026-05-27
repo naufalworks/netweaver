@@ -1,0 +1,77 @@
+{
+  "url": "https://example.com/form",
+  "title": "Login Form",
+  "interactive_elements": [
+    {
+      "selector": "input#username",
+      "tag": "input",
+      "text": "",
+      "actionability": {
+        "visible": true,
+        "enabled": true,
+        "attached": true,
+        "stable": true,
+        "pointer_events": true,
+        "editable": true
+      }
+    },
+    {
+      "selector": "input#password",
+      "tag": "input",
+      "text": "",
+      "actionability": {
+        "visible": true,
+        "enabled": true,
+        "attached": true,
+        "stable": true,
+        "pointer_events": true,
+        "editable": true,
+        "password": true
+      }
+    },
+    {
+      "selector": "textarea#comment",
+      "tag": "textarea",
+      "text": "",
+      "actionability": {
+        "visible": true,
+        "enabled": true,
+        "attached": true,
+        "stable": true,
+        "pointer_events": true,
+        "editable": true
+      }
+    },
+    {
+      "selector": "select#country",
+      "tag": "select",
+      "text": "",
+      "actionability": {
+        "visible": true,
+        "enabled": true,
+        "attached": true,
+        "stable": true,
+        "pointer_events": true,
+        "editable": true
+      }
+    },
+    {
+      "selector": "button#login",
+      "tag": "button",
+      "text": "Log In",
+      "actionability": {
+        "visible": true,
+        "enabled": true,
+        "attached": true,
+        "stable": true,
+        "pointer_events": true
+      }
+    }
+  ],
+  "actionability": {
+    "total": 5,
+    "actionable": 5,
+    "blocked": 0
+  },
+  "network": []
+}

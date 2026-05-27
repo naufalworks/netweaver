@@ -1,0 +1,48 @@
+{
+  "url": "https://example.com/static",
+  "title": "Static Page",
+  "interactive_elements": [
+    {
+      "selector": "#submit-btn",
+      "tag": "button",
+      "text": "Submit",
+      "actionability": {
+        "visible": true,
+        "enabled": true,
+        "attached": true,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "a.home-link",
+      "tag": "a",
+      "text": "Home",
+      "actionability": {
+        "visible": true,
+        "enabled": true,
+        "attached": true,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "input#search",
+      "tag": "input",
+      "text": "",
+      "actionability": {
+        "visible": true,
+        "enabled": true,
+        "attached": true,
+        "stable": true,
+        "pointer_events": true
+      }
+    }
+  ],
+  "actionability": {
+    "total": 3,
+    "actionable": 3,
+    "blocked": 0
+  },
+  "network": []
+}

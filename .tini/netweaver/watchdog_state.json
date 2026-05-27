@@ -1,0 +1,12 @@
+{
+  "hashes": {
+    ".tini/netweaver/BLOCKERS.md": "bb61ac82b4c9740a",
+    ".tini/netweaver/DEV_LOG.md": "1508179443f427f1",
+    ".tini/netweaver/HANDOFF.md": "0d6430731d3afa0f",
+    ".tini/netweaver/REVIEW.md": "5dff8a3e902ff9a3",
+    ".tini/netweaver/company/KANBAN.md": "2bfa56ee89e9cacb"
+  },
+  "last": "2026-05-24T15:28:32+00:00",
+  "test_code": 0,
+  "test_sig": "42273788bc707407"
+}

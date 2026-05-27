@@ -1,0 +1,26 @@
+{
+  "skill_id": "skill-4b1a3f263e9d",
+  "name": "",
+  "site_pattern": "example.com",
+  "goal": "login",
+  "action_plan": {
+    "steps": [
+      {
+        "action": "click",
+        "target": "#btn"
+      }
+    ]
+  },
+  "preconditions": [],
+  "postconditions": [],
+  "evidence_requirements": [],
+  "execution_stats": {
+    "success_count": 0,
+    "fail_count": 0,
+    "last_used_at": null,
+    "last_success_at": null
+  },
+  "learned_selectors": {},
+  "created_at": "2026-05-24T13:41:57.005136",
+  "updated_at": "2026-05-24T13:41:57.005137"
+}

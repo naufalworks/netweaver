@@ -1,0 +1,172 @@
+{
+  "url": "https://example.com/spa",
+  "title": "Single Page App",
+  "interactive_elements": [
+    {
+      "selector": "button#nav-menu",
+      "tag": "button",
+      "text": "Menu",
+      "actionability": {
+        "visible": true,
+        "enabled": true,
+        "attached": true,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "a.dashboard",
+      "tag": "a",
+      "text": "Dashboard",
+      "actionability": {
+        "visible": true,
+        "enabled": true,
+        "attached": true,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "input#search-spa",
+      "tag": "input",
+      "text": "",
+      "actionability": {
+        "visible": true,
+        "enabled": true,
+        "attached": true,
+        "stable": true,
+        "pointer_events": true,
+        "editable": true
+      }
+    },
+    {
+      "selector": "button.hidden-btn",
+      "tag": "button",
+      "text": "Hidden Action",
+      "actionability": {
+        "visible": false,
+        "enabled": true,
+        "attached": true,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "select#filter",
+      "tag": "select",
+      "text": "",
+      "actionability": {
+        "visible": true,
+        "enabled": false,
+        "attached": true,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "div[shadow-root] button.inner",
+      "tag": "button",
+      "text": "Shadow Button",
+      "actionability": {
+        "visible": true,
+        "enabled": true,
+        "attached": true,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "button#modal-close",
+      "tag": "button",
+      "text": "Close",
+      "actionability": {
+        "visible": true,
+        "enabled": true,
+        "attached": true,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "input#email",
+      "tag": "input",
+      "text": "",
+      "actionability": {
+        "visible": true,
+        "enabled": true,
+        "attached": true,
+        "stable": true,
+        "pointer_events": true,
+        "editable": true
+      }
+    },
+    {
+      "selector": "button#submit-form",
+      "tag": "button",
+      "text": "Submit",
+      "actionability": {
+        "visible": true,
+        "enabled": true,
+        "attached": true,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "a.external-link",
+      "tag": "a",
+      "text": "External",
+      "actionability": {
+        "visible": true,
+        "enabled": true,
+        "attached": true,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "button#disabled-action",
+      "tag": "button",
+      "text": "Disabled",
+      "actionability": {
+        "visible": true,
+        "enabled": false,
+        "attached": true,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "textarea#notes",
+      "tag": "textarea",
+      "text": "",
+      "actionability": {
+        "visible": true,
+        "enabled": true,
+        "attached": true,
+        "stable": true,
+        "pointer_events": true,
+        "editable": true
+      }
+    }
+  ],
+  "actionability": {
+    "total": 12,
+    "actionable": 9,
+    "blocked": 3
+  },
+  "network": [
+    {
+      "url": "https://api.example.com/data",
+      "method": "GET",
+      "status": 200,
+      "duration_ms": 120
+    },
+    {
+      "url": "https://api.example.com/auth",
+      "method": "POST",
+      "status": 401,
+      "duration_ms": 85
+    }
+  ]
+}
