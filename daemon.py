@@ -100,7 +100,7 @@ web_explorer = AutonomousWebExplorer(
     headless=True,
 )
 task_scheduler = TaskScheduler(
-    tasks_file=NETWEAVER_DIR / "tasks.yaml",
+    tasks_file=WORKDIR / "netweaver" / "tasks.yaml",
     state_dir=NETWEAVER_DIR / ".tini" / "task_scheduler",
     headless=True,
 )
