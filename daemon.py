@@ -35,6 +35,7 @@ from netweaver.epistemic_daemon import EpistemicDaemon
 from netweaver.dreaming import DreamEngine
 from netweaver.causal import CausalChainTracer
 from netweaver.competence_matrix import CompetenceMatrix
+from netweaver.web_learner import WebLearner
 
 # --- Configuration ---
 WORKDIR = Path(os.environ.get("NETWEAVER_WORKDIR", str(Path.home() / "Documents/myhermes")))
@@ -91,6 +92,12 @@ epistemic_daemon = EpistemicDaemon()
 dream_engine = DreamEngine(workdir=WORKDIR, epistemic_os=epistemic_daemon.ep)
 causal_tracer = CausalChainTracer(workdir=WORKDIR)
 competence_matrix = CompetenceMatrix(workdir=WORKDIR, epistemic_os=epistemic_daemon.ep)
+web_learner = WebLearner(
+    skills_dir=NETWEAVER_DIR / "skills",
+    epistemic_daemon=epistemic_daemon,
+    competence_matrix=competence_matrix,
+    headless=True,
+)
 file_hashes: Dict[str, str] = {}
 cycle_count = 0
 
@@ -834,6 +841,83 @@ async def heartbeat_loop() -> None:
             pass
 
 
+async def web_learning_loop() -> None:
+    """Periodic web learning: visit sites, observe, execute, learn skills.
+
+    Runs every 30 minutes in headless mode. Never blocks the main scan loop.
+    """
+    LEARN_INTERVAL = 1800  # 30 minutes
+
+    # Wait for daemon to stabilize
+    await asyncio.sleep(60)
+    logger.info("Web learning loop started")
+
+    while not shutdown_event.is_set():
+        if is_paused("daemon"):
+            try:
+                await asyncio.wait_for(shutdown_event.wait(), timeout=LEARN_INTERVAL)
+            except asyncio.TimeoutError:
+                pass
+            continue
+
+        try:
+            logger.info("Web learning cycle starting...")
+            t0 = time.time()
+
+            # Run learning in thread pool (it's sync/blocking)
+            loop = asyncio.get_event_loop()
+            results = await loop.run_in_executor(None, web_learner.learn_cycle)
+
+            duration = time.time() - t0
+            successes = sum(1 for r in results if r.success)
+            total_elements = sum(r.elements_found for r in results)
+            total_actions = sum(r.actions_executed for r in results)
+
+            logger.info(
+                f"Web learning complete: {successes}/{len(results)} sites, "
+                f"{total_elements} elements, {total_actions} actions ({duration:.1f}s)"
+            )
+
+            log_event("web_learning", {
+                "sites": len(results),
+                "successes": successes,
+                "elements": total_elements,
+                "actions": total_actions,
+                "duration_s": round(duration, 1),
+                "details": [
+                    {
+                        "site": r.site_name,
+                        "success": r.success,
+                        "elements": r.elements_found,
+                        "actions": r.actions_executed,
+                        "nodes": r.scene_graph_nodes,
+                    }
+                    for r in results
+                ],
+            })
+
+            # Record to epistemic
+            epistemic_daemon.record_outcome(
+                task_id="web_learning_cycle",
+                success=successes > 0,
+                evidence={
+                    "sites": len(results),
+                    "successes": successes,
+                    "elements": total_elements,
+                },
+            )
+
+        except Exception as e:
+            logger.error(f"Web learning error: {e}")
+            log_event("web_learning_error", {"error": str(e)[:200]})
+
+        # Sleep until next cycle
+        try:
+            await asyncio.wait_for(shutdown_event.wait(), timeout=LEARN_INTERVAL)
+        except asyncio.TimeoutError:
+            pass
+
+
 def update_status_md(test_count: int, passed: bool) -> None:
     """Auto-update STATUS.md with current test count and timestamp."""
     status_file = NETWEAVER_DIR / "STATUS.md"
@@ -1039,9 +1123,11 @@ async def main_loop() -> None:
     hb_task = asyncio.create_task(heartbeat_loop())
     scan_task = asyncio.create_task(scan_loop())
     cleanup_task = asyncio.create_task(cleanup_loop())
+    web_learn_task = asyncio.create_task(web_learning_loop())
     inflight_tasks.add(hb_task)
     inflight_tasks.add(scan_task)
     inflight_tasks.add(cleanup_task)
+    inflight_tasks.add(web_learn_task)
 
     log_event("daemon_start", {"pid": os.getpid()})
 
