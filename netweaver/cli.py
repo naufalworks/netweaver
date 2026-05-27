@@ -210,6 +210,17 @@ def cmd_backlog():
         print(f"  • {task_id}: {title}")
 
 
+def cmd_dashboard():
+    """Launch live TUI dashboard."""
+    try:
+        from netweaver.dashboard import main as dashboard_main
+        dashboard_main()
+    except ImportError:
+        print("❌ Rich library not installed. Install with: pip install rich")
+    except KeyboardInterrupt:
+        print("\n👋 Dashboard stopped.")
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="NetWeaver CLI — Query pipeline state",
@@ -224,6 +235,7 @@ def main():
     subparsers.add_parser("logs", help="Show recent daemon logs")
     subparsers.add_parser("metrics", help="Show performance metrics")
     subparsers.add_parser("backlog", help="Show backlog tasks")
+    subparsers.add_parser("dashboard", help="Launch live TUI dashboard (Rich)")
     
     args = parser.parse_args()
     
@@ -239,6 +251,8 @@ def main():
         cmd_metrics()
     elif args.command == "backlog":
         cmd_backlog()
+    elif args.command == "dashboard":
+        cmd_dashboard()
     else:
         parser.print_help()
 

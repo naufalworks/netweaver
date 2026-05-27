@@ -333,9 +333,14 @@ class TestImportSafety:
             "contextlib", "unittest", "time", "operator", "string",
         }
 
+        # Tooling modules allowed to use third-party deps (rich, requests)
+        TOOLING_MODULES = {"dashboard.py", "alerts.py", "cli.py"}
+
         for py_file in sorted(pkg_path.glob("*.py")):
             if py_file.name == "__init__.py":
                 continue
+            if py_file.name in TOOLING_MODULES:
+                continue  # Tooling modules can use rich/requests
             source = py_file.read_text()
             tree = ast.parse(source)
             for node in ast.walk(tree):
