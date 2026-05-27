@@ -40,6 +40,23 @@ acceptance:
 ## Done
 
 
+### NW-027 Self-Healing Test Recovery
+owner: Worker
+model: claude-combo
+status: done
+completed: 2026-05-27
+scope:
+- netweaver/test_healer.py
+- tests/test_test_healer.py
+acceptance:
+- TestHealer class with detect_flaky(test_name, history) method ✅
+- Auto-retry with configurable max_attempts (default 3) and backoff (1s, 2s, 4s) ✅
+- Quarantine list persisted to .tini/quarantined_tests.json ✅
+- Quarantined tests excluded from default pytest runs via pytest_collection_modifyitems hook ✅
+- Un-quarantine after manual fix (detected by next green run via record_result) ✅
+- All existing tests remain green (1604 passed) ✅
+- 42 new tests ✅
+
 ### NW-A001 Fix PROJECT_GOAL.md
 owner: Runtime Engineer
 model: claude-combo
