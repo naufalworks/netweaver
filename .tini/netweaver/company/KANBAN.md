@@ -40,6 +40,24 @@ acceptance:
 ## Done
 
 
+### NW-028 Auto-Backlog Generator
+owner: Worker
+model: claude-combo
+status: done
+completed: 2026-05-27
+scope:
+- netweaver/backlog_generator.py
+- tests/test_backlog_generator.py
+acceptance:
+- scan_todos() finds all TODO/FIXME/HACK in netweaver/*.py ✅
+- scan_coverage() identifies modules with < 50% test coverage ✅
+- generate_entries() produces BACKLOG.md formatted entries ✅
+- Deduplication: don't re-add items already in backlog ✅
+- Each entry has: id, title, tiny_goal, files_to_touch, risk_level ✅
+- All existing tests remain green ✅
+- 63 new tests ✅
+
+
 ### NW-027 Self-Healing Test Recovery
 owner: Worker
 model: claude-combo
