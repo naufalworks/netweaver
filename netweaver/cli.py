@@ -824,6 +824,13 @@ def main():
     subparsers.add_parser("dashboard", help="Launch live TUI dashboard (Rich)")
     subparsers.add_parser("memory", help="Show agent memory palace stats")
     subparsers.add_parser("learn", help="Run web learning cycle (headless CloakBrowser)")
+
+    # Task scheduler commands
+    tasks_parser = subparsers.add_parser("tasks", help="Task scheduler — automated web monitoring")
+    tasks_subparsers = tasks_parser.add_subparsers(dest="tasks_action")
+    tasks_subparsers.add_parser("run", help="Run all due tasks now")
+    tasks_subparsers.add_parser("list", help="Show task definitions and state")
+    tasks_subparsers.add_parser("results", help="Show latest extraction results")
     
     # Knowledge graph subcommand
     kg_parser = subparsers.add_parser("kg", help="Knowledge graph operations")
