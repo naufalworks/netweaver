@@ -437,17 +437,24 @@ def parse_backlog_tasks() -> List[Dict[str, str]]:
     if not BACKLOG.exists():
         return []
     content = BACKLOG.read_text()
+    lines = content.split("\n")
     tasks = []
     current_id = None
     current_data = {}
+    in_acceptance = False
+    acceptance_lines = []
 
-    for line in content.split("\n"):
-        line = line.strip()
+    for line in lines:
+        stripped = line.strip()
         # Match task headers like "## NW-025 Skill Learner — Close the Learning Loop"
-        if line.startswith("## NW-") or line.startswith("## P2-") or line.startswith("## PL-"):
+        if stripped.startswith("## NW-") or stripped.startswith("## P2-") or stripped.startswith("## PL-"):
             if current_id:
+                if acceptance_lines:
+                    current_data["acceptance"] = " ".join(acceptance_lines)
                 tasks.append(current_data)
-            parts = line[3:].split(" ", 1)
+                acceptance_lines = []
+                in_acceptance = False
+            parts = stripped[3:].split(" ", 1)
             current_id = parts[0] if parts else "UNKNOWN"
             current_data = {
                 "id": current_id,
@@ -456,14 +463,33 @@ def parse_backlog_tasks() -> List[Dict[str, str]]:
                 "files_to_touch": "",
                 "acceptance": "",
             }
-        elif current_id and line.startswith("tiny_goal:"):
-            current_data["tiny_goal"] = line[len("tiny_goal:"):].strip()
-        elif current_id and line.startswith("files_to_touch:"):
-            current_data["files_to_touch"] = line[len("files_to_touch:"):].strip()
-        elif current_id and line.startswith("acceptance_checks:"):
-            current_data["acceptance"] = line[len("acceptance_checks:"):].strip()
+        elif not current_id:
+            continue
+        elif stripped.startswith("tiny_goal:"):
+            current_data["tiny_goal"] = stripped[len("tiny_goal:"):].strip()
+            in_acceptance = False
+        elif stripped.startswith("files_to_touch:"):
+            current_data["files_to_touch"] = stripped[len("files_to_touch:"):].strip()
+            in_acceptance = False
+        elif stripped.startswith("acceptance_checks:"):
+            single = stripped[len("acceptance_checks:"):].strip()
+            if single:
+                acceptance_lines.append(single)
+            in_acceptance = True
+        elif in_acceptance and stripped.startswith("- "):
+            acceptance_lines.append(stripped[2:])
+        elif in_acceptance and stripped and not stripped.startswith("##"):
+            # Non-list line in acceptance block — might be new field
+            if ":" in stripped and not stripped.startswith("-"):
+                in_acceptance = False
+            else:
+                acceptance_lines.append(stripped)
+        elif stripped.startswith("##"):
+            in_acceptance = False
 
     if current_id:
+        if acceptance_lines:
+            current_data["acceptance"] = " ".join(acceptance_lines)
         tasks.append(current_data)
 
     return tasks
