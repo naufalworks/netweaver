@@ -1,0 +1,44 @@
+{
+  "confidence": 0.6342795,
+  "last_verified": "2026-05-27T23:48:29.742416",
+  "decay_rate": 0.1,
+  "verification_count": 6,
+  "predicted_outcomes": [
+    {
+      "predicted": 0.55,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:48:29.742015",
+      "evidence": null
+    },
+    {
+      "predicted": 0.5950000000000001,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:48:29.742113",
+      "evidence": null
+    },
+    {
+      "predicted": 0.6355000000000001,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:48:29.742187",
+      "evidence": null
+    },
+    {
+      "predicted": 0.67195,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:48:29.742254",
+      "evidence": null
+    },
+    {
+      "predicted": 0.704755,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:48:29.742325",
+      "evidence": null
+    },
+    {
+      "predicted": 0.6342795,
+      "actual": 0.0,
+      "timestamp": "2026-05-27T23:48:29.742409",
+      "evidence": null
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "confidence": 0.7200000000000001,
+  "last_verified": "2026-05-27T23:48:29.723515",
+  "decay_rate": 0.1,
+  "verification_count": 1,
+  "predicted_outcomes": [
+    {
+      "predicted": 0.7200000000000001,
+      "actual": 0.0,
+      "timestamp": "2026-05-27T23:48:29.723503",
+      "evidence": null
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": "2026-05-27T23:44:25.738344",
+    "timestamp": "2026-05-27T23:48:29.721457",
     "type": "stale_knowledge",
     "results": {
       "verified": 0,
@@ -10,30 +10,16 @@
     }
   },
   {
-    "timestamp": "2026-05-27T23:44:25.738352",
+    "timestamp": "2026-05-27T23:48:29.721459",
     "type": "contradictions",
     "results": {
-      "total": 1,
+      "total": 0,
       "resolved": 0,
-      "suggestions": [
-        {
-          "node_a_id": "e4f7e21a908da5fc",
-          "node_a_content": "Scene graph captures DOM with 70% accuracy on complex pages",
-          "node_a_confidence": 0.6,
-          "node_b_id": "a66634924faaff1d",
-          "node_b_content": "Scene graph captures DOM with 95% accuracy",
-          "node_b_confidence": 0.85,
-          "auto_resolvable": false,
-          "resolution": null,
-          "reasoning": [
-            "Needs manual review - no clear winner"
-          ]
-        }
-      ]
+      "suggestions": []
     }
   },
   {
-    "timestamp": "2026-05-27T23:44:25.738436",
+    "timestamp": "2026-05-27T23:48:29.721479",
     "type": "calibration",
     "results": {
       "skills_calibrated": 0,
