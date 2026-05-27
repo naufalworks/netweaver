@@ -911,6 +911,155 @@ class ActionOrchestrator:
             reason=reason,
         )
 
+    def dry_run(
+        self,
+        plan: ActionPlan,
+        graph: WebSceneGraph,
+    ) -> DryRunResult:
+        """Validate a plan against the current scene graph without executing.
+
+        For each step, resolves the target via graph query and checks:
+        - Target exists in the graph (node resolution)
+        - Target is not safety-blocked
+        - Preconditions are satisfiable given current graph state
+
+        No executor calls are made. No state changes occur. This is a
+        pure read-only validation pass.
+
+        Args:
+            plan: The action plan to validate.
+            graph: The current scene graph snapshot.
+
+        Returns:
+            DryRunResult with per-step validation and aggregate issues.
+        """
+        result = DryRunResult(
+            plan_id=plan.plan_id,
+            plan_description=plan.description,
+            total_steps=len(plan.steps),
+        )
+
+        for i, step in enumerate(plan.steps):
+            dry_step = self._dry_run_step(step, i, graph)
+            result.steps.append(dry_step)
+
+            if dry_step.would_succeed:
+                result.steps_would_succeed += 1
+
+            # Aggregate issues
+            if not dry_step.target_found:
+                result.missing_nodes.append(step.description)
+            if not dry_step.safety_clear and dry_step.target_selector:
+                result.blocked_selectors.append(dry_step.target_selector)
+            if not dry_step.preconditions_met:
+                result.unmet_preconditions.append(
+                    f"Step {i} ({step.description}): {dry_step.preconditions_reason}"
+                )
+
+        result.has_issues = (
+            result.steps_would_succeed < result.total_steps
+        )
+
+        return result
+
+    def _dry_run_step(
+        self,
+        step: ActionStep,
+        step_index: int,
+        graph: WebSceneGraph,
+    ) -> DryRunStep:
+        """Validate a single step against the graph (read-only)."""
+        dry = DryRunStep(
+            step_index=step_index,
+            action_type=step.action_type,
+            description=step.description,
+        )
+        issues: List[str] = []
+
+        # Map ActionType to IntentType for graph query
+        intent_map = {
+            ActionType.CLICK: _graph_query.IntentType.CLICK,
+            ActionType.FILL: _graph_query.IntentType.FILL,
+            ActionType.WAIT: _graph_query.IntentType.ANY,
+        }
+        intent_type = intent_map.get(step.action_type, _graph_query.IntentType.ANY)
+
+        # Resolve target — check if node exists
+        match = _graph_query.resolve_target(
+            graph,
+            step.description,
+            intent=intent_type,
+            min_score=0.2,
+            exclude_blocked=False,  # Include blocked to report them
+        )
+
+        if match is None:
+            dry.target_found = False
+            dry.would_succeed = False
+            issues.append(f"Target not found: '{step.description}'")
+            dry.preconditions_met = False
+            dry.preconditions_reason = "Cannot check preconditions — target not found"
+            dry.issues = issues
+            return dry
+
+        dry.target_found = True
+        dry.target_selector = match.node.properties.get("selector")
+        dry.target_score = match.score
+
+        # Check safety
+        if match.blocked:
+            dry.safety_clear = False
+            dry.safety_reason = match.block_reason or "Safety blocked"
+            issues.append(f"Safety blocked: {dry.safety_reason}")
+
+        # Check preconditions
+        if step.pre_condition:
+            # Check if the graph has nodes matching the precondition text
+            pre_match = _graph_query.resolve_target(
+                graph, step.pre_condition,
+                intent=_graph_query.IntentType.ANY,
+                min_score=0.2,
+                exclude_blocked=False,
+            )
+            if pre_match is not None and pre_match.score >= 0.3:
+                dry.preconditions_met = True
+                dry.preconditions_reason = "Precondition target found in graph"
+            else:
+                # Precondition text didn't match a node — check if any
+                # graph node properties contain the precondition keywords
+                keywords = step.pre_condition.lower().split()
+                found_any = False
+                for node in graph.nodes.values():
+                    node_text = " ".join([
+                        node.label,
+                        str(node.properties),
+                    ]).lower()
+                    if any(kw in node_text for kw in keywords if len(kw) > 2):
+                        found_any = True
+                        break
+                if found_any:
+                    dry.preconditions_met = True
+                    dry.preconditions_reason = "Precondition keywords matched graph nodes"
+                else:
+                    dry.preconditions_met = False
+                    dry.preconditions_reason = (
+                        f"Precondition not verifiable: '{step.pre_condition}' "
+                        f"not found in graph"
+                    )
+                    issues.append(f"Unmet precondition: '{step.pre_condition}'")
+        else:
+            dry.preconditions_met = True
+            dry.preconditions_reason = "No precondition specified"
+
+        # Overall prediction
+        dry.would_succeed = (
+            dry.target_found
+            and dry.safety_clear
+            and dry.preconditions_met
+        )
+        dry.issues = issues
+        return dry
+
 
 @dataclass
 class OrchestrationResult:
