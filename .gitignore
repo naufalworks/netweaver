@@ -24,6 +24,10 @@ venv/
 .tini/agent_states/
 .tini/state_fingerprint.txt
 .tini/ideas/
+.tini/metrics.json
+.tini/metrics_summary.md
+.tini/coverage_report.md
+.tini/skills/
 
 # IDE
 .vscode/
