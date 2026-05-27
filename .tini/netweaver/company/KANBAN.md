@@ -40,6 +40,24 @@ acceptance:
 ## Done
 
 
+### NW-030 Orchestrator Dry-Run Mode
+owner: Worker
+model: claude-combo
+status: done
+completed: 2026-05-28
+scope:
+- netweaver/action_orchestrator.py
+- tests/test_action_orchestrator.py
+acceptance:
+- dry_run(plan, graph) → DryRunResult with list of DryRunStep ✅
+- Each step: action_type, target_resolution (would succeed?), preconditions (met?), safety (clear?) ✅
+- Identifies: missing nodes, blocked selectors, unmet preconditions ✅
+- No side effects (no executor calls, no state changes) ✅
+- Backward compatible: orchestrate() behavior unchanged ✅
+- All existing tests remain green (1900 passed) ✅
+- 15 new tests ✅
+
+
 ### NW-029 Evidence Report Generator
 owner: Worker
 model: claude-combo
