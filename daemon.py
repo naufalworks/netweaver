@@ -924,6 +924,62 @@ async def web_learning_loop() -> None:
             pass
 
 
+async def task_scheduler_loop() -> None:
+    """Periodic task scheduler: run defined automation tasks on schedule.
+
+    Checks tasks.yaml every 10 minutes, runs tasks that are due,
+    detects changes, and sends notifications.
+    """
+    CHECK_INTERVAL = 600  # 10 minutes
+
+    # Wait for daemon to stabilize
+    await asyncio.sleep(90)
+
+    logger.info("Task scheduler loop started")
+
+    while not shutdown_event.is_set():
+        try:
+            t0 = time.time()
+
+            # Run due tasks in thread pool (it's sync/blocking)
+            loop = asyncio.get_event_loop()
+            results = await loop.run_in_executor(None, task_scheduler.run_due_tasks)
+
+            if results:
+                duration = time.time() - t0
+                successes = sum(1 for r in results if r.success)
+                total_items = sum(len(r.data) for r in results)
+
+                logger.info(
+                    f"Task scheduler complete: {successes}/{len(results)} tasks, "
+                    f"{total_items} items ({duration:.1f}s)"
+                )
+
+                # Detect changes
+                changes = task_scheduler.detect_changes(results)
+                if changes:
+                    logger.info(f"Changes detected: {len(changes)} tasks")
+                    # TODO: Send Telegram notification here
+
+                # Log event
+                log_event("task_scheduler", {
+                    "tasks": len(results),
+                    "successes": successes,
+                    "items": total_items,
+                    "changes": len(changes),
+                    "duration_s": round(duration, 1),
+                })
+
+        except Exception as e:
+            logger.error(f"Task scheduler error: {e}")
+
+        # Sleep until next check
+        try:
+            await asyncio.wait_for(shutdown_event.wait(), timeout=CHECK_INTERVAL)
+        except asyncio.TimeoutError:
+            pass
+
+
 def update_status_md(test_count: int, passed: bool) -> None:
     """Auto-update STATUS.md with current test count and timestamp."""
     status_file = NETWEAVER_DIR / "STATUS.md"
