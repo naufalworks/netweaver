@@ -241,13 +241,16 @@ class TestCloakBrowserBridgeObserve:
         assert obs.actionability["actionable_elements"] == 1  # Only visible+enabled
         assert obs.actionability["checks_performed"] == ACTIONABILITY_CHECKS
 
-    def test_observe_closes_browser_on_success(self):
+    def test_observe_keeps_browser_alive_on_success(self):
         browser = _make_mock_browser()
         bridge = CloakBrowserBridge(browser_factory=lambda **kw: browser)
         bridge.observe("https://example.com")
+        browser.close.assert_not_called()
+        # Explicit close works
+        bridge.close()
         browser.close.assert_called_once()
 
-    def test_observe_closes_browser_on_error(self):
+    def test_observe_keeps_browser_alive_on_error(self):
         browser = _make_mock_browser()
         browser.new_page.return_value.goto.side_effect = Exception("timeout")
 
@@ -256,7 +259,7 @@ class TestCloakBrowserBridgeObserve:
         with pytest.raises(CloakBrowserNavigationError):
             bridge.observe("https://example.com")
 
-        browser.close.assert_called_once()
+        browser.close.assert_not_called()
 
     def test_observe_launch_error(self):
         def failing_factory(**kwargs):
