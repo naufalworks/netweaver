@@ -707,7 +707,8 @@ def cmd_competence(args):
         print("═══ TEAM COMPETENCE REPORT ═══\n")
         print(f"Total agents: {report['total_agents']}")
         print(f"Total tasks: {report['total_tasks']}")
-        print(f"Overall success: {report['overall_success_rate']:.0%}")
+        if report['total_tasks'] > 0:
+            print(f"Overall success: {report['overall_success_rate']:.0%}")
         
         if report["agents"]:
             print(f"\nAgents:")

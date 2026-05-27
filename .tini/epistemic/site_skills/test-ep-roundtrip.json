@@ -1,8 +1,8 @@
 {
-  "confidence": 0.7801235229145218,
-  "last_verified": "2026-05-28T00:02:00.530465",
+  "confidence": 0.7831486251412164,
+  "last_verified": "2026-05-28T00:03:06.267690",
   "decay_rate": 0.1,
-  "verification_count": 36,
+  "verification_count": 42,
   "predicted_outcomes": [
     {
       "predicted": 0.55,
@@ -218,6 +218,42 @@
       "predicted": 0.7801235229145218,
       "actual": 0.0,
       "timestamp": "2026-05-28T00:02:00.530458",
+      "evidence": null
+    },
+    {
+      "predicted": 0.8021111706230696,
+      "actual": 1.0,
+      "timestamp": "2026-05-28T00:03:06.266856",
+      "evidence": null
+    },
+    {
+      "predicted": 0.8219000535607626,
+      "actual": 1.0,
+      "timestamp": "2026-05-28T00:03:06.267034",
+      "evidence": null
+    },
+    {
+      "predicted": 0.8397100482046863,
+      "actual": 1.0,
+      "timestamp": "2026-05-28T00:03:06.267200",
+      "evidence": null
+    },
+    {
+      "predicted": 0.8557390433842177,
+      "actual": 1.0,
+      "timestamp": "2026-05-28T00:03:06.267356",
+      "evidence": null
+    },
+    {
+      "predicted": 0.870165139045796,
+      "actual": 1.0,
+      "timestamp": "2026-05-28T00:03:06.267523",
+      "evidence": null
+    },
+    {
+      "predicted": 0.7831486251412164,
+      "actual": 0.0,
+      "timestamp": "2026-05-28T00:03:06.267683",
       "evidence": null
     }
   ]

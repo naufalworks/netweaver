@@ -1,8 +1,8 @@
 {
-  "confidence": 0.7342795,
-  "last_verified": "2026-05-28T00:02:00.514499",
+  "confidence": 0.7608515499999999,
+  "last_verified": "2026-05-28T00:03:06.255490",
   "decay_rate": 0.1,
-  "verification_count": 6,
+  "verification_count": 7,
   "predicted_outcomes": [
     {
       "predicted": 0.55,
@@ -38,6 +38,12 @@
       "predicted": 0.7342795,
       "actual": 1.0,
       "timestamp": "2026-05-28T00:02:00.514475",
+      "evidence": null
+    },
+    {
+      "predicted": 0.7608515499999999,
+      "actual": 1.0,
+      "timestamp": "2026-05-28T00:03:06.255472",
       "evidence": null
     }
   ]
