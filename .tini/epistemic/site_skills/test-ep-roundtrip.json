@@ -1,8 +1,8 @@
 {
-  "confidence": 0.6342795,
-  "last_verified": "2026-05-27T23:48:29.742416",
+  "confidence": 0.7435656287034004,
+  "last_verified": "2026-05-27T23:50:42.139190",
   "decay_rate": 0.1,
-  "verification_count": 6,
+  "verification_count": 18,
   "predicted_outcomes": [
     {
       "predicted": 0.55,
@@ -38,6 +38,78 @@
       "predicted": 0.6342795,
       "actual": 0.0,
       "timestamp": "2026-05-27T23:48:29.742409",
+      "evidence": null
+    },
+    {
+      "predicted": 0.67085155,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:50:34.768628",
+      "evidence": null
+    },
+    {
+      "predicted": 0.7037663949999999,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:50:34.768714",
+      "evidence": null
+    },
+    {
+      "predicted": 0.7333897555,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:50:34.768787",
+      "evidence": null
+    },
+    {
+      "predicted": 0.7600507799499999,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:50:34.768859",
+      "evidence": null
+    },
+    {
+      "predicted": 0.7840457019549999,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:50:34.768930",
+      "evidence": null
+    },
+    {
+      "predicted": 0.7056411317594999,
+      "actual": 0.0,
+      "timestamp": "2026-05-27T23:50:34.769007",
+      "evidence": null
+    },
+    {
+      "predicted": 0.7350770185835499,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:50:42.138682",
+      "evidence": null
+    },
+    {
+      "predicted": 0.7615693167251949,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:50:42.138791",
+      "evidence": null
+    },
+    {
+      "predicted": 0.7854123850526754,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:50:42.138880",
+      "evidence": null
+    },
+    {
+      "predicted": 0.8068711465474079,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:50:42.138969",
+      "evidence": null
+    },
+    {
+      "predicted": 0.8261840318926671,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:50:42.139056",
+      "evidence": null
+    },
+    {
+      "predicted": 0.7435656287034004,
+      "actual": 0.0,
+      "timestamp": "2026-05-27T23:50:42.139183",
       "evidence": null
     }
   ]

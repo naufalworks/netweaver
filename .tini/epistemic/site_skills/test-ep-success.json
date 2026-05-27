@@ -1,13 +1,25 @@
 {
-  "confidence": 0.55,
-  "last_verified": "2026-05-27T23:48:29.723151",
+  "confidence": 0.6355000000000001,
+  "last_verified": "2026-05-27T23:50:42.130448",
   "decay_rate": 0.1,
-  "verification_count": 1,
+  "verification_count": 3,
   "predicted_outcomes": [
     {
       "predicted": 0.55,
       "actual": 1.0,
       "timestamp": "2026-05-27T23:48:29.723128",
+      "evidence": null
+    },
+    {
+      "predicted": 0.5950000000000001,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:50:34.759900",
+      "evidence": null
+    },
+    {
+      "predicted": 0.6355000000000001,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:50:42.130428",
       "evidence": null
     }
   ]

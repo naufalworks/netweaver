@@ -1,8 +1,8 @@
 {
   "confidence": 0.82566077995,
-  "last_verified": "2026-05-27T23:48:29.724980",
+  "last_verified": "2026-05-27T23:50:42.132668",
   "decay_rate": 0.1,
-  "verification_count": 10,
+  "verification_count": 30,
   "predicted_outcomes": [
     {
       "predicted": 0.55,
@@ -62,6 +62,126 @@
       "predicted": 0.82566077995,
       "actual": 1.0,
       "timestamp": "2026-05-27T23:48:29.724973",
+      "evidence": null
+    },
+    {
+      "predicted": 0.55,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:50:34.761419",
+      "evidence": null
+    },
+    {
+      "predicted": 0.5950000000000001,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:50:34.761525",
+      "evidence": null
+    },
+    {
+      "predicted": 0.6355000000000001,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:50:34.761616",
+      "evidence": null
+    },
+    {
+      "predicted": 0.67195,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:50:34.761711",
+      "evidence": null
+    },
+    {
+      "predicted": 0.704755,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:50:34.761806",
+      "evidence": null
+    },
+    {
+      "predicted": 0.7342795,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:50:34.761912",
+      "evidence": null
+    },
+    {
+      "predicted": 0.7608515499999999,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:50:34.762014",
+      "evidence": null
+    },
+    {
+      "predicted": 0.7847663949999999,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:50:34.762116",
+      "evidence": null
+    },
+    {
+      "predicted": 0.8062897554999999,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:50:34.762215",
+      "evidence": null
+    },
+    {
+      "predicted": 0.82566077995,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:50:34.762317",
+      "evidence": null
+    },
+    {
+      "predicted": 0.55,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:50:42.131642",
+      "evidence": null
+    },
+    {
+      "predicted": 0.5950000000000001,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:50:42.131771",
+      "evidence": null
+    },
+    {
+      "predicted": 0.6355000000000001,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:50:42.131880",
+      "evidence": null
+    },
+    {
+      "predicted": 0.67195,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:50:42.131985",
+      "evidence": null
+    },
+    {
+      "predicted": 0.704755,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:50:42.132091",
+      "evidence": null
+    },
+    {
+      "predicted": 0.7342795,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:50:42.132196",
+      "evidence": null
+    },
+    {
+      "predicted": 0.7608515499999999,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:50:42.132312",
+      "evidence": null
+    },
+    {
+      "predicted": 0.7847663949999999,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:50:42.132423",
+      "evidence": null
+    },
+    {
+      "predicted": 0.8062897554999999,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:50:42.132535",
+      "evidence": null
+    },
+    {
+      "predicted": 0.82566077995,
+      "actual": 1.0,
+      "timestamp": "2026-05-27T23:50:42.132662",
       "evidence": null
     }
   ]
