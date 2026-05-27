@@ -1,0 +1,18 @@
+{
+  "github_trending_2w": {
+    "task_id": "github_trending_2w",
+    "last_run": "2026-05-28T01:28:20.968995",
+    "last_result_hash": "c165c48c6053b624",
+    "run_count": 1,
+    "success_count": 1,
+    "last_error": ""
+  },
+  "github_trending_daily": {
+    "task_id": "github_trending_daily",
+    "last_run": "2026-05-28T01:28:23.109177",
+    "last_result_hash": "5ce36cbfd88b23d3",
+    "run_count": 1,
+    "success_count": 1,
+    "last_error": ""
+  }
+}
