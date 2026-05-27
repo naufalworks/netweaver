@@ -453,6 +453,39 @@ class EpistemicOS:
             self._save()
         return True
     
+    def update_node(
+        self,
+        node_id: str,
+        confidence: Optional[float] = None,
+        last_verified: Optional[datetime] = None,
+        verification_method: Optional[str] = None,
+        tags: Optional[List[str]] = None,
+    ) -> bool:
+        """Update a knowledge node's metadata."""
+        node = self._find_node(node_id)
+        if not node:
+            return False
+        
+        if confidence is not None:
+            node.confidence = min(1.0, max(0.0, confidence))
+        if last_verified is not None:
+            node.last_verified = last_verified
+        else:
+            node.verify()  # Update last_verified to now
+        if verification_method is not None:
+            # Add to sources if not already there
+            method_source = Source(type="verification", ref=verification_method)
+            # Check if this source already exists
+            existing_refs = {s.ref for s in node.sources if isinstance(s, Source)}
+            if method_source.ref not in existing_refs:
+                node.sources.append(method_source)
+        if tags is not None:
+            node.tags = list(set(node.tags + tags))
+        
+        if self._storage_path:
+            self._save()
+        return True
+    
     # ── Analysis ──
     
     def detect_contradictions(self) -> List[Contradiction]:
