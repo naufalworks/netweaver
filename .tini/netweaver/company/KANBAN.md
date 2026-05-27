@@ -40,6 +40,31 @@ acceptance:
 ## Done
 
 
+### NW-031 Observer & Playwright Integration Tests
+owner: Worker
+model: claude-combo
+status: done
+completed: 2026-05-28
+scope:
+- tests/test_observer.py
+- tests/test_playwright_bridge.py
+acceptance:
+- test_observer: InteractiveElement/NetworkActivity/StorageState/PageObservation dataclasses ✅
+- test_observer: observe_page_mock URL parsing, elements, actionability, network, storage ✅
+- test_observer: observe_page() entry point with mock/cloak modes ✅
+- test_observer: CLI main() happy path, pretty print, error exit ✅
+- test_playwright_bridge: error hierarchy (PlaywrightError/LaunchError/NavigationError) ✅
+- test_playwright_bridge: NetworkTracker request/response/failure/resource tracking ✅
+- test_playwright_bridge: PlaywrightBridge observe() with mocked browser lifecycle ✅
+- test_playwright_bridge: navigation error, generic error wrapping, browser cleanup ✅
+- test_playwright_bridge: execute_action click/fill/wait with mocked locators ✅
+- test_playwright_bridge: collect_evidence found/not-found/error paths ✅
+- test_playwright_bridge: internal helpers (_extract_title, _build_actionability_summary) ✅
+- All tests use mocked browser (no real Chromium) ✅
+- 86 new tests, 1986 total suite green ✅
+- All existing 1900 tests remain green ✅
+
+
 ### NW-030 Orchestrator Dry-Run Mode
 owner: Worker
 model: claude-combo
