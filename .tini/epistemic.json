@@ -239,7 +239,8 @@
       ],
       "contradictions": [
         "291ab36b7898ff61",
-        "9bcf0a82db58ec34"
+        "9bcf0a82db58ec34",
+        "6b417e78fdf56a64"
       ],
       "supports": [],
       "depends_on": [],
@@ -265,7 +266,8 @@
       "sources": [],
       "contradictions": [
         "9d00d4a25043f0e8",
-        "dcf70d0c5300ebc2"
+        "dcf70d0c5300ebc2",
+        "b65a5590b2abfad9"
       ],
       "supports": [],
       "depends_on": [],
@@ -299,7 +301,8 @@
       ],
       "contradictions": [
         "8dd9a4df195eb1df",
-        "9bcf0a82db58ec34"
+        "9bcf0a82db58ec34",
+        "6b417e78fdf56a64"
       ],
       "supports": [],
       "depends_on": [],
@@ -325,7 +328,8 @@
       "sources": [],
       "contradictions": [
         "2d8e252ace73e907",
-        "dcf70d0c5300ebc2"
+        "dcf70d0c5300ebc2",
+        "b65a5590b2abfad9"
       ],
       "supports": [],
       "depends_on": [],
@@ -359,7 +363,8 @@
       ],
       "contradictions": [
         "8dd9a4df195eb1df",
-        "291ab36b7898ff61"
+        "291ab36b7898ff61",
+        "6b417e78fdf56a64"
       ],
       "supports": [],
       "depends_on": [],
@@ -385,7 +390,8 @@
       "sources": [],
       "contradictions": [
         "2d8e252ace73e907",
-        "9d00d4a25043f0e8"
+        "9d00d4a25043f0e8",
+        "b65a5590b2abfad9"
       ],
       "supports": [],
       "depends_on": [],
@@ -393,6 +399,68 @@
       "access_count": 0,
       "last_accessed": null,
       "_id": "dcf70d0c5300ebc2"
+    },
+    "6b417e78fdf56a64": {
+      "content": "Task explore_https://quotes.toscrape.com outcome: success",
+      "topic": "worker_outcomes",
+      "tags": [
+        "worker",
+        "outcome",
+        "success",
+        "explore_https://quotes.toscrape.com"
+      ],
+      "context": "{'elements': 10, 'actions': 0, 'links': 0, 'depth': 0}",
+      "confidence": 0.85,
+      "created": "2026-05-27T18:09:42.609549+00:00",
+      "last_verified": "2026-05-27T18:09:42.609549+00:00",
+      "decay_rate": 0.0,
+      "sources": [
+        {
+          "type": "worker_outcome",
+          "ref": "daemon.py:record_outcome(explore_https://quotes.toscrape.com)",
+          "author": "",
+          "created": "2026-05-27T18:09:42.609544+00:00",
+          "trustworthiness": 0.9
+        }
+      ],
+      "contradictions": [
+        "8dd9a4df195eb1df",
+        "291ab36b7898ff61",
+        "9bcf0a82db58ec34"
+      ],
+      "supports": [],
+      "depends_on": [],
+      "citations": [],
+      "access_count": 0,
+      "last_accessed": null,
+      "_id": "6b417e78fdf56a64"
+    },
+    "b65a5590b2abfad9": {
+      "content": "Agent web_explorer succeeded at web_interaction task explore_https://quotes.toscrape.com",
+      "topic": "competence",
+      "tags": [
+        "agent",
+        "web_explorer",
+        "web_interaction",
+        "outcome"
+      ],
+      "context": "{\"success\": true, \"duration\": 2.620518922805786, \"files\": []}",
+      "confidence": 0.85,
+      "created": "2026-05-27T18:09:42.610399+00:00",
+      "last_verified": "2026-05-27T18:09:42.610400+00:00",
+      "decay_rate": 0.02,
+      "sources": [],
+      "contradictions": [
+        "2d8e252ace73e907",
+        "9d00d4a25043f0e8",
+        "dcf70d0c5300ebc2"
+      ],
+      "supports": [],
+      "depends_on": [],
+      "citations": [],
+      "access_count": 0,
+      "last_accessed": null,
+      "_id": "b65a5590b2abfad9"
     }
   },
   "contradictions": [
@@ -458,7 +526,61 @@
       "detected": "2026-05-27T18:09:39.812545+00:00",
       "resolved": false,
       "resolution": ""
+    },
+    {
+      "node_a_id": "6b417e78fdf56a64",
+      "node_b_id": "8dd9a4df195eb1df",
+      "severity": 0.3333333333333333,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-27T18:09:42.609578+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "6b417e78fdf56a64",
+      "node_b_id": "291ab36b7898ff61",
+      "severity": 0.20833333333333334,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-27T18:09:42.609582+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "6b417e78fdf56a64",
+      "node_b_id": "9bcf0a82db58ec34",
+      "severity": 0.3888888888888889,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-27T18:09:42.609585+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "b65a5590b2abfad9",
+      "node_b_id": "2d8e252ace73e907",
+      "severity": 0.38461538461538464,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-27T18:09:42.610415+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "b65a5590b2abfad9",
+      "node_b_id": "9d00d4a25043f0e8",
+      "severity": 0.28125,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-27T18:09:42.610419+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "b65a5590b2abfad9",
+      "node_b_id": "dcf70d0c5300ebc2",
+      "severity": 0.4230769230769231,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-27T18:09:42.610422+00:00",
+      "resolved": false,
+      "resolution": ""
     }
   ],
-  "saved_at": "2026-05-27T18:09:39.812589+00:00"
+  "saved_at": "2026-05-27T18:09:42.610466+00:00"
 }
