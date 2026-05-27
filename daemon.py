@@ -34,7 +34,7 @@ from netweaver.memory_palace import MemoryPalace
 from netweaver.epistemic_daemon import EpistemicDaemon
 from netweaver.dreaming import DreamEngine
 from netweaver.causal import CausalChainTracer
-from netweaver.competence import CompetenceMatrix
+from netweaver.competence_matrix import CompetenceMatrix
 
 # --- Configuration ---
 WORKDIR = Path(os.environ.get("NETWEAVER_WORKDIR", str(Path.home() / "Documents/myhermes")))

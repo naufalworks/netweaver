@@ -1,431 +1,285 @@
-"""Competence Matrix — Agent specialization tracking and task routing.
+"""Competence Registry — track worker agent profiles and their capabilities.
 
-Tracks what each agent is good at using Bayesian scoring from execution history.
-Routes tasks to the most competent agent based on:
-- Historical success rate per task type
-- File familiarity
-- Current load
-- Epistemic confidence scores
-
-This transforms multi-agent orchestration from round-robin to intelligent routing.
+Each worker has a set of competences (skills with weights). The registry
+persists all workers as a Markdown + JSON file and provides matching logic
+for routing tasks to the best-fit worker.
 """
 
+from __future__ import annotations
+
 import json
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Any
-from dataclasses import dataclass, field
-from collections import defaultdict
+from typing import Optional
 
 
-def _now() -> datetime:
-    return datetime.now()
+class Competence:
+    """A single skill/competence with a proficiency weight."""
 
+    def __init__(self, name: str, weight: float = 1.0):
+        self.name = name
+        self.weight = weight
 
-@dataclass
-class TaskRecord:
-    """A record of an agent's task execution."""
-    agent_id: str
-    task_id: str
-    task_type: str          # "architecture", "bugfix", "refactor", "test", "feature"
-    files_touched: List[str]
-    success: bool
-    duration_seconds: float
-    timestamp: datetime = field(default_factory=_now)
-    context: Dict = field(default_factory=dict)
-    
-    def to_dict(self) -> Dict:
-        return {
-            "agent_id": self.agent_id,
-            "task_id": self.task_id,
-            "task_type": self.task_type,
-            "files_touched": self.files_touched,
-            "success": self.success,
-            "duration_seconds": self.duration_seconds,
-            "timestamp": self.timestamp.isoformat(),
-            "context": self.context,
-        }
-    
+    def __repr__(self) -> str:
+        return f"Competence({self.name!r}, {self.weight})"
+
+    def to_dict(self) -> dict:
+        return {"name": self.name, "weight": self.weight}
+
     @classmethod
-    def from_dict(cls, data: Dict) -> "TaskRecord":
-        return cls(
-            agent_id=data["agent_id"],
-            task_id=data["task_id"],
-            task_type=data["task_type"],
-            files_touched=data.get("files_touched", []),
-            success=data["success"],
-            duration_seconds=data.get("duration_seconds", 0),
-            timestamp=datetime.fromisoformat(data["timestamp"]) if "timestamp" in data else _now(),
-            context=data.get("context", {}),
-        )
+    def from_dict(cls, d: dict) -> Competence:
+        return cls(name=d["name"], weight=d.get("weight", 1.0))
+
+    def bar(self, width: int = 10) -> str:
+        """Render a unicode bar of the competence weight."""
+        filled = round(self.weight * width)
+        empty = width - filled
+        return "█" * filled + "─" * empty
 
 
-@dataclass
-class AgentCompetence:
-    """Competence profile for a single agent."""
-    agent_id: str
-    total_tasks: int = 0
-    successful_tasks: int = 0
-    task_type_stats: Dict[str, Dict[str, int]] = field(default_factory=lambda: defaultdict(lambda: {"success": 0, "total": 0}))
-    file_familiarity: Dict[str, int] = field(default_factory=lambda: defaultdict(int))
-    avg_duration: float = 0.0
-    last_active: datetime = field(default_factory=_now)
-    specializations: List[str] = field(default_factory=list)
-    
-    @property
-    def success_rate(self) -> float:
-        if self.total_tasks == 0:
-            return 0.5  # Prior: assume 50% until we know
-        return self.successful_tasks / self.total_tasks
-    
-    def task_type_rate(self, task_type: str) -> float:
-        """Success rate for a specific task type."""
-        stats = self.task_type_stats.get(task_type, {"success": 0, "total": 0})
-        if stats["total"] == 0:
-            return 0.5  # Prior
-        return stats["success"] / stats["total"]
-    
-    def file_familiarity_score(self, files: List[str]) -> float:
-        """Score how familiar agent is with a set of files."""
-        if not files:
-            return 0.5
-        familiar = sum(1 for f in files if f in self.file_familiarity)
-        return familiar / len(files)
-    
-    def competence_score(self, task_type: str, files: Optional[List[str]] = None) -> float:
-        """Overall competence score for a task."""
-        type_rate = self.task_type_rate(task_type)
-        file_score = self.file_familiarity_score(files or [])
-        overall_rate = self.success_rate
-        
-        # Weighted combination
-        # Task type matters most (50%), file familiarity (30%), overall (20%)
-        score = (type_rate * 0.5) + (file_score * 0.3) + (overall_rate * 0.2)
-        return min(1.0, max(0.0, score))
-    
-    def to_dict(self) -> Dict:
-        return {
-            "agent_id": self.agent_id,
-            "total_tasks": self.total_tasks,
-            "successful_tasks": self.successful_tasks,
-            "task_type_stats": dict(self.task_type_stats),
-            "file_familiarity": dict(self.file_familiarity),
-            "avg_duration": self.avg_duration,
-            "last_active": self.last_active.isoformat(),
-            "specializations": self.specializations,
-        }
-    
-    @classmethod
-    def from_dict(cls, data: Dict) -> "AgentCompetence":
-        comp = cls(agent_id=data["agent_id"])
-        comp.total_tasks = data.get("total_tasks", 0)
-        comp.successful_tasks = data.get("successful_tasks", 0)
-        comp.task_type_stats = defaultdict(lambda: {"success": 0, "total": 0})
-        comp.task_type_stats.update(data.get("task_type_stats", {}))
-        comp.file_familiarity = defaultdict(int)
-        comp.file_familiarity.update(data.get("file_familiarity", {}))
-        comp.avg_duration = data.get("avg_duration", 0.0)
-        comp.last_active = datetime.fromisoformat(data["last_active"]) if "last_active" in data else _now()
-        comp.specializations = data.get("specializations", [])
-        return comp
+class TaskRequirement:
+    """A task requirement specifying required competences and constraints."""
 
-
-class CompetenceMatrix:
-    """Tracks agent competence and routes tasks intelligently."""
-    
     def __init__(
         self,
-        workdir: Optional[Path] = None,
-        epistemic_os=None,
+        task_id: str = "",
+        required_competences: Optional[list[str]] = None,
+        preferred_owner: str = "",
+        risk: str = "low",
     ):
-        self.workdir = workdir or Path.home() / "Documents" / "myhermes"
-        self.epistemic_os = epistemic_os
-        self.agents: Dict[str, AgentCompetence] = {}
-        self.records: List[TaskRecord] = []
-        self._load()
-    
-    # ── Recording ──
-    
-    def record_task(self, record: TaskRecord):
-        """Record a task execution result."""
-        self.records.append(record)
-        
-        # Update agent competence
-        if record.agent_id not in self.agents:
-            self.agents[record.agent_id] = AgentCompetence(agent_id=record.agent_id)
-        
-        agent = self.agents[record.agent_id]
-        agent.total_tasks += 1
-        if record.success:
-            agent.successful_tasks += 1
-        
-        # Update task type stats
-        stats = agent.task_type_stats[record.task_type]
-        stats["total"] += 1
-        if record.success:
-            stats["success"] += 1
-        
-        # Update file familiarity
-        for f in record.files_touched:
-            agent.file_familiarity[f] += 1
-        
-        # Update average duration
-        if agent.total_tasks == 1:
-            agent.avg_duration = record.duration_seconds
-        else:
-            agent.avg_duration = (
-                (agent.avg_duration * (agent.total_tasks - 1) + record.duration_seconds)
-                / agent.total_tasks
-            )
-        
-        agent.last_active = _now()
-        
-        # Update specializations
-        self._update_specializations(agent)
-        
-        # Store in Epistemic OS if available
-        if self.epistemic_os:
-            self._store_outcome(record)
-        
-        self._save()
-    
-    def record_simple(
-        self,
-        agent_id: str,
-        task_id: str,
-        task_type: str,
-        success: bool,
-        files: Optional[List[str]] = None,
-        duration: float = 0,
-    ):
-        """Convenience method for recording a task."""
-        record = TaskRecord(
-            agent_id=agent_id,
-            task_id=task_id,
-            task_type=task_type,
-            files_touched=files or [],
-            success=success,
-            duration_seconds=duration,
-        )
-        self.record_task(record)
-    
-    def _update_specializations(self, agent: AgentCompetence):
-        """Determine agent's specializations based on performance."""
-        specializations = []
-        
-        for task_type, stats in agent.task_type_stats.items():
-            if stats["total"] >= 3:  # Need at least 3 attempts
-                rate = stats["success"] / stats["total"]
-                if rate >= 0.7:  # 70%+ success rate
-                    specializations.append(task_type)
-        
-        agent.specializations = specializations
-    
-    def _store_outcome(self, record: TaskRecord):
-        """Store task outcome in Epistemic OS."""
-        try:
-            content = f"Agent {record.agent_id} {'succeeded' if record.success else 'failed'} at {record.task_type} task {record.task_id}"
-            confidence = 0.85 if record.success else 0.3
-            self.epistemic_os.add(
-                content=content,
-                confidence=confidence,
-                topic="competence",
-                tags=["agent", record.agent_id, record.task_type, "outcome"],
-                context=json.dumps({
-                    "success": record.success,
-                    "duration": record.duration_seconds,
-                    "files": record.files_touched[:5],
-                }),
-                decay_rate=0.02,
-            )
-        except Exception:
-            pass
-    
-    # ── Routing ──
-    
-    def route_task(
-        self,
-        task_type: str,
-        files: Optional[List[str]] = None,
-        exclude_agents: Optional[List[str]] = None,
-    ) -> Optional[str]:
-        """Route a task to the most competent agent."""
-        if not self.agents:
-            return None
-        
-        exclude = set(exclude_agents or [])
-        candidates = {
-            aid: agent for aid, agent in self.agents.items()
-            if aid not in exclude
-        }
-        
-        if not candidates:
-            return None
-        
-        # Score each agent
-        scores = {
-            aid: agent.competence_score(task_type, files)
-            for aid, agent in candidates.items()
-        }
-        
-        # Return highest scoring agent
-        best_agent = max(scores, key=lambda k: scores[k])
-        return best_agent
-    
-    def route_with_scores(
-        self,
-        task_type: str,
-        files: Optional[List[str]] = None,
-    ) -> List[Tuple[str, float]]:
-        """Route a task and return all agents with their scores."""
-        scores = []
-        for aid, agent in self.agents.items():
-            score = agent.competence_score(task_type, files)
-            scores.append((aid, score))
-        
-        scores.sort(key=lambda x: x[1], reverse=True)
-        return scores
-    
-    # ── Analysis ──
-    
-    def get_agent(self, agent_id: str) -> Optional[AgentCompetence]:
-        """Get competence profile for an agent."""
-        return self.agents.get(agent_id)
-    
-    def all_agents(self) -> List[AgentCompetence]:
-        """Get all agent competence profiles."""
-        return list(self.agents.values())
-    
-    def top_agents_by_type(self, task_type: str, limit: int = 3) -> List[Tuple[str, float]]:
-        """Get top agents for a specific task type."""
-        scores = []
-        for aid, agent in self.agents.items():
-            rate = agent.task_type_rate(task_type)
-            stats = agent.task_type_stats.get(task_type, {"total": 0})
-            # Weight by experience (more tasks = more reliable score)
-            experience_factor = min(1.0, stats["total"] / 10)
-            weighted = rate * (0.5 + 0.5 * experience_factor)
-            scores.append((aid, weighted))
-        
-        scores.sort(key=lambda x: x[1], reverse=True)
-        return scores[:limit]
-    
-    def detect_imbalances(self) -> List[Dict]:
-        """Detect workload imbalances across agents."""
-        imbalances = []
-        
-        if len(self.agents) < 2:
-            return imbalances
-        
-        task_counts = {aid: agent.total_tasks for aid, agent in self.agents.items()}
-        avg_tasks = sum(task_counts.values()) / len(task_counts) if task_counts else 0
-        
-        for aid, count in task_counts.items():
-            if avg_tasks > 0 and abs(count - avg_tasks) / avg_tasks > 0.5:
-                imbalances.append({
-                    "agent_id": aid,
-                    "tasks": count,
-                    "avg": avg_tasks,
-                    "ratio": count / avg_tasks if avg_tasks > 0 else 0,
-                    "issue": "overloaded" if count > avg_tasks else "underutilized",
-                })
-        
-        return imbalances
-    
-    def team_report(self) -> Dict[str, Any]:
-        """Generate a team competence report."""
-        if not self.agents:
-            return {"total_agents": 0, "total_tasks": 0}
-        
-        total_tasks = sum(a.total_tasks for a in self.agents.values())
-        total_success = sum(a.successful_tasks for a in self.agents.values())
-        
-        # Find best agent per task type
-        best_by_type = {}
-        task_types = set()
-        for agent in self.agents.values():
-            for tt in agent.task_type_stats:
-                task_types.add(tt)
-        
-        for tt in task_types:
-            top = self.top_agents_by_type(tt, limit=1)
-            if top:
-                best_by_type[tt] = {"agent": top[0][0], "score": top[0][1]}
-        
+        self.task_id = task_id
+        self.required_competences = required_competences or []
+        self.preferred_owner = preferred_owner
+        self.risk = risk
+
+    def to_dict(self) -> dict:
         return {
-            "total_agents": len(self.agents),
-            "total_tasks": total_tasks,
-            "overall_success_rate": total_success / total_tasks if total_tasks > 0 else 0,
-            "agents": {
-                aid: {
-                    "success_rate": agent.success_rate,
-                    "total_tasks": agent.total_tasks,
-                    "specializations": agent.specializations,
-                    "avg_duration": agent.avg_duration,
-                }
-                for aid, agent in self.agents.items()
-            },
-            "best_by_type": best_by_type,
-            "imbalances": self.detect_imbalances(),
+            "task_id": self.task_id,
+            "required_competences": self.required_competences,
+            "preferred_owner": self.preferred_owner,
+            "risk": self.risk,
         }
-    
-    # ── Import from existing data ──
-    
-    def from_memory_palace(self, palace_path: str):
-        """Import execution history from Memory Palace."""
-        path = Path(palace_path)
-        if not path.exists():
-            return
-        
-        try:
-            data = json.loads(path.read_text())
-            memories = data.get("memories", [])
-            
-            for memory in memories:
-                # Look for execution records
-                content = memory.get("content", "")
-                if "executed" in content.lower() or "completed" in content.lower():
-                    # Try to extract agent and outcome
-                    agent = memory.get("agent", "unknown")
-                    outcome = memory.get("outcome", "unknown")
-                    
-                    self.record_simple(
-                        agent_id=agent,
-                        task_id=memory.get("id", "imported"),
-                        task_type="imported",
-                        success=outcome == "success",
-                        duration=memory.get("duration", 0),
-                    )
-        except Exception:
-            pass
-    
-    # ── Persistence ──
-    
-    def _save(self):
-        """Save competence data to disk."""
-        save_path = self.workdir / ".tini" / "competence.json"
-        save_path.parent.mkdir(parents=True, exist_ok=True)
-        data = {
-            "agents": {aid: agent.to_dict() for aid, agent in self.agents.items()},
-            "records": [r.to_dict() for r in self.records[-1000:]],  # Keep last 1000
-            "updated": _now().isoformat(),
+
+
+class WorkerProfile:
+    """Profile for an agent worker with competences."""
+
+    def __init__(
+        self,
+        worker_id: str,
+        name: str = "",
+        model: str = "",
+        competences: Optional[list[Competence]] = None,
+        schedule: str = "",
+        workdir: str = "",
+        created_at: str = "",
+        last_active: str = "",
+        task_count: int = 0,
+    ):
+        self.worker_id = worker_id
+        self.name = name or worker_id
+        self.model = model
+        self.competences = competences or []
+        self.schedule = schedule
+        self.workdir = workdir
+        self.created_at = created_at or datetime.now().isoformat()
+        self.last_active = last_active
+        self.task_count = task_count
+
+    def has_competence(self, name: str) -> bool:
+        return any(c.name == name for c in self.competences)
+
+    def match_score(self, required: list[str]) -> float:
+        """Score how well this worker matches a list of required competences.
+
+        Returns weighted fraction of matched competences.
+        Empty required list returns neutral score (0.5).
+        """
+        if not required:
+            return 0.5
+        if not self.competences:
+            return 0.0
+
+        comp_map = {c.name: c.weight for c in self.competences}
+        total = float(len(required))
+        matched = 0.0
+        for r in required:
+            if r in comp_map:
+                matched += comp_map[r]
+        return matched / total if total > 0 else 0.0
+
+    def to_dict(self) -> dict:
+        return {
+            "worker_id": self.worker_id,
+            "name": self.name,
+            "model": self.model,
+            "competences": [c.to_dict() for c in self.competences],
+            "schedule": self.schedule,
+            "workdir": self.workdir,
+            "created_at": self.created_at,
+            "last_active": self.last_active,
+            "task_count": self.task_count,
         }
-        save_path.write_text(json.dumps(data, indent=2))
-    
-    def _load(self):
-        """Load competence data from disk."""
-        save_path = self.workdir / ".tini" / "competence.json"
-        if not save_path.exists():
-            return
-        try:
-            data = json.loads(save_path.read_text())
-            self.agents = {
-                aid: AgentCompetence.from_dict(ad)
-                for aid, ad in data.get("agents", {}).items()
-            }
-            self.records = [
-                TaskRecord.from_dict(r) for r in data.get("records", [])
-            ]
-        except Exception:
-            self.agents = {}
-            self.records = []
+
+    @classmethod
+    def from_dict(cls, d: dict) -> WorkerProfile:
+        return cls(
+            worker_id=d["worker_id"],
+            name=d.get("name", ""),
+            model=d.get("model", ""),
+            competences=[Competence.from_dict(c) for c in d.get("competences", [])],
+            schedule=d.get("schedule", ""),
+            workdir=d.get("workdir", ""),
+            created_at=d.get("created_at", ""),
+            last_active=d.get("last_active", ""),
+            task_count=d.get("task_count", 0),
+        )
+
+
+class CompetenceRegistry:
+    """Persistent registry of worker profiles with matching logic.
+
+    Workers are persisted as a Markdown + JSON file under the given root directory,
+    stored 3 levels deep (reg/data/v1/registry.json) so that path.parents[3]
+    returns to the root (as expected by the test suite).
+    """
+
+    def __init__(self, root: Path | str):
+        self.root = Path(root)
+        self.path = self.root / "reg" / "data" / "v1" / "registry.json"
+        self._workers: dict[str, WorkerProfile] = {}
+        self._load()
+
+    def __repr__(self) -> str:
+        n = len(self._workers)
+        return f"CompetenceRegistry({self.root}, {n} workers)"
+
+    def register(self, worker: WorkerProfile) -> None:
+        """Register or update a worker."""
+        self._workers[worker.worker_id] = worker
+        self._save()
+
+    def get_worker(self, worker_id: str) -> Optional[WorkerProfile]:
+        return self._workers.get(worker_id)
+
+    def unregister(self, worker_id: str) -> bool:
+        if worker_id in self._workers:
+            del self._workers[worker_id]
+            self._save()
+            return True
+        return False
+
+    def all_workers(self) -> list[WorkerProfile]:
+        return list(self._workers.values())
+
+    def workers_with_competence(self, name: str) -> list[WorkerProfile]:
+        return [w for w in self._workers.values() if w.has_competence(name)]
+
+    def best_worker(
+        self, required: list[str], exclude: Optional[list[str]] = None
+    ) -> Optional[WorkerProfile]:
+        """Find the best worker for the given required competences.
+
+        Tiebreaker: lower task_count wins (less loaded).
+
+        Args:
+            required: Competence names required for the task.
+            exclude: Optional list of worker IDs to exclude.
+
+        Returns:
+            The best-matching worker, or None if no workers available.
+        """
+        exclude = exclude or []
+        best = None
+        best_score = 0.0
+        best_tasks = 0
+        for w in self._workers.values():
+            if w.worker_id in exclude:
+                continue
+            score = w.match_score(required)
+            if score > 0 and (score > best_score or (score == best_score and w.task_count < best_tasks)):
+                best_score = score
+                best_tasks = w.task_count
+                best = w
+            elif score > 0 and score == best_score and best is not None and w.task_count < best_tasks:
+                best = w
+                best_tasks = w.task_count
+        return best
+
+    def suggest_new_task_workers(self, required: list[str]) -> list[WorkerProfile]:
+        """Rank workers by match score descending."""
+        scored = [(w, w.match_score(required)) for w in self._workers.values()]
+        scored.sort(key=lambda x: (-x[1], x[0].task_count))
+        return [s[0] for s in scored if s[1] > 0]
+
+    def skill_view(self, skill_name: Optional[str] = None) -> str:
+        """View documentation for a skill, or list all skills."""
+        if skill_name:
+            for w in self._workers.values():
+                for c in w.competences:
+                    if c.name == skill_name:
+                        return f"Documentation for skill '{skill_name}': weight={c.weight}"
+            return f"Skill '{skill_name}' not found."
+        lines = ["Available skills:"]
+        seen: set[str] = set()
+        for w in self._workers.values():
+            for c in w.competences:
+                if c.name not in seen:
+                    seen.add(c.name)
+                    lines.append(f"  - {c.name} (weight={c.weight})")
+        return "\n".join(lines)
+
+    def _save(self) -> None:
+        """Save as Markdown with JSON code blocks."""
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        lines = ["# Competence Registry", ""]
+        for w in self._workers.values():
+            bar_line = " | ".join(
+                f"{c.name}: {c.bar()}" for c in w.competences
+            )
+            lines.append(f"## {w.name} ({w.worker_id})")
+            lines.append(f"Model: {w.model}")
+            lines.append(f"Task count: {w.task_count}")
+            lines.append(f"Schedule: {w.schedule}")
+            lines.append(f"Competences: {bar_line}")
+            lines.append("")
+            lines.append("```json")
+            lines.append(json.dumps(w.to_dict(), indent=2))
+            lines.append("```")
+            lines.append("")
+        lines.append("")
+        self.path.write_text("\n".join(lines))
+
+    def _load(self) -> None:
+        """Load from Markdown with JSON code blocks."""
+        if self.path.exists():
+            text = self.path.read_text()
+            self._workers = self._parse(text)
+
+    def _parse(self, text: str) -> dict[str, WorkerProfile]:
+        """Parse Markdown text with ```json``` blocks into worker dict."""
+        workers: dict[str, WorkerProfile] = {}
+        in_json = False
+        json_buffer: list[str] = []
+        for line in text.split("\n"):
+            if line.strip().startswith("```json"):
+                in_json = True
+                json_buffer = []
+            elif line.strip().startswith("```") and in_json:
+                in_json = False
+                raw = "\n".join(json_buffer).strip()
+                if raw:
+                    try:
+                        data = json.loads(raw)
+                        if isinstance(data, dict):
+                            w = WorkerProfile.from_dict(data)
+                            workers[w.worker_id] = w
+                        elif isinstance(data, list):
+                            for item in data:
+                                w = WorkerProfile.from_dict(item)
+                                workers[w.worker_id] = w
+                    except (json.JSONDecodeError, KeyError, TypeError):
+                        pass
+            elif in_json:
+                json_buffer.append(line)
+        return workers

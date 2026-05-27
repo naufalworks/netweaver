@@ -573,6 +573,225 @@ def cmd_epistemic(args):
         print("\n✅ Verification complete")
 
 
+def cmd_dream(args):
+    """Dreaming — background hypothesis generation."""
+    from netweaver.dreaming import DreamEngine
+    
+    engine = DreamEngine()
+    
+    if args.dream_action == "generate":
+        hypotheses = engine.dream(max_hypotheses=5)
+        if not hypotheses:
+            print("✅ No new hypotheses generated")
+            return
+        
+        print(f"═══ GENERATED {len(hypotheses)} HYPOTHESES ═══\n")
+        for i, h in enumerate(hypotheses, 1):
+            print(f"{i}. [{h.confidence:.0%}] {h.content}")
+            print(f"   Type: {h.type}")
+            print(f"   Outcome: {h.simulated_outcome}")
+            print(f"   Validate: {h.validation_method}")
+            print(f"   ID: {h.hypothesis_id[:12]}")
+            print()
+    
+    elif args.dream_action == "list":
+        unvalidated = engine.get_unvalidated()
+        if not unvalidated:
+            print("✅ No unvalidated hypotheses")
+            return
+        
+        print(f"═══ UNVALIDATED HYPOTHESES ({len(unvalidated)}) ═══\n")
+        for h in sorted(unvalidated, key=lambda x: x.confidence, reverse=True):
+            print(f"[{h.confidence:.0%}] {h.content}")
+            print(f"   Type: {h.type} | ID: {h.hypothesis_id[:12]}")
+            print()
+    
+    elif args.dream_action == "top":
+        top = engine.top_hypotheses(limit=5)
+        if not top:
+            print("✅ No hypotheses available")
+            return
+        
+        print(f"═══ TOP {len(top)} HYPOTHESES ═══\n")
+        for i, h in enumerate(top, 1):
+            print(f"{i}. [{h.confidence:.0%}] {h.content}")
+            print(f"   Outcome: {h.simulated_outcome}")
+            print()
+    
+    elif args.dream_action == "validate":
+        success = engine.validate_hypothesis(
+            hypothesis_id=args.hypothesis_id,
+            result=args.result,
+            new_confidence=args.confidence,
+        )
+        if success:
+            print(f"✅ Validated hypothesis {args.hypothesis_id[:12]}")
+            print(f"   Result: {args.result}")
+            if args.confidence:
+                print(f"   New confidence: {args.confidence:.0%}")
+        else:
+            print(f"❌ Hypothesis not found: {args.hypothesis_id[:12]}")
+    
+    elif args.dream_action == "report":
+        report = engine.report()
+        print("═══ DREAMING REPORT ═══\n")
+        print(f"Total hypotheses: {report['total_hypotheses']}")
+        print(f"Unvalidated: {report['unvalidated']}")
+        print(f"Validated: {report['validated']}")
+        print(f"\nBy type:")
+        for type_name, count in report["by_type"].items():
+            print(f"  • {type_name}: {count}")
+        print(f"\nTop hypotheses:")
+        for i, h in enumerate(report["top_hypotheses"][:3], 1):
+            print(f"  {i}. [{h['confidence']:.0%}] {h['content'][:60]}")
+
+
+def cmd_causal(args):
+    """Causal chain analysis — trace failures to root causes."""
+    from netweaver.causal import CausalChainTracer
+    
+    tracer = CausalChainTracer()
+    
+    if args.causal_action == "trace":
+        chain = tracer.trace_failure(args.test_name, args.error)
+        print(tracer.format_chain(chain))
+    
+    elif args.causal_action == "error":
+        chain = tracer.trace_error_pattern(args.error_text)
+        print(tracer.format_chain(chain))
+    
+    elif args.causal_action == "batch":
+        # Get recent test failures from daemon logs
+        log_file = TINI / "logs" / "daemon.log"
+        if not log_file.exists():
+            print("❌ No daemon logs found")
+            return
+        
+        try:
+            # Parse recent test failures from logs
+            failures = []
+            with open(log_file, "r") as f:
+                for line in f.readlines()[-100:]:  # Last 100 lines
+                    if "test_fail" in line or "FAILED" in line:
+                        # Extract test name and error
+                        match = re.search(r"(test_\S+\.py::\S+)", line)
+                        if match:
+                            failures.append((match.group(1), line[:200]))
+            
+            if not failures:
+                print("✅ No recent test failures found")
+                return
+            
+            print(f"═══ BATCH TRACING {len(failures)} FAILURES ═══\n")
+            chains = tracer.batch_trace(failures[:5])  # Limit to 5
+            
+            for i, chain in enumerate(chains, 1):
+                print(f"{i}. {chain.failure[:60]}")
+                print(f"   Root cause: {chain.root_cause}")
+                print(f"   Confidence: {chain.confidence:.0%}")
+                if chain.fix_suggestion:
+                    print(f"   Fix: {chain.fix_suggestion}")
+                print()
+        except Exception as e:
+            print(f"❌ Batch trace failed: {e}")
+
+
+def cmd_competence(args):
+    """Competence matrix — agent specialization tracking."""
+    from netweaver.competence_matrix import CompetenceMatrix
+    
+    matrix = CompetenceMatrix()
+    
+    if args.comp_action == "team":
+        report = matrix.team_report()
+        print("═══ TEAM COMPETENCE REPORT ═══\n")
+        print(f"Total agents: {report['total_agents']}")
+        print(f"Total tasks: {report['total_tasks']}")
+        print(f"Overall success: {report['overall_success_rate']:.0%}")
+        
+        if report["agents"]:
+            print(f"\nAgents:")
+            for agent_id, stats in report["agents"].items():
+                specs = ", ".join(stats["specializations"]) if stats["specializations"] else "none"
+                print(f"  • {agent_id}: {stats['success_rate']:.0%} success, {stats['total_tasks']} tasks")
+                print(f"    Specializations: {specs}")
+        
+        if report["best_by_type"]:
+            print(f"\nBest by task type:")
+            for task_type, best in report["best_by_type"].items():
+                print(f"  • {task_type}: {best['agent']} ({best['score']:.0%})")
+    
+    elif args.comp_action == "agent":
+        agent = matrix.get_agent(args.agent_id)
+        if not agent:
+            print(f"❌ Agent not found: {args.agent_id}")
+            return
+        
+        print(f"═══ AGENT: {agent.agent_id} ═══\n")
+        print(f"Success rate: {agent.success_rate:.0%}")
+        print(f"Total tasks: {agent.total_tasks}")
+        print(f"Successful: {agent.successful_tasks}")
+        print(f"Avg duration: {agent.avg_duration:.1f}s")
+        print(f"Specializations: {', '.join(agent.specializations) if agent.specializations else 'none'}")
+        
+        if agent.task_type_stats:
+            print(f"\nTask type performance:")
+            for task_type, stats in sorted(agent.task_type_stats.items()):
+                rate = stats["success"] / stats["total"] if stats["total"] > 0 else 0
+                print(f"  • {task_type}: {rate:.0%} ({stats['success']}/{stats['total']})")
+        
+        if agent.file_familiarity:
+            top_files = sorted(agent.file_familiarity.items(), key=lambda x: x[1], reverse=True)[:5]
+            print(f"\nMost familiar files:")
+            for file_path, count in top_files:
+                print(f"  • {file_path}: {count} tasks")
+    
+    elif args.comp_action == "route":
+        files = args.files.split(",") if args.files else []
+        agent_id = matrix.route_task(args.task_type, files=files)
+        
+        if not agent_id:
+            print(f"❌ No agents available for task type: {args.task_type}")
+            return
+        
+        print(f"✅ Routed {args.task_type} task to: {agent_id}")
+        
+        # Show scores for all agents
+        scores = matrix.route_with_scores(args.task_type, files=files)
+        if scores:
+            print(f"\nAll agents ranked:")
+            for i, (aid, score) in enumerate(scores, 1):
+                print(f"  {i}. {aid}: {score:.0%}")
+    
+    elif args.comp_action == "imbalances":
+        imbalances = matrix.detect_imbalances()
+        if not imbalances:
+            print("✅ No workload imbalances detected")
+            return
+        
+        print(f"═══ WORKLOAD IMBALANCES ({len(imbalances)}) ═══\n")
+        for imb in imbalances:
+            print(f"⚠️  {imb['agent_id']}: {imb['issue']}")
+            print(f"   Tasks: {imb['tasks']} (avg: {imb['avg']:.1f}, ratio: {imb['ratio']:.2f}x)")
+            print()
+    
+    elif args.comp_action == "record":
+        matrix.record_simple(
+            agent_id=args.agent_id,
+            task_id=args.task_id,
+            task_type=args.task_type,
+            success=args.success,
+            duration=args.duration,
+        )
+        status = "success" if args.success else "failure"
+        print(f"✅ Recorded {status} for {args.agent_id} on {args.task_type} task {args.task_id}")
+        
+        # Show updated agent stats
+        agent = matrix.get_agent(args.agent_id)
+        if agent:
+            print(f"   Agent success rate: {agent.success_rate:.0%} ({agent.successful_tasks}/{agent.total_tasks})")
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="NetWeaver CLI — Query pipeline state",

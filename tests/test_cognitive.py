@@ -9,7 +9,7 @@ import pytest
 
 from netweaver.dreaming import DreamEngine, Hypothesis, _hash
 from netweaver.causal import CausalChainTracer, CausalChain, CausalLink
-from netweaver.competence import CompetenceMatrix, AgentCompetence, TaskRecord
+from netweaver.competence_matrix import CompetenceMatrix, AgentCompetence, TaskRecord
 
 
 # ═══════════════════════════════════════════════
