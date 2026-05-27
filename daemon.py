@@ -627,7 +627,7 @@ def write_plans_to_review_queue(plans: List[str]) -> int:
 # ============================================================
 
 async def cleanup_loop() -> None:
-    """Periodic cleanup: rotate logs, prune backups, archive old ideas."""
+    """Periodic cleanup: rotate logs, prune backups, skills, agent fingerprints."""
     while not shutdown_event.is_set():
         try:
             await asyncio.sleep(3600)  # Run every hour
@@ -663,16 +663,145 @@ async def cleanup_loop() -> None:
             if pid_file.exists():
                 try:
                     pid = int(pid_file.read_text().strip())
-                    # Check if process exists
-                    import os
                     os.kill(pid, 0)
                 except (ValueError, OSError, ProcessLookupError):
                     pid_file.unlink(missing_ok=True)
+            
+            # 5. Purge stale skills (>7 days)
+            skills_dir = TINI_DIR / "skills"
+            if skills_dir.exists():
+                now_ts = time.time()
+                for f in skills_dir.glob("*.json"):
+                    if (now_ts - f.stat().st_mtime) > 7 * 24 * 3600:
+                        try:
+                            f.unlink()
+                        except OSError:
+                            pass
+            
+            # 6. Dead agent reaper (fingerprints >48h)
+            agent_dir = TINI_DIR / "agent_states"
+            if agent_dir.exists():
+                now_ts = time.time()
+                reaped = 0
+                for f in agent_dir.glob("*.fingerprint"):
+                    if (now_ts - f.stat().st_mtime) > 48 * 3600:
+                        try:
+                            f.unlink()
+                            reaped += 1
+                        except OSError:
+                            pass
+                if reaped:
+                    log_event("agent_reaped", {"count": reaped})
+            
+            # 7. Update metrics summary
+            _update_metrics_summary()
         
         except Exception as e:
             logger.error(f"Cleanup error: {e}")
     
     logger.info("Cleanup loop exited")
+
+
+# ============================================================
+# Performance metrics
+# ============================================================
+
+METRICS_FILE = TINI_DIR / "metrics.json"
+
+def record_metric(name: str, value: float, tags: Optional[Dict[str, str]] = None) -> None:
+    """Record a performance metric (plan_gen_time, test_duration, etc.)."""
+    metrics = safe_read_json(METRICS_FILE, {"series": {}, "last_updated": None})
+    series = metrics.get("series", {})
+    if name not in series:
+        series[name] = []
+    series[name].append({
+        "v": round(value, 3),
+        "ts": now_iso(),
+        **(tags or {}),
+    })
+    # Keep last 100 data points per metric
+    series[name] = series[name][-100:]
+    metrics["series"] = series
+    metrics["last_updated"] = now_iso()
+    safe_write_json(METRICS_FILE, metrics)
+
+
+def _update_metrics_summary() -> None:
+    """Write human-readable metrics summary."""
+    metrics = safe_read_json(METRICS_FILE, {"series": {}})
+    series = metrics.get("series", {})
+    if not series:
+        return
+    
+    lines = ["# Performance Metrics", ""]
+    for name, data_points in series.items():
+        if not data_points:
+            continue
+        values = [d["v"] for d in data_points]
+        avg = sum(values) / len(values)
+        mn, mx = min(values), max(values)
+        lines.append(f"## {name}")
+        lines.append(f"- Samples: {len(values)}")
+        lines.append(f"- Avg: {avg:.3f}, Min: {mn:.3f}, Max: {mx:.3f}")
+        lines.append("")
+    
+    summary_file = TINI_DIR / "metrics_summary.md"
+    try:
+        summary_file.write_text("\n".join(lines))
+    except OSError:
+        pass
+
+
+# ============================================================
+# Auto-retry: archive plans rejected >3 times
+# ============================================================
+
+REJECTED_ARCHIVE = COMPANY_DIR / "REJECTED_ARCHIVE.md"
+MAX_REJECTIONS = 3
+
+def archive_stale_rejections() -> int:
+    """Move plans rejected >3 times to archive. Returns count archived."""
+    if not REVIEW_QUEUE.exists():
+        return 0
+    
+    content = REVIEW_QUEUE.read_text()
+    import re
+    
+    # Split into plan blocks
+    plans = re.split(r"(?=## PLAN:)", content)
+    kept = []
+    archived = []
+    
+    for plan in plans:
+        if not plan.strip() or "## PLAN:" not in plan:
+            kept.append(plan)
+            continue
+        
+        # Count REJECTED markers
+        rejections = plan.count("STATUS: REJECTED")
+        if rejections >= MAX_REJECTIONS:
+            archived.append(plan)
+        else:
+            kept.append(plan)
+    
+    if archived:
+        # Write archived plans
+        try:
+            existing = REJECTED_ARCHIVE.read_text() if REJECTED_ARCHIVE.exists() else "# Rejected Plans Archive\n\n"
+            existing += f"\n## Archived {now_iso()}\n"
+            for a in archived:
+                existing += a + "\n---\n"
+            REJECTED_ARCHIVE.write_text(existing)
+            
+            # Rewrite queue without archived plans
+            REVIEW_QUEUE.write_text("".join(kept))
+            logger.info(f"Archived {len(archived)} rejected plans")
+            log_event("plans_archived", {"count": len(archived)})
+        except OSError as e:
+            logger.error(f"Archive failed: {e}")
+            return 0
+    
+    return len(archived)
 
 
 async def heartbeat_loop() -> None:
@@ -718,12 +847,18 @@ async def scan_loop() -> None:
             gaps = detect_gaps()
             if gaps:
                 logger.info(f"Cycle {cycle_count}: {len(gaps)} gaps found")
+                t0 = time.time()
                 plans = [generate_plan(g) for g in gaps[:3]]  # Max 3 plans per cycle
+                plan_gen_time = time.time() - t0
+                record_metric("plan_gen_time_s", plan_gen_time, {"cycle": str(cycle_count), "count": str(len(plans))})
                 count = write_plans_to_review_queue(plans)
                 if count > 0:
                     record_success()
             else:
                 logger.debug(f"Cycle {cycle_count}: no gaps")
+
+            # 2b. Archive plans rejected >3 times
+            archive_stale_rejections()
 
             # 3. Update checkpoint
             checkpoint = {
@@ -739,7 +874,10 @@ async def scan_loop() -> None:
             # 4. Periodic test run (every 10 cycles = ~20min)
             if cycle_count % 10 == 0:
                 logger.info(f"Cycle {cycle_count}: periodic test run")
+                t0 = time.time()
                 passed, summary = run_tests()
+                test_dur = time.time() - t0
+                record_metric("test_duration_s", test_dur, {"cycle": str(cycle_count)})
                 if passed:
                     record_success()
                     log_event("periodic_test_ok", {"summary": summary})
