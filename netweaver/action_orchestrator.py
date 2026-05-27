@@ -36,6 +36,7 @@ from netweaver.executor import (
 )
 from netweaver.scene_graph import WebSceneGraph
 from netweaver.ledger import LedgerEventType
+from netweaver import graph_query as _graph_query
 
 
 # ---------------------------------------------------------------------------
