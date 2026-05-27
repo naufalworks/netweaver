@@ -57,7 +57,7 @@ Plans are auto-approved by the reviewer agent when LOW risk + clear scope.
 ---
 
 ### NW-032 End-to-End Demo Pipeline
-**Status**: APPROVED — MEDIUM risk, clear scope (netweaver/demo.py + tests/), testable acceptance criteria (DemoModule class, CLI entry, 15+ tests), no KANBAN conflicts, no failure history. Reviewed 2026-05-27.
+**Status**: DONE — Implemented and verified. 32 new tests pass, 2018 total suite green. Completed 2026-05-28.
 **Risk**: MEDIUM
 **Scope**: netweaver/demo.py, tests/test_demo.py, .tini/netweaver/DEMO.md
 **Tiny Goal**: Create a runnable demo that exercises the full stack: URL → Observer → SceneGraph → Planner → Executor → EvidenceReport. Uses mocked browser but real modules end-to-end. Proves architecture works.
