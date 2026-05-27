@@ -417,10 +417,20 @@ class TestNoBrowserImports:
     def test_no_playwright_import(self):
         import netweaver.demo as demo_mod
         source = open(demo_mod.__file__).read()
-        assert "playwright" not in source.lower(), "Demo imports playwright"
-        assert "from playwright" not in source, "Demo imports from playwright"
+        # Check only import lines, not docstrings/comments
+        import_lines = [
+            line for line in source.splitlines()
+            if line.strip().startswith(("import ", "from "))
+        ]
+        import_text = "\n".join(import_lines).lower()
+        assert "playwright" not in import_text, "Demo imports playwright"
 
     def test_no_vendor_import(self):
         import netweaver.demo as demo_mod
         source = open(demo_mod.__file__).read()
-        assert "vendor" not in source.lower(), "Demo imports vendor"
+        import_lines = [
+            line for line in source.splitlines()
+            if line.strip().startswith(("import ", "from "))
+        ]
+        import_text = "\n".join(import_lines).lower()
+        assert "vendor" not in import_text, "Demo imports vendor"
