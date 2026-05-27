@@ -794,17 +794,17 @@ def cmd_competence(args):
 
 
 def cmd_web_learn():
-    """Run a web learning cycle manually."""
-    from netweaver.web_learner import WebLearner
+    """Run an autonomous web exploration cycle manually."""
+    from netweaver.web_learner import AutonomousWebExplorer
 
-    print("🌐 Running web learning cycle (headless)...\n")
-    learner = WebLearner(headless=True)
+    print("🌐 Running autonomous web exploration (headless)...\n")
+    explorer = AutonomousWebExplorer(headless=True)
 
     try:
-        results = learner.learn_cycle()
-        print(learner.summary(results))
+        results = explorer.explore_cycle()
+        print(explorer.summary(results))
     finally:
-        learner.close()
+        explorer.close()
 
 
 def main():

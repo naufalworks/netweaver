@@ -35,7 +35,7 @@ from netweaver.epistemic_daemon import EpistemicDaemon
 from netweaver.dreaming import DreamEngine
 from netweaver.causal import CausalChainTracer
 from netweaver.competence_matrix import CompetenceMatrix
-from netweaver.web_learner import WebLearner
+from netweaver.web_learner import AutonomousWebExplorer
 
 # --- Configuration ---
 WORKDIR = Path(os.environ.get("NETWEAVER_WORKDIR", str(Path.home() / "Documents/myhermes")))
@@ -92,8 +92,8 @@ epistemic_daemon = EpistemicDaemon()
 dream_engine = DreamEngine(workdir=WORKDIR, epistemic_os=epistemic_daemon.ep)
 causal_tracer = CausalChainTracer(workdir=WORKDIR)
 competence_matrix = CompetenceMatrix(workdir=WORKDIR, epistemic_os=epistemic_daemon.ep)
-web_learner = WebLearner(
-    skills_dir=NETWEAVER_DIR / "skills",
+web_explorer = AutonomousWebExplorer(
+    registry_path=NETWEAVER_DIR / ".tini" / "web_explorer",
     epistemic_daemon=epistemic_daemon,
     competence_matrix=competence_matrix,
     headless=True,
@@ -864,14 +864,14 @@ async def web_learning_loop() -> None:
             logger.info("Web learning cycle starting...")
             t0 = time.time()
 
-            # Run learning in thread pool (it's sync/blocking)
+            # Run exploration in thread pool (it's sync/blocking)
             loop = asyncio.get_event_loop()
-            results = await loop.run_in_executor(None, web_learner.learn_cycle)
+            results = await loop.run_in_executor(None, web_explorer.explore_cycle)
 
             duration = time.time() - t0
             successes = sum(1 for r in results if r.success)
             total_elements = sum(r.elements_found for r in results)
-            total_actions = sum(r.actions_executed for r in results)
+            total_actions = sum(r.actions_succeeded for r in results)
 
             logger.info(
                 f"Web learning complete: {successes}/{len(results)} sites, "
@@ -886,10 +886,10 @@ async def web_learning_loop() -> None:
                 "duration_s": round(duration, 1),
                 "details": [
                     {
-                        "site": r.site_name,
+                        "url": r.url,
                         "success": r.success,
                         "elements": r.elements_found,
-                        "actions": r.actions_executed,
+                        "actions": r.actions_succeeded,
                         "nodes": r.scene_graph_nodes,
                     }
                     for r in results
