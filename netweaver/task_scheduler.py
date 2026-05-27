@@ -95,7 +95,6 @@ class TaskState:
     success_count: int = 0
     last_error: str = ""
     
-    @property
     def should_run(self, schedule_seconds: int) -> bool:
         """Check if enough time has passed since last run."""
         if not self.last_run:
