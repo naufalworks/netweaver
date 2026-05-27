@@ -1,0 +1,384 @@
+{
+  "url": "https://shop.example.com/product/wireless-headphones-pro",
+  "title": "Wireless Headphones Pro | Example Shop",
+  "description": "E-commerce SPA product page with cart, reviews, filters, and dynamic content",
+  "html": "<!DOCTYPE html><html lang='en'><head><title>Wireless Headphones Pro</title></head><body><header><nav><a href='/'>Shop</a><a href='/categories'>Categories</a><a href='/cart' aria-label='Shopping cart (3 items)'>Cart (3)</a><input type='search' id='product-search' placeholder='Search products...' aria-label='Search products' /></nav></header><main><section id='product'><h1>Wireless Headphones Pro</h1><select id='variant-select' aria-label='Select color variant'><option value='black'>Black</option><option value='white'>White</option><option value='blue'>Blue</option></select><input type='number' id='quantity' value='1' min='1' max='10' aria-label='Quantity' /><button id='add-to-cart' aria-label='Add to cart'>Add to Cart</button><button id='buy-now' aria-label='Buy now'>Buy Now</button><button id='add-wishlist' aria-label='Add to wishlist'>♡ Wishlist</button></section><section id='filters'><h2>Filters</h2><input type='checkbox' id='filter-prime' aria-label='Prime eligible only' /><label for='filter-prime'>Prime Eligible</label><input type='checkbox' id='filter-sale' aria-label='On sale items' /><label for='filter-sale'>On Sale</label><select id='sort-by' aria-label='Sort results by'><option value='relevance'>Relevance</option><option value='price-asc'>Price: Low to High</option><option value='price-desc'>Price: High to Low</option><option value='rating'>Customer Rating</option></select></section><section id='reviews'><h2>Customer Reviews</h2><button id='write-review'>Write a Review</button><textarea id='review-text' placeholder='Share your experience...' aria-label='Review text' style='display:none'></textarea><select id='review-rating' aria-label='Rating' style='display:none'><option value='5'>5 stars</option><option value='4'>4 stars</option></select><button id='submit-review' style='display:none'>Submit Review</button><button id='load-more-reviews'>Load More Reviews</button></section></main><aside id='recommendations'><h2>You might also like</h2><a href='/product/earbuds-lite' aria-label='Earbuds Lite'>Earbuds Lite</a><a href='/product/speaker-mini' aria-label='Speaker Mini'>Speaker Mini</a><a href='/product/charging-case' aria-label='Charging Case'>Charging Case</a></aside></body></html>",
+  "interactive_elements": [
+    {
+      "selector": "a[href='/']",
+      "tag": "a",
+      "type": null,
+      "text": "Shop",
+      "aria_label": null,
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "a[href='/categories']",
+      "tag": "a",
+      "type": null,
+      "text": "Categories",
+      "aria_label": null,
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "a[href='/cart']",
+      "tag": "a",
+      "type": null,
+      "text": "Cart (3)",
+      "aria_label": "Shopping cart (3 items)",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "input#product-search",
+      "tag": "input",
+      "type": "search",
+      "text": "",
+      "aria_label": "Search products",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": true,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "select#variant-select",
+      "tag": "select",
+      "type": null,
+      "text": "",
+      "aria_label": "Select color variant",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "input#quantity",
+      "tag": "input",
+      "type": "number",
+      "text": "1",
+      "aria_label": "Quantity",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": true,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "button#add-to-cart",
+      "tag": "button",
+      "type": null,
+      "text": "Add to Cart",
+      "aria_label": "Add to cart",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "button#buy-now",
+      "tag": "button",
+      "type": null,
+      "text": "Buy Now",
+      "aria_label": "Buy now",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "button#add-wishlist",
+      "tag": "button",
+      "type": null,
+      "text": "♡ Wishlist",
+      "aria_label": "Add to wishlist",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "input#filter-prime",
+      "tag": "input",
+      "type": "checkbox",
+      "text": "",
+      "aria_label": "Prime eligible only",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "input#filter-sale",
+      "tag": "input",
+      "type": "checkbox",
+      "text": "",
+      "aria_label": "On sale items",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "select#sort-by",
+      "tag": "select",
+      "type": null,
+      "text": "",
+      "aria_label": "Sort results by",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "button#write-review",
+      "tag": "button",
+      "type": null,
+      "text": "Write a Review",
+      "aria_label": null,
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "textarea#review-text",
+      "tag": "textarea",
+      "type": null,
+      "text": "",
+      "aria_label": "Review text",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": false,
+        "enabled": true,
+        "editable": true,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "select#review-rating",
+      "tag": "select",
+      "type": null,
+      "text": "",
+      "aria_label": "Rating",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": false,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "button#submit-review",
+      "tag": "button",
+      "type": null,
+      "text": "Submit Review",
+      "aria_label": null,
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": false,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "button#load-more-reviews",
+      "tag": "button",
+      "type": null,
+      "text": "Load More Reviews",
+      "aria_label": null,
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "a[href='/product/earbuds-lite']",
+      "tag": "a",
+      "type": null,
+      "text": "Earbuds Lite",
+      "aria_label": "Earbuds Lite",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "a[href='/product/speaker-mini']",
+      "tag": "a",
+      "type": null,
+      "text": "Speaker Mini",
+      "aria_label": "Speaker Mini",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "a[href='/product/charging-case']",
+      "tag": "a",
+      "type": null,
+      "text": "Charging Case",
+      "aria_label": "Charging Case",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    }
+  ],
+  "network": [
+    {
+      "url": "https://api.shop.example.com/products/wireless-headphones-pro",
+      "method": "GET",
+      "status": 200,
+      "type": "fetch"
+    },
+    {
+      "url": "https://api.shop.example.com/products/wireless-headphones-pro/reviews",
+      "method": "GET",
+      "status": 200,
+      "type": "fetch"
+    },
+    {
+      "url": "https://api.shop.example.com/recommendations?product=wireless-headphones-pro",
+      "method": "GET",
+      "status": 200,
+      "type": "fetch"
+    },
+    {
+      "url": "https://cdn.shop.example.com/images/headphones-pro-main.webp",
+      "method": "GET",
+      "status": 200,
+      "type": "image"
+    },
+    {
+      "url": "https://api.shop.example.com/cart",
+      "method": "GET",
+      "status": 200,
+      "type": "fetch"
+    },
+    {
+      "url": "https://analytics.shop.example.com/track",
+      "method": "POST",
+      "status": 204,
+      "type": "beacon"
+    }
+  ],
+  "expected_graph": {
+    "element_count": 20,
+    "min_dom_nodes": 21,
+    "min_a11y_nodes": 16,
+    "min_visual_nodes": 20,
+    "min_intent_nodes": 16,
+    "min_network_nodes": 1,
+    "min_total_nodes": 60,
+    "min_containment_edges": 21,
+    "min_evidence_edges": 20,
+    "min_dependency_edges": 36,
+    "navigable_count": 6,
+    "clickable_count": 5,
+    "fillable_count": 2,
+    "selectable_count": 3,
+    "toggleable_count": 2,
+    "hidden_elements": 3
+  }
+}
