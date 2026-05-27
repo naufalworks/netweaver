@@ -40,6 +40,26 @@ acceptance:
 ## Done
 
 
+### NW-032 End-to-End Demo Pipeline
+owner: Worker
+model: claude-combo
+status: done
+completed: 2026-05-28
+scope:
+- netweaver/demo.py
+- tests/test_demo.py
+- .tini/netweaver/DEMO.md
+acceptance:
+- DemoModule class with run_demo(url, actions) → DemoResult with EvidenceReport ✅
+- Chains: Observer → SceneGraphBuilder → GoalTranslator → ActionOrchestrator ✅
+- Mock browser returns realistic page fixtures via observe_page_mock() ✅
+- Produces EvidenceReport with ≥3 claims (4 claims) and evidence chain ✅
+- CLI entry: python -m netweaver.demo --url example.com --actions "click(#login),fill(#user,admin)" ✅
+- DEMO.md documents architecture flow with example output ✅
+- All existing tests remain green (2018 passed) ✅
+- 32 new tests (parse_actions, DemoModule, CLI, error paths, no-browser-imports) ✅
+
+
 ### NW-031 Observer & Playwright Integration Tests
 owner: Worker
 model: claude-combo
