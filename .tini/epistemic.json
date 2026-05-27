@@ -213,6 +213,60 @@
       "access_count": 0,
       "last_accessed": null,
       "_id": "4d523c4a11dcfb72"
+    },
+    "8dd9a4df195eb1df": {
+      "content": "Task explore_https://example.com outcome: success",
+      "topic": "worker_outcomes",
+      "tags": [
+        "worker",
+        "outcome",
+        "success",
+        "explore_https://example.com"
+      ],
+      "context": "{'elements': 1, 'actions': 1, 'links': 0, 'depth': 0}",
+      "confidence": 0.85,
+      "created": "2026-05-27T18:09:34.146846+00:00",
+      "last_verified": "2026-05-27T18:09:34.146847+00:00",
+      "decay_rate": 0.0,
+      "sources": [
+        {
+          "type": "worker_outcome",
+          "ref": "daemon.py:record_outcome(explore_https://example.com)",
+          "author": "",
+          "created": "2026-05-27T18:09:34.146833+00:00",
+          "trustworthiness": 0.9
+        }
+      ],
+      "contradictions": [],
+      "supports": [],
+      "depends_on": [],
+      "citations": [],
+      "access_count": 0,
+      "last_accessed": null,
+      "_id": "8dd9a4df195eb1df"
+    },
+    "2d8e252ace73e907": {
+      "content": "Agent web_explorer succeeded at web_interaction task explore_https://example.com",
+      "topic": "competence",
+      "tags": [
+        "agent",
+        "web_explorer",
+        "web_interaction",
+        "outcome"
+      ],
+      "context": "{\"success\": true, \"duration\": 7.695839881896973, \"files\": []}",
+      "confidence": 0.85,
+      "created": "2026-05-27T18:09:34.147978+00:00",
+      "last_verified": "2026-05-27T18:09:34.147979+00:00",
+      "decay_rate": 0.02,
+      "sources": [],
+      "contradictions": [],
+      "supports": [],
+      "depends_on": [],
+      "citations": [],
+      "access_count": 0,
+      "last_accessed": null,
+      "_id": "2d8e252ace73e907"
     }
   },
   "contradictions": [
@@ -226,5 +280,5 @@
       "resolution": ""
     }
   ],
-  "saved_at": "2026-05-27T17:50:29.916485+00:00"
+  "saved_at": "2026-05-27T18:09:34.148027+00:00"
 }
