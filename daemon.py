@@ -997,7 +997,7 @@ async def task_scheduler_loop() -> None:
                     f"{total_items} items ({duration:.1f}s)"
                 )
 
-                # Detect changes
+                # Detect changes BEFORE saving state (so we can compare with old hashes)
                 changes = task_scheduler.detect_changes(results)
                 if changes:
                     logger.info(f"Changes detected: {len(changes)} tasks")
@@ -1013,6 +1013,9 @@ async def task_scheduler_loop() -> None:
                         msg_lines.append(f"\n_...and {len(changes) - 5} more changes_")
                     
                     notify_telegram("\n".join(msg_lines))
+
+                # Now save state (after change detection)
+                task_scheduler.save_state()
 
                 # Log event
                 log_event("task_scheduler", {
