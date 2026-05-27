@@ -32,6 +32,9 @@ from typing import Any, Dict, List, Optional, Set
 
 from netweaver.memory_palace import MemoryPalace
 from netweaver.epistemic_daemon import EpistemicDaemon
+from netweaver.dreaming import DreamEngine
+from netweaver.causal import CausalChainTracer
+from netweaver.competence import CompetenceMatrix
 
 # --- Configuration ---
 WORKDIR = Path(os.environ.get("NETWEAVER_WORKDIR", str(Path.home() / "Documents/myhermes")))
@@ -85,6 +88,9 @@ shutdown_event = asyncio.Event()
 inflight_tasks: Set[asyncio.Task] = set()
 daemon_palace = MemoryPalace("daemon")
 epistemic_daemon = EpistemicDaemon()
+dream_engine = DreamEngine(workdir=WORKDIR, epistemic_os=epistemic_daemon.ep)
+causal_tracer = CausalChainTracer(workdir=WORKDIR)
+competence_matrix = CompetenceMatrix(workdir=WORKDIR, epistemic_os=epistemic_daemon.ep)
 file_hashes: Dict[str, str] = {}
 cycle_count = 0
 
@@ -913,6 +919,14 @@ async def scan_loop() -> None:
                             success=True,
                             evidence={"phase": "plan_generated", "cycle": cycle_count},
                         )
+                        # Record competence for plan generation
+                        competence_matrix.record_simple(
+                            agent_id="daemon",
+                            task_id=task_id,
+                            task_type="plan_gen",
+                            success=True,
+                            duration=plan_gen_time / max(len(gaps[:3]), 1),
+                        )
             else:
                 logger.debug(f"Cycle {cycle_count}: no gaps")
 
@@ -947,6 +961,25 @@ async def scan_loop() -> None:
                 else:
                     record_failure("daemon", f"periodic test fail: {summary}")
                     log_event("periodic_test_fail", {"summary": summary})
+                    
+                    # Causal chain analysis on test failures
+                    try:
+                        # Extract first failing test from summary
+                        failing_test = re.search(r"(test_\S+\.py::\S+)", summary)
+                        if failing_test:
+                            test_name = failing_test.group(1)
+                            error_msg = summary[:500]  # Truncate for analysis
+                            chain = causal_tracer.trace_failure(test_name, error_msg)
+                            if chain.confidence > 0.5:
+                                logger.info(f"Causal analysis: {chain.root_cause} ({chain.confidence:.0%} confidence)")
+                                log_event("causal_analysis", {
+                                    "test": test_name,
+                                    "root_cause": chain.root_cause,
+                                    "confidence": chain.confidence,
+                                    "fix": chain.fix_suggestion,
+                                })
+                    except Exception as e:
+                        logger.debug(f"Causal tracing failed: {e}")
 
             # 5. Epistemic health check (every 15 cycles = ~30min)
             if cycle_count % 15 == 0 and cycle_count > 0:
@@ -961,6 +994,20 @@ async def scan_loop() -> None:
                         log_event("epistemic_health_low", {"health": health})
                 except Exception as e:
                     logger.warning(f"Epistemic health check failed: {e}")
+
+            # 6. Dreaming cycle (every 20 cycles = ~40min)
+            if cycle_count % 20 == 0 and cycle_count > 0:
+                try:
+                    logger.info(f"Cycle {cycle_count}: dreaming...")
+                    hypotheses = dream_engine.dream(max_hypotheses=5)
+                    if hypotheses:
+                        logger.info(f"Generated {len(hypotheses)} hypotheses")
+                        log_event("dream", {
+                            "count": len(hypotheses),
+                            "hypotheses": [{"type": h.type, "content": h.content[:100], "confidence": h.confidence} for h in hypotheses],
+                        })
+                except Exception as e:
+                    logger.warning(f"Dreaming failed: {e}")
 
         except Exception as e:
             logger.error(f"Cycle {cycle_count} error: {e}\n{traceback.format_exc()}")

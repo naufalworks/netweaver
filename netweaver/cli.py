@@ -640,6 +640,56 @@ def main():
     
     ep_auto_verify = ep_subparsers.add_parser("auto-verify", help="Run full auto-verification cycle")
     
+    # Dreaming subcommand
+    dream_parser = subparsers.add_parser("dream", help="Dreaming — background hypothesis generation")
+    dream_subparsers = dream_parser.add_subparsers(dest="dream_action", help="Dreaming action")
+    
+    dream_subparsers.add_parser("generate", help="Generate new hypotheses")
+    dream_subparsers.add_parser("list", help="List all hypotheses")
+    dream_subparsers.add_parser("top", help="Show top hypotheses by confidence")
+    
+    dream_validate = dream_subparsers.add_parser("validate", help="Validate a hypothesis")
+    dream_validate.add_argument("hypothesis_id", help="Hypothesis ID to validate")
+    dream_validate.add_argument("result", help="Validation result (confirmed/rejected)")
+    dream_validate.add_argument("--confidence", "-c", type=float, help="New confidence score")
+    
+    dream_subparsers.add_parser("report", help="Generate dreaming report")
+    
+    # Causal Chain Analysis subcommand
+    causal_parser = subparsers.add_parser("causal", help="Causal chain analysis — trace failures to root causes")
+    causal_subparsers = causal_parser.add_subparsers(dest="causal_action", help="Causal action")
+    
+    causal_trace = causal_subparsers.add_parser("trace", help="Trace a test failure")
+    causal_trace.add_argument("test_name", help="Test name (e.g., test_foo.py::test_bar)")
+    causal_trace.add_argument("error", help="Error message")
+    
+    causal_error = causal_subparsers.add_parser("error", help="Trace a general error")
+    causal_error.add_argument("error_text", help="Error text")
+    
+    causal_subparsers.add_parser("batch", help="Batch trace recent test failures")
+    
+    # Competence Matrix subcommand
+    comp_parser = subparsers.add_parser("comp", help="Competence matrix — agent specialization tracking")
+    comp_subparsers = comp_parser.add_subparsers(dest="comp_action", help="Competence action")
+    
+    comp_subparsers.add_parser("team", help="Show team competence report")
+    
+    comp_agent = comp_subparsers.add_parser("agent", help="Show agent competence")
+    comp_agent.add_argument("agent_id", help="Agent ID")
+    
+    comp_route = comp_subparsers.add_parser("route", help="Route a task to best agent")
+    comp_route.add_argument("task_type", help="Task type (architecture/bugfix/refactor/test/feature)")
+    comp_route.add_argument("--files", help="Comma-separated file list")
+    
+    comp_subparsers.add_parser("imbalances", help="Detect workload imbalances")
+    
+    comp_record = comp_subparsers.add_parser("record", help="Record task outcome")
+    comp_record.add_argument("agent_id", help="Agent ID")
+    comp_record.add_argument("task_id", help="Task ID")
+    comp_record.add_argument("task_type", help="Task type")
+    comp_record.add_argument("--success", "-s", action="store_true", help="Mark as success")
+    comp_record.add_argument("--duration", "-d", type=float, default=0, help="Duration in seconds")
+    
     args = parser.parse_args()
     
     if args.command == "status":
@@ -668,6 +718,21 @@ def main():
             cmd_epistemic(args)
         else:
             ep_parser.print_help()
+    elif args.command == "dream":
+        if hasattr(args, 'dream_action') and args.dream_action:
+            cmd_dream(args)
+        else:
+            dream_parser.print_help()
+    elif args.command == "causal":
+        if hasattr(args, 'causal_action') and args.causal_action:
+            cmd_causal(args)
+        else:
+            causal_parser.print_help()
+    elif args.command == "comp":
+        if hasattr(args, 'comp_action') and args.comp_action:
+            cmd_competence(args)
+        else:
+            comp_parser.print_help()
     else:
         parser.print_help()
 
