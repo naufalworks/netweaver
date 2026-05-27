@@ -1,0 +1,413 @@
+{
+  "url": "https://dashboard.example.com/admin/analytics",
+  "title": "Analytics Dashboard | Example Corp",
+  "description": "Complex dashboard with iframes, shadow DOM widgets, disabled states, nested navigation, and real-time data feeds",
+  "html": "<!DOCTYPE html><html lang='en'><head><title>Analytics Dashboard</title></head><body><header><nav role='navigation'><a href='/dashboard'>Dashboard</a><a href='/reports'>Reports</a><a href='/settings' aria-label='Account settings'>Settings</a><a href='/logout' aria-label='Sign out'>Logout</a></nav></header><main><section id='widgets'><div id='widget-revenue' class='widget' role='region' aria-label='Revenue widget'><h2>Revenue</h2><button id='widget-revenue-refresh' aria-label='Refresh revenue data'>↻</button><select id='widget-revenue-range' aria-label='Date range'><option value='7d'>Last 7 days</option><option value='30d'>Last 30 days</option><option value='90d'>Last 90 days</option></select></div><div id='widget-users' class='widget' role='region' aria-label='Users widget'><h2>Active Users</h2><button id='widget-users-refresh' aria-label='Refresh user data'>↻</button><input type='checkbox' id='widget-users-realtime' aria-label='Real-time mode' /><label for='widget-users-realtime'>Real-time</label></div><div id='widget-disabled' class='widget' role='region' aria-label='Locked widget'><h2>Premium Feature</h2><button id='widget-disabled-btn' disabled aria-label='Upgrade to access'>Upgrade Required</button></div></section><section id='data-table' role='table' aria-label='Analytics data table'><input type='search' id='table-search' placeholder='Filter results...' aria-label='Filter table' /><select id='table-page-size' aria-label='Rows per page'><option value='10'>10</option><option value='25'>25</option><option value='50'>50</option></select><button id='export-csv' aria-label='Export as CSV'>Export CSV</button><button id='export-pdf' aria-label='Export as PDF'>Export PDF</button><button id='table-prev' disabled aria-label='Previous page'>← Prev</button><button id='table-next' aria-label='Next page'>Next →</button></section><section id='notifications' role='alert' aria-label='Notifications'><button id='dismiss-notification' aria-label='Dismiss notification'>✕</button><a href='/alerts/123' aria-label='View alert details'>View Details</a></section></main><aside id='sidebar'><h2>Quick Actions</h2><button id='create-report' aria-label='Create new report'>+ New Report</button><button id='schedule-report' aria-label='Schedule report'>Schedule</button><a href='/admin/users' aria-label='Manage users'>Manage Users</a><a href='/admin/audit' aria-label='Audit log'>Audit Log</a></aside><iframe id='embedded-chart' src='https://charts.example.com/embed/revenue' title='Revenue chart'></iframe></body></html>",
+  "interactive_elements": [
+    {
+      "selector": "a[href='/dashboard']",
+      "tag": "a",
+      "type": null,
+      "text": "Dashboard",
+      "aria_label": null,
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "a[href='/reports']",
+      "tag": "a",
+      "type": null,
+      "text": "Reports",
+      "aria_label": null,
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "a[href='/settings']",
+      "tag": "a",
+      "type": null,
+      "text": "Settings",
+      "aria_label": "Account settings",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "a[href='/logout']",
+      "tag": "a",
+      "type": null,
+      "text": "Logout",
+      "aria_label": "Sign out",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "button#widget-revenue-refresh",
+      "tag": "button",
+      "type": null,
+      "text": "↻",
+      "aria_label": "Refresh revenue data",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "select#widget-revenue-range",
+      "tag": "select",
+      "type": null,
+      "text": "",
+      "aria_label": "Date range",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "button#widget-users-refresh",
+      "tag": "button",
+      "type": null,
+      "text": "↻",
+      "aria_label": "Refresh user data",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "input#widget-users-realtime",
+      "tag": "input",
+      "type": "checkbox",
+      "text": "",
+      "aria_label": "Real-time mode",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "button#widget-disabled-btn",
+      "tag": "button",
+      "type": null,
+      "text": "Upgrade Required",
+      "aria_label": "Upgrade to access",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": false,
+        "editable": false,
+        "stable": true,
+        "pointer_events": false
+      }
+    },
+    {
+      "selector": "input#table-search",
+      "tag": "input",
+      "type": "search",
+      "text": "",
+      "aria_label": "Filter table",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": true,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "select#table-page-size",
+      "tag": "select",
+      "type": null,
+      "text": "",
+      "aria_label": "Rows per page",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "button#export-csv",
+      "tag": "button",
+      "type": null,
+      "text": "Export CSV",
+      "aria_label": "Export as CSV",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "button#export-pdf",
+      "tag": "button",
+      "type": null,
+      "text": "Export PDF",
+      "aria_label": "Export as PDF",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "button#table-prev",
+      "tag": "button",
+      "type": null,
+      "text": "← Prev",
+      "aria_label": "Previous page",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": false,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "button#table-next",
+      "tag": "button",
+      "type": null,
+      "text": "Next →",
+      "aria_label": "Next page",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "button#dismiss-notification",
+      "tag": "button",
+      "type": null,
+      "text": "✕",
+      "aria_label": "Dismiss notification",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "a[href='/alerts/123']",
+      "tag": "a",
+      "type": null,
+      "text": "View Details",
+      "aria_label": "View alert details",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "button#create-report",
+      "tag": "button",
+      "type": null,
+      "text": "+ New Report",
+      "aria_label": "Create new report",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "button#schedule-report",
+      "tag": "button",
+      "type": null,
+      "text": "Schedule",
+      "aria_label": "Schedule report",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "a[href='/admin/users']",
+      "tag": "a",
+      "type": null,
+      "text": "Manage Users",
+      "aria_label": "Manage users",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    },
+    {
+      "selector": "a[href='/admin/audit']",
+      "tag": "a",
+      "type": null,
+      "text": "Audit Log",
+      "aria_label": "Audit log",
+      "shadow_root": false,
+      "actionability": {
+        "attached": true,
+        "visible": true,
+        "enabled": true,
+        "editable": false,
+        "stable": true,
+        "pointer_events": true
+      }
+    }
+  ],
+  "network": [
+    {
+      "url": "https://api.dashboard.example.com/analytics/revenue",
+      "method": "GET",
+      "status": 200,
+      "type": "fetch"
+    },
+    {
+      "url": "https://api.dashboard.example.com/analytics/users",
+      "method": "GET",
+      "status": 200,
+      "type": "fetch"
+    },
+    {
+      "url": "https://api.dashboard.example.com/analytics/table?page=1&size=10",
+      "method": "GET",
+      "status": 200,
+      "type": "fetch"
+    },
+    {
+      "url": "https://api.dashboard.example.com/notifications",
+      "method": "GET",
+      "status": 200,
+      "type": "fetch"
+    },
+    {
+      "url": "https://charts.example.com/embed/revenue",
+      "method": "GET",
+      "status": 200,
+      "type": "document"
+    },
+    {
+      "url": "https://api.dashboard.example.com/analytics/export",
+      "method": "POST",
+      "status": 202,
+      "type": "fetch"
+    },
+    {
+      "url": "https://ws.dashboard.example.com/realtime",
+      "method": "GET",
+      "status": 101,
+      "type": "websocket"
+    },
+    {
+      "url": "https://api.dashboard.example.com/analytics/users?stale=true",
+      "method": "GET",
+      "status": 429,
+      "type": "fetch"
+    }
+  ],
+  "expected_graph": {
+    "element_count": 21,
+    "min_dom_nodes": 22,
+    "min_a11y_nodes": 21,
+    "min_visual_nodes": 21,
+    "min_intent_nodes": 18,
+    "min_network_nodes": 1,
+    "min_total_nodes": 70,
+    "min_containment_edges": 22,
+    "min_evidence_edges": 21,
+    "min_dependency_edges": 40,
+    "navigable_count": 7,
+    "clickable_count": 9,
+    "fillable_count": 1,
+    "selectable_count": 2,
+    "toggleable_count": 1,
+    "disabled_elements": 2,
+    "has_iframe": true
+  }
+}
