@@ -1,0 +1,67 @@
+{
+  "agent_type": "daemon",
+  "updated": "2026-05-27T16:01:57.843917+00:00",
+  "count": 3,
+  "memories": [
+    {
+      "id": "e98659076886",
+      "agent_type": "daemon",
+      "decision": "generated plan for NW-031",
+      "context": {
+        "scope": "Observer/Playwright tests",
+        "task_id": "NW-031"
+      },
+      "outcome": "success",
+      "outcome_details": "",
+      "timestamp": 1779897717.843404,
+      "access_count": 0,
+      "last_accessed": 1779897717.843404,
+      "tags": [
+        "plan-gen",
+        "NW-031",
+        "testing"
+      ],
+      "related_memory_ids": []
+    },
+    {
+      "id": "b070c41f2b18",
+      "agent_type": "daemon",
+      "decision": "generated plan for NW-032",
+      "context": {
+        "scope": "E2E demo pipeline",
+        "task_id": "NW-032"
+      },
+      "outcome": "success",
+      "outcome_details": "",
+      "timestamp": 1779897717.843783,
+      "access_count": 0,
+      "last_accessed": 1779897717.843783,
+      "tags": [
+        "plan-gen",
+        "NW-032",
+        "demo"
+      ],
+      "related_memory_ids": []
+    },
+    {
+      "id": "ff78c988902f",
+      "agent_type": "daemon",
+      "decision": "generated plan for NW-033",
+      "context": {
+        "scope": "Real-site golden snapshots",
+        "task_id": "NW-033"
+      },
+      "outcome": "pending",
+      "outcome_details": "",
+      "timestamp": 1779897717.843913,
+      "access_count": 0,
+      "last_accessed": 1779897717.843913,
+      "tags": [
+        "plan-gen",
+        "NW-033",
+        "testing"
+      ],
+      "related_memory_ids": []
+    }
+  ]
+}

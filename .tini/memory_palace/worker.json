@@ -1,0 +1,43 @@
+{
+  "agent_type": "worker",
+  "updated": "2026-05-27T16:01:57.844529+00:00",
+  "count": 2,
+  "memories": [
+    {
+      "id": "f3bb1c9298c9",
+      "agent_type": "worker",
+      "decision": "implemented observer tests",
+      "context": {
+        "pattern": "unit-test",
+        "module": "observer"
+      },
+      "outcome": "success",
+      "outcome_details": "",
+      "timestamp": 1779897717.8444312,
+      "access_count": 0,
+      "last_accessed": 1779897717.8444312,
+      "tags": [
+        "unit-test"
+      ],
+      "related_memory_ids": []
+    },
+    {
+      "id": "141677654a3b",
+      "agent_type": "worker",
+      "decision": "implemented bridge tests",
+      "context": {
+        "pattern": "integration-test",
+        "module": "playwright_bridge"
+      },
+      "outcome": "failure",
+      "outcome_details": "",
+      "timestamp": 1779897717.844526,
+      "access_count": 0,
+      "last_accessed": 1779897717.844526,
+      "tags": [
+        "integration-test"
+      ],
+      "related_memory_ids": []
+    }
+  ]
+}

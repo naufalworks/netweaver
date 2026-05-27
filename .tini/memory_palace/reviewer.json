@@ -1,0 +1,63 @@
+{
+  "agent_type": "reviewer",
+  "updated": "2026-05-27T16:01:57.844325+00:00",
+  "count": 3,
+  "memories": [
+    {
+      "id": "5a5e95d179da",
+      "agent_type": "reviewer",
+      "decision": "approved NW-027 (test healer)",
+      "context": {
+        "scope": "test-healer",
+        "complexity": "medium"
+      },
+      "outcome": "success",
+      "outcome_details": "",
+      "timestamp": 1779897717.844116,
+      "access_count": 0,
+      "last_accessed": 1779897717.844116,
+      "tags": [
+        "test",
+        "infrastructure"
+      ],
+      "related_memory_ids": []
+    },
+    {
+      "id": "16cb0bbb7f77",
+      "agent_type": "reviewer",
+      "decision": "approved NW-028 (backlog gen)",
+      "context": {
+        "scope": "backlog-generator",
+        "complexity": "high"
+      },
+      "outcome": "success",
+      "outcome_details": "",
+      "timestamp": 1779897717.844222,
+      "access_count": 0,
+      "last_accessed": 1779897717.844222,
+      "tags": [
+        "daemon",
+        "planning"
+      ],
+      "related_memory_ids": []
+    },
+    {
+      "id": "c65e71fea2f4",
+      "agent_type": "reviewer",
+      "decision": "rejected NW-099 (vague scope)",
+      "context": {
+        "scope": "improve-stuff"
+      },
+      "outcome": "success",
+      "outcome_details": "",
+      "timestamp": 1779897717.844312,
+      "access_count": 0,
+      "last_accessed": 1779897717.844312,
+      "tags": [
+        "rejected",
+        "vague"
+      ],
+      "related_memory_ids": []
+    }
+  ]
+}
