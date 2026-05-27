@@ -27,7 +27,7 @@ def worker():
     return WorkerProfile(
         worker_id="netweaver-runtime-engineer",
         name="Runtime Engineer",
-        model="glm/glm-5.1",
+        model="claude-combo",
         competences=[
             Competence("browser", 1.0),
             Competence("executor", 1.0),

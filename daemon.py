@@ -504,12 +504,33 @@ def parse_review_queue_pending() -> Set[str]:
     return ids
 
 
+def parse_kanban_done() -> Set[str]:
+    """Get task IDs in the done section of KANBAN."""
+    if not KANBAN.exists():
+        return set()
+    content = KANBAN.read_text()
+    ids = set()
+    in_done = False
+    for line in content.split("\n"):
+        if line.strip() == "## done":
+            in_done = True
+            continue
+        if line.startswith("## ") and in_done:
+            break
+        if in_done and line.startswith("### "):
+            parts = line[4:].split(" ", 1)
+            if parts:
+                ids.add(parts[0])
+    return ids
+
+
 def detect_gaps() -> List[Dict[str, str]]:
-    """Find backlog tasks not yet in KANBAN or REVIEW_QUEUE."""
+    """Find backlog tasks not yet in KANBAN (ready or done) or REVIEW_QUEUE."""
     backlog_tasks = parse_backlog_tasks()
     ready_ids = parse_kanban_ready()
+    done_ids = parse_kanban_done()
     queue_ids = parse_review_queue_pending()
-    active_ids = ready_ids | queue_ids
+    active_ids = ready_ids | done_ids | queue_ids
 
     gaps = []
     for task in backlog_tasks:

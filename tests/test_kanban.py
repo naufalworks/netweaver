@@ -43,16 +43,11 @@ def test_moved_ids_in_done():
         assert id_ in done_section, f"{id_} not found in Done section"
 
 
-def test_nw301_in_backlog():
+def test_backlog_has_no_stale_items():
+    """Backlog should not contain already-completed tasks."""
+    # NW-301 was a placeholder that no longer exists — verify it's gone
     text = KANBAN_PATH.read_text()
-    sections = text.split("## ")
-    backlog_section = None
-    for section in sections:
-        if section.startswith("Backlog"):
-            backlog_section = section
-            break
-    assert backlog_section is not None, "Backlog section not found"
-    assert "NW-301" in backlog_section, "NW-301 not found in Backlog section"
+    assert "NW-301" not in text, "Stale placeholder NW-301 should not be in root KANBAN"
 
 # ---------------------------------------------------------------------------
 # New unit tests for move logic

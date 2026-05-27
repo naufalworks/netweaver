@@ -634,7 +634,7 @@ class TestCompetenceAndEventLedger:
 
     def test_worker_profile_serialization(self):
         wp = WorkerProfile(
-            worker_id="w1", name="QA Agent", model="glm/glm-5.1",
+            worker_id="w1", name="QA Agent", model="claude-combo",
             competences=[Competence("testing"), Competence("benchmark", 0.9)],
         )
         d = wp.to_dict()
