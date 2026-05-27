@@ -17,18 +17,20 @@
     },
     "web_explorer": {
       "agent_id": "web_explorer",
-      "total_tasks": 2,
-      "successful_tasks": 2,
+      "total_tasks": 3,
+      "successful_tasks": 3,
       "task_type_stats": {
         "web_interaction": {
-          "success": 2,
-          "total": 2
+          "success": 3,
+          "total": 3
         }
       },
       "file_familiarity": {},
-      "avg_duration": 4.577022433280945,
-      "last_active": "2026-05-28T01:09:35.665704",
-      "specializations": []
+      "avg_duration": 4.3173112869262695,
+      "last_active": "2026-05-28T01:09:39.812520",
+      "specializations": [
+        "web_interaction"
+      ]
     }
   },
   "records": [
@@ -61,7 +63,17 @@
       "duration_seconds": 1.458204984664917,
       "timestamp": "2026-05-28T01:09:35.665700",
       "context": {}
+    },
+    {
+      "agent_id": "web_explorer",
+      "task_id": "explore_https://books.toscrape.com",
+      "task_type": "web_interaction",
+      "files_touched": [],
+      "success": true,
+      "duration_seconds": 3.797888994216919,
+      "timestamp": "2026-05-28T01:09:39.812516",
+      "context": {}
     }
   ],
-  "updated": "2026-05-28T01:09:35.666066"
+  "updated": "2026-05-28T01:09:39.812907"
 }
