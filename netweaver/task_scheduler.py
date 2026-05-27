@@ -198,7 +198,7 @@ class TaskScheduler:
                 result = self._run_task(task)
                 results.append(result)
                 
-                # Update state
+                # Update state (but don't save yet — daemon saves after change detection)
                 state.last_run = datetime.now().isoformat()
                 state.run_count += 1
                 if result.success:
@@ -211,9 +211,6 @@ class TaskScheduler:
                     f"[{task_id}] {'✓' if result.success else '✗'} "
                     f"extracted {len(result.data)} items"
                 )
-                
-                # Save state after EACH task (not just at end of cycle)
-                self._save_state()
                 
             except Exception as e:
                 logger.error(f"[{task_id}] Error: {e}")
