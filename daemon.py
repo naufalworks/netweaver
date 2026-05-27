@@ -1015,7 +1015,7 @@ async def task_scheduler_loop() -> None:
                     notify_telegram("\n".join(msg_lines))
 
                 # Now save state (after change detection)
-                task_scheduler.save_state()
+                task_scheduler._save_state()
 
                 # Log event
                 log_event("task_scheduler", {
