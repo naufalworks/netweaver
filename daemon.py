@@ -30,6 +30,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set
 
+from netweaver.memory_palace import MemoryPalace
+
 # --- Configuration ---
 WORKDIR = Path(os.environ.get("NETWEAVER_WORKDIR", str(Path.home() / "Documents/myhermes")))
 TINI_DIR = WORKDIR / ".tini"
@@ -80,6 +82,7 @@ logger = logging.getLogger("daemon")
 # --- Global state ---
 shutdown_event = asyncio.Event()
 inflight_tasks: Set[asyncio.Task] = set()
+daemon_palace = MemoryPalace("daemon")
 file_hashes: Dict[str, str] = {}
 cycle_count = 0
 
@@ -885,6 +888,15 @@ async def scan_loop() -> None:
                 count = write_plans_to_review_queue(plans)
                 if count > 0:
                     record_success()
+                    # Remember plan generation for future learning
+                    for gap, plan_text in zip(gaps[:3], plans):
+                        task_id = gap.get("id", "unknown")
+                        daemon_palace.remember(
+                            decision=f"generated plan for {task_id}",
+                            context={"scope": gap.get("goal", "")[:80], "task_id": task_id},
+                            outcome="pending",
+                            tags=["plan-gen", task_id],
+                        )
             else:
                 logger.debug(f"Cycle {cycle_count}: no gaps")
 
