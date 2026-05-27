@@ -72,7 +72,6 @@ logging.basicConfig(
     format="%(asctime)s [%(levelname)s] %(message)s",
     handlers=[
         logging.FileHandler(str(LOG_FILE), mode="a"),
-        logging.StreamHandler(sys.stdout),
     ],
 )
 logger = logging.getLogger("daemon")
