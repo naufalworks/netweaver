@@ -1001,7 +1001,18 @@ async def task_scheduler_loop() -> None:
                 changes = task_scheduler.detect_changes(results)
                 if changes:
                     logger.info(f"Changes detected: {len(changes)} tasks")
-                    # TODO: Send Telegram notification here
+                    
+                    # Send Telegram notification
+                    msg_lines = ["🔔 *NetWeaver Task Changes Detected*\n"]
+                    for change in changes[:5]:  # Limit to first 5
+                        task_id = change.get("task_id", "unknown")
+                        items = change.get("items_count", 0)
+                        msg_lines.append(f"• `{task_id}`: {items} items")
+                    
+                    if len(changes) > 5:
+                        msg_lines.append(f"\n_...and {len(changes) - 5} more changes_")
+                    
+                    notify_telegram("\n".join(msg_lines))
 
                 # Log event
                 log_event("task_scheduler", {
