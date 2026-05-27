@@ -47,7 +47,7 @@ Plans are auto-approved by the reviewer agent when LOW risk + clear scope.
 
 ---
 ### NW-031 Observer & Playwright Integration Tests
-**Status**: APPROVED — MEDIUM risk, clear scope (tests/ only), testable acceptance criteria (30+ tests, mocked browser, coverage targets), no KANBAN conflicts, no failure history. Reviewed 2026-05-27.
+**Status**: DONE — Implemented and verified. 86 new tests pass, 1986 total suite green. Completed 2026-05-28.
 **Risk**: MEDIUM
 **Scope**: tests/test_observer.py, tests/test_playwright_bridge.py
 **Tiny Goal**: Add comprehensive integration tests for observer.py (301 LOC) and playwright_bridge.py (399 LOC) — the 2 untested modules. Mock browser interactions, test page parsing, action dispatch, error handling. No real browser needed.
