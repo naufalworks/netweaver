@@ -1,42 +1,6 @@
 # NetWeaver Kanban
 
-## ready
-
-### NW-A003 CI Setup
-owner: Runtime Engineer
-model: claude-combo
-status: done
-completed: 2026-05-25
-
-### P2-002 Live Executor Integration
-owner: Runtime Engineer
-model: claude-combo
-status: done
-completed: 2026-05-25
-scope:
-- netweaver/executor.py
-- netweaver/cloak_bridge.py
-- tests/test_executor.py
-acceptance:
-- executor.py uses real browser actions (click, type, wait) via CloakBrowser ✅
-- Evidence collection from real browser state (not mock data) ✅
-- Backward compatible: mock mode still works as fallback ✅
-- All 1311 existing tests remain green ✅ (1389 total, +9 live mode tests)
-
-### P2-005 Skill Learning from Real Executions
-owner: Runtime Engineer
-model: claude-combo
-status: done
-completed: 2026-05-25
-scope:
-- netweaver/skill_learner.py
-- netweaver/skill_matcher.py
-- tests/test_skill_learner.py
-acceptance:
-- SiteSkills learned from successful real-browser orchestrations ⚠️ (module exists, not integrated into orchestrator loop)
-- Skill matching reuses learned skills on repeat visits ⚠️ (module exists, not integrated into planner loop)
-- Success rate measurably improves over sessions ⚠️ (requires orchestrator+planner integration)
-- All 1389 existing tests remain green ✅ (1400 total, 107 skill tests pass)
+## Ready
 
 ### P2-006 Safety Validation on Real Interactions
 owner: Safety Reviewer
@@ -50,20 +14,6 @@ acceptance:
 - ASK/ABORT behavior works on real risky actions
 - All 1389 existing tests remain green
 
-### NW-026 Circuit Breaker Fix
-owner: Runtime Engineer
-model: claude-combo
-status: done
-completed: 2026-05-27
-scope:
-- daemon.py (record_success now clears paused_until)
-- tests/test_daemon.py (rewritten: match actual daemon API)
-acceptance:
-- record_success() clears both consecutive_failures AND paused_until ✅
-- Circuit breaker trips after MAX_FAILURES, pauses agent ✅
-- record_success() after trip → agent unpaused immediately ✅
-- parse_kanban_done() extracts done IDs, detect_gaps skips them ✅
-- All 1446 tests pass, 0 failures ✅
 
 ### NW-008 Newbie UX Contract
 owner: CEO/Product
@@ -80,26 +30,15 @@ acceptance:
 - no implementation unless evidence.py already exists
 
 
-### NW-011 Worker FSM Protocol
-owner: Safety Reviewer
-model: claude-combo
-status: done
-completed: 2026-05-25
-scope:
-- .tini/netweaver/company/DEVELOPMENT_FLOW.md
-- .tini/netweaver/company/COMMUNICATION.md
-- .tini/netweaver/company/KANBAN.md
-acceptance:
-- define PLAN/INSPECT/PATCH/TEST/REVIEW/DONE states
-- define failure states TRIAGE/BLOCKED/HUMAN_GATE
-- require agents to report current state in HANDOFF
+
+## In Progress
 
 
-## in_progress
+## Blocked
 
-## blocked
 
-## done
+## Done
+
 
 ### NW-A001 Fix PROJECT_GOAL.md
 owner: Runtime Engineer
@@ -603,3 +542,74 @@ acceptance:
 - evidence report links claim -> observations ✅
 - supports DOM/network/storage/actionability evidence ✅
 - tests validate unsupported claim fails ✅
+
+### NW-A003 CI Setup
+owner: Runtime Engineer
+model: claude-combo
+status: done
+completed: 2026-05-25
+
+
+### P2-002 Live Executor Integration
+owner: Runtime Engineer
+model: claude-combo
+status: done
+completed: 2026-05-25
+scope:
+- netweaver/executor.py
+- netweaver/cloak_bridge.py
+- tests/test_executor.py
+acceptance:
+- executor.py uses real browser actions (click, type, wait) via CloakBrowser ✅
+- Evidence collection from real browser state (not mock data) ✅
+- Backward compatible: mock mode still works as fallback ✅
+- All 1311 existing tests remain green ✅ (1389 total, +9 live mode tests)
+
+
+### P2-005 Skill Learning from Real Executions
+owner: Runtime Engineer
+model: claude-combo
+status: done
+completed: 2026-05-25
+scope:
+- netweaver/skill_learner.py
+- netweaver/skill_matcher.py
+- tests/test_skill_learner.py
+acceptance:
+- SiteSkills learned from successful real-browser orchestrations ⚠️ (module exists, not integrated into orchestrator loop)
+- Skill matching reuses learned skills on repeat visits ⚠️ (module exists, not integrated into planner loop)
+- Success rate measurably improves over sessions ⚠️ (requires orchestrator+planner integration)
+- All 1389 existing tests remain green ✅ (1400 total, 107 skill tests pass)
+
+
+### NW-026 Circuit Breaker Fix
+owner: Runtime Engineer
+model: claude-combo
+status: done
+completed: 2026-05-27
+scope:
+- daemon.py (record_success now clears paused_until)
+- tests/test_daemon.py (rewritten: match actual daemon API)
+acceptance:
+- record_success() clears both consecutive_failures AND paused_until ✅
+- Circuit breaker trips after MAX_FAILURES, pauses agent ✅
+- record_success() after trip → agent unpaused immediately ✅
+- parse_kanban_done() extracts done IDs, detect_gaps skips them ✅
+- All 1446 tests pass, 0 failures ✅
+
+
+### NW-011 Worker FSM Protocol
+owner: Safety Reviewer
+model: claude-combo
+status: done
+completed: 2026-05-25
+scope:
+- .tini/netweaver/company/DEVELOPMENT_FLOW.md
+- .tini/netweaver/company/COMMUNICATION.md
+- .tini/netweaver/company/KANBAN.md
+acceptance:
+- define PLAN/INSPECT/PATCH/TEST/REVIEW/DONE states
+- define failure states TRIAGE/BLOCKED/HUMAN_GATE
+- require agents to report current state in HANDOFF
+
+

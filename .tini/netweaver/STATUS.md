@@ -1,42 +1,63 @@
 # STATE — NetWeaver (project view)
 
-Last updated: 2026-05-25 12:30
+Last updated: 2026-05-28 05:45 UTC
 
 ## Project Health
 
-- 1380 tests ✅ passing (was 1354 before executor.py corruption)
-- daemon.py: heartbeat fix applied ✅, file rollback added ✅
-- executor.py: fully reconstructed ✅ (daemon had overwritten with broken LLM code)
+- 1446 tests ✅ passing
+- daemon.py: heartbeat ✅, file rollback ✅, cleanup_loop ✅, metrics ✅
+- executor.py: fully reconstructed ✅
 - circuit_breaker.json: active ✅
+- self-healing pipeline: 8 crons active ✅
+- KANBAN.md: fixed ✅ (done items moved to correct section)
+- CLI tool: `netweaver status/kanban/queue/logs/metrics/backlog` ✅
 
-## Active Work
+## Active Pipeline
 
-| Component | Status | Notes |
-|-----------|--------|-------|
-| VerifiedExecutor | ✅ | Full test suite passing |
-| SceneGraph resolution | ✅ | Intent nodes + safety check + DOM fallback |
-| Perspective engine | ✅ | ABORT + ASK strategies block execution |
-| Evidence report | ✅ | Pre/post claims, observations, verify |
-| Wait actions | ✅ | timeout_ms=5000 default |
-| Fill actions | ✅ | editable precondition check |
-| Click actions | ✅ | visible/enabled/stable/pointer_events gates |
-| Graph click/fill/wait | ✅ | Exact affordance match + wait fallback |
-| cloak_bridge | ❌ | 23 test failures (pre-existing, out of scope) |
-| observer_evidence_adapter | ❌ | 18 test failures (pre-existing, out of scope) |
+| Component | Schedule | Status |
+|-----------|----------|--------|
+| Daemon (gap detection + plan gen) | every 2min | ✅ running |
+| Auto-reviewer (approve/reject plans) | :03/:18/:33/:48 | ✅ cron |
+| Worker (execute approved plans) | :15/:45 | ✅ cron |
+| Watchdog (restart dead daemon) | every 5min | ✅ cron |
+| Self-test (8-point health check) | every 30min | ✅ cron |
+| Ideas archival (stale >72h) | 3AM daily | ✅ cron |
+| Coverage report (weekly scan) | Mon 4AM | ✅ cron |
+| Git auto-push (push to origin) | every 6h | ✅ cron |
 
-## Recent Fixes (this session)
+## Self-Healing Features
 
-1. **executor.py reconstruction** — daemon's LLM overwrite removed `VerifiedExecutor`, `GraphResolvedTarget`, `ResolutionStatus`; used wrong API calls (fill_value, in_viewport, BLOCK). Full rewrite using correct project APIs.
+| Feature | Location | Status |
+|---------|----------|--------|
+| Log rotation (hourly, keep 1000) | cleanup_loop | ✅ |
+| Backup prune (keep 20) | cleanup_loop | ✅ |
+| Events rotation (keep 2000) | cleanup_loop | ✅ |
+| Skills purge (>7d) | cleanup_loop | ✅ |
+| Agent reaper (>48h) | cleanup_loop | ✅ |
+| Metrics tracking | record_metric() | ✅ |
+| Auto-archive rejected plans (>3x) | archive_stale_rejections() | ✅ |
+| Circuit breaker (5 failures → pause 10min) | circuit_breaker | ✅ |
+| Heartbeat monitoring | heartbeat_loop | ✅ |
+| File rollback on test failure | backup_file/restore | ✅ |
 
-2. **execute_step file rollback** — saves file content before writing, reverts on test failure. Prevents future broken file pollution.
+## Backlog
 
-3. **Graph resolution safety check** — detects safety enrichment nodes with strategy=abort → returns SAFETY_BLOCKED.
+- 13 tasks queued (NW-031 to NW-038, P-01 to P-05)
+- Priority: Observer/Playwright tests (700 LOC untested) → E2E demo → skill auto-learning
 
-4. **Perspective blocking** — both ABORT and ASK strategies now block execution (was only ABORT).
+## Module Health
 
-5. **Daemon heartbeat fix** — increased timeout to 600s, added `claude-combo` model awareness.
-
-## Blockers
-
-- cloak_bridge tests (23 failures) — pre-existing, unrelated to executor
-- observer_evidence_adapter tests (18 failures) — pre-existing
+| Module | LOC | Tests | Status |
+|--------|-----|-------|--------|
+| action_orchestrator | 1011 | ✅ | stable |
+| executor | 760 | ✅ | stable |
+| planner | 631 | ✅ | stable |
+| scene_graph_builder | 629 | ✅ | stable |
+| graph_query | 616 | ✅ | stable |
+| perspective | 570 | ✅ | stable |
+| scene_graph | 452 | ✅ | stable |
+| cloak_bridge | 443 | ❌ untested | needs NW-031 |
+| wnal | 427 | ✅ | stable |
+| evidence | 410 | ✅ | stable |
+| playwright_bridge | 399 | ❌ untested | needs NW-031 |
+| observer | 301 | ❌ untested | needs NW-031 |

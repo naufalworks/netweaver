@@ -20,6 +20,7 @@ import hashlib
 import json
 import logging
 import os
+import re
 import signal
 import subprocess
 import sys
@@ -814,6 +815,36 @@ async def heartbeat_loop() -> None:
             pass
 
 
+def update_status_md(test_count: int, passed: bool) -> None:
+    """Auto-update STATUS.md with current test count and timestamp."""
+    status_file = NETWEAVER_DIR / "STATUS.md"
+    if not status_file.exists():
+        return
+    
+    try:
+        content = status_file.read_text()
+        
+        # Update test count
+        test_status = "✅ passing" if passed else "❌ failing"
+        content = re.sub(
+            r"- \d+ tests [✅❌] (passing|failing)",
+            f"- {test_count} tests {test_status}",
+            content
+        )
+        
+        # Update timestamp
+        ts = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+        content = re.sub(
+            r"Last updated: .+",
+            f"Last updated: {ts}",
+            content
+        )
+        
+        status_file.write_text(content)
+    except (OSError, re.error) as e:
+        logger.error(f"STATUS.md update failed: {e}")
+
+
 async def scan_loop() -> None:
     """Main scan loop: detect changes, find gaps, generate plans."""
     global cycle_count
@@ -878,6 +909,10 @@ async def scan_loop() -> None:
                 passed, summary = run_tests()
                 test_dur = time.time() - t0
                 record_metric("test_duration_s", test_dur, {"cycle": str(cycle_count)})
+                # Auto-update STATUS.md with test count
+                test_count_match = re.search(r"(\d+) passed", summary)
+                test_count = int(test_count_match.group(1)) if test_count_match else 0
+                update_status_md(test_count, passed)
                 if passed:
                     record_success()
                     log_event("periodic_test_ok", {"summary": summary})
