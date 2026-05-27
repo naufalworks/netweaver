@@ -221,6 +221,34 @@ def cmd_dashboard():
         print("\n👋 Dashboard stopped.")
 
 
+def cmd_memory():
+    """Show agent memory palace stats."""
+    from netweaver.memory_palace import MemoryPalace
+
+    print("═══ AGENT MEMORY PALACE ═══\n")
+
+    agents = ["daemon", "reviewer", "worker", "planner"]
+    for agent_type in agents:
+        palace = MemoryPalace(agent_type)
+        if palace.count == 0:
+            print(f"  {agent_type}: (empty)")
+            continue
+
+        insights = palace.introspect()
+        print(f"  {agent_type}:")
+        print(f"    Memories: {insights['total_memories']}")
+        print(f"    Success rate: {insights['success_rate']:.0%}")
+        dist = insights["outcome_distribution"]
+        dist_str = ", ".join(f"{k}: {v}" for k, v in dist.items())
+        print(f"    Outcomes: {dist_str}")
+        if insights["top_tags"]:
+            tags = ", ".join(f"{t}({c})" for t, c in insights["top_tags"][:5])
+            print(f"    Top tags: {tags}")
+        for insight in insights["insights"][:2]:
+            print(f"    💡 {insight}")
+        print()
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="NetWeaver CLI — Query pipeline state",
@@ -236,6 +264,7 @@ def main():
     subparsers.add_parser("metrics", help="Show performance metrics")
     subparsers.add_parser("backlog", help="Show backlog tasks")
     subparsers.add_parser("dashboard", help="Launch live TUI dashboard (Rich)")
+    subparsers.add_parser("memory", help="Show agent memory palace stats")
     
     args = parser.parse_args()
     
@@ -253,6 +282,8 @@ def main():
         cmd_backlog()
     elif args.command == "dashboard":
         cmd_dashboard()
+    elif args.command == "memory":
+        cmd_memory()
     else:
         parser.print_help()
 
