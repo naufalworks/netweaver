@@ -915,7 +915,7 @@ class ActionOrchestrator:
         self,
         plan: ActionPlan,
         graph: WebSceneGraph,
-    ) -> DryRunResult:
+    ) -> "DryRunResult":
         """Validate a plan against the current scene graph without executing.
 
         For each step, resolves the target via graph query and checks:
@@ -967,7 +967,7 @@ class ActionOrchestrator:
         step: ActionStep,
         step_index: int,
         graph: WebSceneGraph,
-    ) -> DryRunStep:
+    ) -> "DryRunStep":
         """Validate a single step against the graph (read-only)."""
         dry = DryRunStep(
             step_index=step_index,
