@@ -38,7 +38,7 @@ Plans are auto-approved by the reviewer agent when LOW risk + clear scope.
 
 ---
 ### NW-030 Orchestrator Dry-Run Mode
-**Status**: APPROVED — MEDIUM risk, clear scope (netweaver/action_orchestrator.py + tests/), testable acceptance criteria including no-side-effects guarantee, no KANBAN conflicts, no failure history. Reviewed 2026-05-27.
+**Status**: DONE — Implemented and verified. 15 new tests pass, 1900 total suite green. Completed 2026-05-28.
 **Risk**: MEDIUM
 **Scope**: netweaver/action_orchestrator.py, tests/test_action_orchestrator.py
 **Tiny Goal**: Add a dry-run mode to ActionOrchestrator that validates the plan against the current scene graph without executing any actions. Reports what WOULD happen, identifies potential issues (missing selectors, safety risks, missing preconditions).
