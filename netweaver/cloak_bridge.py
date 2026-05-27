@@ -138,6 +138,25 @@ class CloakBrowserBridge:
                            Defaults to cloakbrowser.launch.
         """
         self._browser_factory = browser_factory or self._default_factory
+        self._browser = None
+        self._page = None
+
+    def _ensure_browser(self, headless: bool = True):
+        """Ensure browser is running and return it."""
+        if self._browser is None:
+            self._browser = self._browser_factory(headless=headless)
+            self._page = self._browser.new_page()
+        return self._browser, self._page
+
+    def close(self):
+        """Close the persistent browser session."""
+        if self._browser:
+            try:
+                self._browser.close()
+            except Exception:
+                pass
+            self._browser = None
+            self._page = None
 
     @staticmethod
     def _default_factory(**kwargs):
@@ -173,8 +192,7 @@ class CloakBrowserBridge:
         """
         browser = None
         try:
-            browser = self._browser_factory(headless=headless)
-            page = browser.new_page()
+            browser, page = self._ensure_browser(headless=headless)
 
             # Set up network tracking
             network_tracker = NetworkTracker()
@@ -210,8 +228,7 @@ class CloakBrowserBridge:
                 observed_at=datetime.utcnow(),
             )
         finally:
-            if browser:
-                browser.close()
+            pass  # Keep browser alive for subsequent operations
 
     def _extract_title(self, page: Any) -> str:
         """Extract page title."""
@@ -325,13 +342,15 @@ class CloakBrowserBridge:
         from netweaver.wnal import ActionabilityEvidence, Phase
 
         try:
-            browser = self._browser_factory(headless=True)
-            page = browser.new_page()
+            browser, page = self._ensure_browser(headless=True)
             try:
                 locator = page.locator(target_ref)
                 is_visible = locator.is_visible()
                 is_enabled = locator.is_enabled()
-                is_editable = locator.is_editable()
+                try:
+                    is_editable = locator.is_editable()
+                except Exception:
+                    is_editable = None  # Not applicable for non-input elements
                 # Check attached by evaluating DOM presence
                 is_attached = locator.count() > 0
                 is_stable = True  # optimistic; could add wait-for-stable
@@ -358,8 +377,21 @@ class CloakBrowserBridge:
                     editable=is_editable,
                     observed_at=datetime.utcnow(),
                 )
-            finally:
-                browser.close()
+            except Exception as e:
+                # Keep browser alive, return failed evidence
+                return ActionabilityEvidence(
+                    action_id=action_id,
+                    target_ref=target_ref,
+                    selector=target_ref,
+                    phase=Phase.PRE,
+                    attached=False,
+                    visible=False,
+                    enabled=False,
+                    stable=True,
+                    pointer_events=True,
+                    observed_at=datetime.utcnow(),
+                    metadata={"error": str(e)},
+                )
         except Exception:
             return ActionabilityEvidence(
                 action_id=action_id,
@@ -386,8 +418,7 @@ class CloakBrowserBridge:
         from netweaver.wnal import ActionType
 
         try:
-            browser = self._browser_factory(headless=True)
-            page = browser.new_page()
+            browser, page = self._ensure_browser(headless=True)
             try:
                 locator = page.locator(action.target_ref)
                 if action.action_type == ActionType.CLICK:
@@ -425,8 +456,8 @@ class CloakBrowserBridge:
                     return True
 
                 return False
-            finally:
-                browser.close()
+            except Exception:
+                return False
         except Exception:
             return False
 
