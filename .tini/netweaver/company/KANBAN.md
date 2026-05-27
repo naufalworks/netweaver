@@ -40,6 +40,24 @@ acceptance:
 ## Done
 
 
+### NW-029 Evidence Report Generator
+owner: Worker
+model: claude-combo
+status: done
+completed: 2026-05-28
+scope:
+- netweaver/evidence_report.py
+- tests/test_evidence_report.py
+acceptance:
+- render_markdown(evidence: EvidenceReport) → str ✅
+- Sections: Summary, Claims (with status), Evidence Chain, Recommendations ✅
+- Each claim shows: statement, status (supported/unsupported/partial), backing evidence IDs ✅
+- Evidence chain shows chronological order of observations ✅
+- No browser/vendor imports ✅
+- All existing tests remain green (1885 passed) ✅
+- 46 new tests ✅
+
+
 ### NW-028 Auto-Backlog Generator
 owner: Worker
 model: claude-combo

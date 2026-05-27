@@ -29,7 +29,7 @@ Plans are auto-approved by the reviewer agent when LOW risk + clear scope.
 ---
 
 ### NW-029 Evidence Report Generator
-**Status**: APPROVED — MEDIUM risk, clear scope (netweaver/evidence_report.py + tests/), testable acceptance criteria, no KANBAN conflicts, 2 failures < quarantine threshold. NOTE: NW-008 (ready) mentions evidence report UX — coordinate to avoid duplication. Reviewed 2026-05-27.
+**Status**: DONE — Implemented and verified. 46 new tests pass, 1885 total suite green. Completed 2026-05-28.
 **Risk**: MEDIUM
 **Scope**: netweaver/evidence_report.py, tests/test_evidence_report.py
 **Tiny Goal**: Create a human-readable evidence report generator that takes EvidenceReport objects and produces markdown summaries showing what was observed, what claims were made, and what evidence backs each claim. Used for debugging and audit trails.
