@@ -517,6 +517,60 @@ def cmd_epistemic(args):
         os.from_memory_palace(args.palace_file)
         print(f"✅ Imported from {args.palace_file}")
         print(f"   Total knowledge: {len(os.nodes)}")
+    
+    elif args.ep_action == "auto-verify":
+        from netweaver.epistemic_verifier import AutoVerifier
+        
+        verifier = AutoVerifier(os)
+        results = verifier.run_full_verification_cycle()
+        
+        print("═══ AUTO-VERIFICATION RESULTS ═══\n")
+        
+        # Stale knowledge
+        stale = results["stale_knowledge"]
+        print(f"Stale Knowledge:")
+        print(f"  Verified: {stale['verified']}")
+        print(f"  Failed: {stale['failed']}")
+        print(f"  Needs manual: {stale['needs_manual']}")
+        
+        if stale.get("details"):
+            print(f"\n  Details:")
+            for d in stale["details"][:5]:  # Show first 5
+                status_icon = "✅" if d["status"] == "verified" else "❌" if d["status"] == "failed" else "⚠️"
+                print(f"    {status_icon} {d['content'][:60]}")
+                if d.get("reason"):
+                    print(f"       {d['reason']}")
+        
+        print()
+        
+        # Contradictions
+        contra = results["contradictions"]
+        print(f"Contradictions:")
+        print(f"  Total: {contra['total']}")
+        print(f"  Resolved: {contra['resolved']}")
+        
+        if contra.get("suggestions"):
+            print(f"\n  Suggestions:")
+            for s in contra["suggestions"][:3]:  # Show first 3
+                print(f"    A: {s['node_a_content'][:50]} ({s['node_a_confidence']:.0%})")
+                print(f"    B: {s['node_b_content'][:50]} ({s['node_b_confidence']:.0%})")
+                print(f"    Auto-resolve: {s['auto_resolvable']}")
+                if s.get("reasoning"):
+                    print(f"    Reason: {', '.join(s['reasoning'][:2])}")
+                print()
+        
+        # Calibration
+        calib = results["calibration"]
+        print(f"Calibration:")
+        print(f"  Skills calibrated: {calib['skills_calibrated']}")
+        print(f"  Total predictions: {calib['total_predictions']}")
+        
+        if calib.get("calibration_scores"):
+            print(f"\n  Scores:")
+            for c in calib["calibration_scores"][:5]:  # Show first 5
+                print(f"    {c['skill_name']}: Brier={c['brier_score']:.2f} ({c['quality']})")
+        
+        print("\n✅ Verification complete")
 
 
 def main():
@@ -582,7 +636,9 @@ def main():
     ep_trace.add_argument("content", help="Knowledge content or ID")
     
     ep_import = ep_subparsers.add_parser("import-memory", help="Import from Memory Palace")
-    ep_import.add_argument("palace_file", help="Path to palace JSON file")
+    ep_import.add_argument("palace_file", help="Path to Memory Palace JSON file")
+    
+    ep_auto_verify = ep_subparsers.add_parser("auto-verify", help="Run full auto-verification cycle")
     
     args = parser.parse_args()
     
