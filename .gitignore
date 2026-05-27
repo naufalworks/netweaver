@@ -58,3 +58,5 @@ build/
 .env.local
 secrets.json
 credentials.json
+.tini/epistemic/site_skills/
+.tini/epistemic/verification_log.json
