@@ -220,8 +220,7 @@ class TaskScheduler:
                     error=str(e)[:200],
                 ))
         
-        # Save state
-        self._save_state()
+        # Note: State is saved by daemon after change detection, not here
         
         return results
     
