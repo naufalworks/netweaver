@@ -34,7 +34,7 @@
 | NW-023 | Skill Learning Benchmark | Done |
 | NW-024 | Goal-to-Plan Translator | Done |
 | NW-025 | Skill Learner | Done |
-| NW-026 | Circuit Breaker Fix | Blocked |
+| NW-026 | Circuit Breaker Fix | Done |
 
 ## Phase 2
 
@@ -49,7 +49,7 @@
 
 ## Summary
 
-- **Done:** 27 tasks
+- **Done:** 28 tasks
 - **Ready:** 2 (NW-008, P2-006)
-- **Blocked:** 1 (NW-026)
+- **Blocked:** 0
 - **Model:** claude-combo (all agents)
