@@ -793,6 +793,20 @@ def cmd_competence(args):
             print(f"   Agent success rate: {agent.success_rate:.0%} ({agent.successful_tasks}/{agent.total_tasks})")
 
 
+def cmd_web_learn():
+    """Run a web learning cycle manually."""
+    from netweaver.web_learner import WebLearner
+
+    print("🌐 Running web learning cycle (headless)...\n")
+    learner = WebLearner(headless=True)
+
+    try:
+        results = learner.learn_cycle()
+        print(learner.summary(results))
+    finally:
+        learner.close()
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="NetWeaver CLI — Query pipeline state",
@@ -809,6 +823,7 @@ def main():
     subparsers.add_parser("backlog", help="Show backlog tasks")
     subparsers.add_parser("dashboard", help="Launch live TUI dashboard (Rich)")
     subparsers.add_parser("memory", help="Show agent memory palace stats")
+    subparsers.add_parser("learn", help="Run web learning cycle (headless CloakBrowser)")
     
     # Knowledge graph subcommand
     kg_parser = subparsers.add_parser("kg", help="Knowledge graph operations")
@@ -928,6 +943,8 @@ def main():
         cmd_dashboard()
     elif args.command == "memory":
         cmd_memory()
+    elif args.command == "learn":
+        cmd_web_learn()
     elif args.command == "kg":
         if hasattr(args, 'kg_action') and args.kg_action:
             cmd_kg(args)

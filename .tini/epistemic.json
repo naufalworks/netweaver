@@ -28,7 +28,7 @@
       "depends_on": [],
       "citations": [],
       "access_count": 2,
-      "last_accessed": "2026-05-27T16:38:30.735467+00:00",
+      "last_accessed": null,
       "_id": "a66634924faaff1d"
     },
     "579ac4534c4be3e2": {
@@ -149,7 +149,7 @@
       "depends_on": [],
       "citations": [],
       "access_count": 2,
-      "last_accessed": "2026-05-27T16:38:30.735478+00:00",
+      "last_accessed": null,
       "_id": "01ca44a230d43935"
     },
     "e4f7e21a908da5fc": {
@@ -180,8 +180,39 @@
       "depends_on": [],
       "citations": [],
       "access_count": 1,
-      "last_accessed": "2026-05-27T16:38:30.735482+00:00",
+      "last_accessed": null,
       "_id": "e4f7e21a908da5fc"
+    },
+    "4d523c4a11dcfb72": {
+      "content": "Task web_learning_cycle outcome: failure",
+      "topic": "worker_outcomes",
+      "tags": [
+        "worker",
+        "outcome",
+        "failure",
+        "web_learning_cycle"
+      ],
+      "context": "{'sites': 5, 'successes': 0, 'elements': 0}",
+      "confidence": 0.3,
+      "created": "2026-05-27T17:50:29.916083+00:00",
+      "last_verified": "2026-05-27T17:50:29.916085+00:00",
+      "decay_rate": 0.05,
+      "sources": [
+        {
+          "type": "worker_outcome",
+          "ref": "daemon.py:record_outcome(web_learning_cycle)",
+          "author": "",
+          "created": "2026-05-27T17:50:29.916054+00:00",
+          "trustworthiness": 0.7
+        }
+      ],
+      "contradictions": [],
+      "supports": [],
+      "depends_on": [],
+      "citations": [],
+      "access_count": 0,
+      "last_accessed": null,
+      "_id": "4d523c4a11dcfb72"
     }
   },
   "contradictions": [
@@ -195,5 +226,5 @@
       "resolution": ""
     }
   ],
-  "saved_at": "2026-05-27T16:38:30.735534+00:00"
+  "saved_at": "2026-05-27T17:50:29.916485+00:00"
 }

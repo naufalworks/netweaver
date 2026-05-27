@@ -173,6 +173,12 @@ class WebLearner:
         actions_executed = 0
         skills_learned = 0
 
+        # Re-navigate to target URL (previous site's click may have navigated away)
+        try:
+            self._bridge._page.goto(url, timeout=15000, wait_until="domcontentloaded")
+        except Exception:
+            pass
+
         for action_name in actions_to_try:
             action = self._build_action(action_name, obs.interactive_elements)
             if action is None:

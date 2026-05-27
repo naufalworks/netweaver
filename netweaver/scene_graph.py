@@ -269,6 +269,22 @@ class WebSceneGraph:
 
     # --- Query operations ---
 
+    def resolve(self, target_ref: str) -> str:
+        """Resolve a target reference to a CSS selector.
+        
+        For now, returns the target_ref as-is. Future versions could
+        perform smart resolution using the scene graph (e.g., finding
+        elements by description, ID, or other attributes).
+        
+        Args:
+            target_ref: Target reference (CSS selector or description)
+            
+        Returns:
+            CSS selector string
+        """
+        # Simple pass-through for now
+        return target_ref
+
     def get_nodes_by_type(self, node_type: NodeType) -> List[SceneNode]:
         """Filter nodes by type."""
         return [n for n in self.nodes.values() if n.node_type == node_type]
