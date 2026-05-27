@@ -1010,3 +1010,100 @@ class VerificationResult:
             "passed": self.passed,
             "reason": self.reason,
         }
+
+
+# ---------------------------------------------------------------------------
+# Dry-run types — validate plans without executing (NW-030)
+# ---------------------------------------------------------------------------
+
+@dataclass
+class DryRunStep:
+    """Result of dry-running a single plan step.
+
+    Validates the step against the current scene graph without executing
+    any actions. Reports what WOULD happen if the step were executed.
+
+    Attributes:
+        step_index: Index of the step in the plan.
+        action_type: Type of action that would be performed.
+        description: Natural-language target description.
+        target_found: Whether the target node exists in the graph.
+        target_selector: CSS selector if target was resolved.
+        target_score: Confidence score of target resolution (0.0-1.0).
+        preconditions_met: Whether the step's preconditions are satisfied.
+        preconditions_reason: Explanation of precondition check result.
+        safety_clear: Whether the target is free from safety blocks.
+        safety_reason: Why the target is blocked (if not clear).
+        would_succeed: Overall prediction — would this step succeed?
+        issues: List of specific issues that would prevent execution.
+    """
+    step_index: int
+    action_type: ActionType
+    description: str
+    target_found: bool = False
+    target_selector: Optional[str] = None
+    target_score: float = 0.0
+    preconditions_met: bool = True
+    preconditions_reason: str = ""
+    safety_clear: bool = True
+    safety_reason: Optional[str] = None
+    would_succeed: bool = False
+    issues: List[str] = field(default_factory=list)
+
+    def to_dict(self) -> Dict:
+        return {
+            "step_index": self.step_index,
+            "action_type": self.action_type.value,
+            "description": self.description,
+            "target_found": self.target_found,
+            "target_selector": self.target_selector,
+            "target_score": self.target_score,
+            "preconditions_met": self.preconditions_met,
+            "preconditions_reason": self.preconditions_reason,
+            "safety_clear": self.safety_clear,
+            "safety_reason": self.safety_reason,
+            "would_succeed": self.would_succeed,
+            "issues": self.issues,
+        }
+
+
+@dataclass
+class DryRunResult:
+    """Result of dry-running an entire action plan.
+
+    Summarizes what WOULD happen if the plan were executed against the
+    current scene graph, identifying potential issues before execution.
+
+    Attributes:
+        plan_id: The plan that was dry-run.
+        plan_description: Human-readable plan description.
+        steps: Per-step validation results.
+        total_steps: Total number of steps in the plan.
+        steps_would_succeed: Count of steps predicted to succeed.
+        has_issues: Whether any issues were detected.
+        missing_nodes: Descriptions of targets not found in the graph.
+        blocked_selectors: Selectors that are safety-blocked.
+        unmet_preconditions: Steps with unmet preconditions.
+    """
+    plan_id: str
+    plan_description: str = ""
+    steps: List[DryRunStep] = field(default_factory=list)
+    total_steps: int = 0
+    steps_would_succeed: int = 0
+    has_issues: bool = False
+    missing_nodes: List[str] = field(default_factory=list)
+    blocked_selectors: List[str] = field(default_factory=list)
+    unmet_preconditions: List[str] = field(default_factory=list)
+
+    def to_dict(self) -> Dict:
+        return {
+            "plan_id": self.plan_id,
+            "plan_description": self.plan_description,
+            "total_steps": self.total_steps,
+            "steps_would_succeed": self.steps_would_succeed,
+            "has_issues": self.has_issues,
+            "missing_nodes": self.missing_nodes,
+            "blocked_selectors": self.blocked_selectors,
+            "unmet_preconditions": self.unmet_preconditions,
+            "steps": [s.to_dict() for s in self.steps],
+        }
