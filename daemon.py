@@ -101,7 +101,7 @@ web_explorer = AutonomousWebExplorer(
 )
 task_scheduler = TaskScheduler(
     tasks_file=WORKDIR / "netweaver" / "tasks.yaml",
-    state_dir=NETWEAVER_DIR / ".tini" / "task_scheduler",
+    state_dir=TINI_DIR / "task_scheduler",
     headless=True,
 )
 file_hashes: Dict[str, str] = {}
