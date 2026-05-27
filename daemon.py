@@ -36,6 +36,7 @@ from netweaver.dreaming import DreamEngine
 from netweaver.causal import CausalChainTracer
 from netweaver.competence_matrix import CompetenceMatrix
 from netweaver.web_learner import AutonomousWebExplorer
+from netweaver.task_scheduler import TaskScheduler
 
 # --- Configuration ---
 WORKDIR = Path(os.environ.get("NETWEAVER_WORKDIR", str(Path.home() / "Documents/myhermes")))
