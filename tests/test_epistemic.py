@@ -715,12 +715,14 @@ class TestEndToEnd:
         # Simulate: 6 months pass
         node.last_verified = datetime.now(timezone.utc) - timedelta(days=180)
         
-        # Confidence should have decayed
-        assert node.current_confidence < 0.8
+        # Confidence should have decayed significantly
+        # 0.8 * 0.9^(180/30.44) ≈ 0.8 * 0.536 ≈ 0.43
+        assert node.current_confidence < 0.5
         assert node.current_confidence > 0.01  # But not zero
         
-        # Should be flagged as stale eventually
-        assert node.is_stale  # Below 0.4 after 6 months of 10% decay
+        # After 12 months it would definitely be stale
+        node.last_verified = datetime.now(timezone.utc) - timedelta(days=365)
+        assert node.is_stale  # Below 0.4 after 12 months of 10% decay
 
     def test_epistemic_with_netweaver_data(self):
         """Integration test with realistic NetWeaver knowledge."""

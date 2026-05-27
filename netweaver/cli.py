@@ -394,6 +394,131 @@ def cmd_kg(args):
             print(f"  • {name}: {proj.module_count} modules, {proj.total_loc:,} LOC")
 
 
+def cmd_epistemic(args):
+    """Epistemic OS — honest reasoning engine."""
+    from netweaver.epistemic import EpistemicOS
+    
+    storage = str(TINI / "epistemic.json")
+    os = EpistemicOS(storage_path=storage)
+    
+    if args.ep_action == "add":
+        sources = []
+        if args.source:
+            from netweaver.epistemic import Source
+            src_type, src_ref = args.source.split(":", 1) if ":" in args.source else ("manual", args.source)
+            sources.append(Source(type=src_type, ref=src_ref))
+        
+        tags = args.tags.split(",") if args.tags else []
+        
+        node = os.add(
+            content=args.content,
+            confidence=args.confidence,
+            topic=args.topic or "",
+            tags=tags,
+            context=args.context or "",
+            sources=sources,
+            decay_rate=args.decay,
+        )
+        print(f"✅ Added: {node.content}")
+        print(f"   ID: {node.id}")
+        print(f"   Confidence: {node.confidence:.0%} ({node.confidence_label})")
+    
+    elif args.ep_action == "query":
+        answer = os.query(args.query)
+        print(str(answer))
+    
+    elif args.ep_action == "health":
+        report = os.health_report()
+        print("═══ EPISTEMIC OS HEALTH ═══\n")
+        print(f"Total knowledge: {report['total_knowledge']}")
+        print(f"Avg confidence: {report['avg_confidence']:.0%}")
+        print(f"Stale facts: {report['stale_count']}")
+        print(f"Contradictions: {report['contradictions']}")
+        print(f"Topics: {report['topics']}")
+        print(f"Health score: {report['health_score']:.0f}/100 ({report['health_label']})")
+        
+        if report.get("top_tags"):
+            print(f"\nTop tags:")
+            for tag, count in report["top_tags"][:5]:
+                print(f"  • {tag}: {count}")
+        
+        if report.get("confidence_distribution"):
+            print(f"\nConfidence distribution:")
+            for label, count in report["confidence_distribution"].items():
+                if count > 0:
+                    print(f"  • {label}: {count}")
+    
+    elif args.ep_action == "stale":
+        stale = os.stale_knowledge()
+        if not stale:
+            print("✅ No stale knowledge (all facts have confidence >= 40%)")
+            return
+        
+        print(f"═══ STALE KNOWLEDGE ({len(stale)} facts) ═══\n")
+        for node in sorted(stale, key=lambda n: n.current_confidence):
+            print(f"⚠️  {node.content}")
+            print(f"   Confidence: {node.current_confidence:.0%} ({node.confidence_label})")
+            print(f"   Age: {node.age_days}d, Decay: {node.decay_rate:.0%}/mo")
+            print()
+    
+    elif args.ep_action == "verify":
+        success = os.verify(args.content, new_confidence=args.confidence)
+        if success:
+            conf_str = f" → {args.confidence:.0%}" if args.confidence else ""
+            print(f"✅ Verified: {args.content}{conf_str}")
+        else:
+            print(f"❌ Not found: {args.content}")
+    
+    elif args.ep_action == "contradictions":
+        unresolved = os.detect_contradictions()
+        if not unresolved:
+            print("✅ No unresolved contradictions")
+            return
+        
+        print(f"═══ CONTRADICTIONS ({len(unresolved)}) ═══\n")
+        for c in unresolved:
+            a = os.nodes.get(c.node_a_id)
+            b = os.nodes.get(c.node_b_id)
+            if a and b:
+                print(f"⚠️  Severity: {c.severity:.0%}")
+                print(f"   A: {a.content} ({a.confidence:.0%})")
+                print(f"   B: {b.content} ({b.confidence:.0%})")
+                print(f"   Reason: {c.reason}")
+                print()
+    
+    elif args.ep_action == "recommend":
+        recs = os.recommend_verification()
+        if not recs:
+            print("✅ Nothing to verify")
+            return
+        
+        print("═══ RECOMMENDED VERIFICATIONS ═══\n")
+        for node, reason in recs[:10]:
+            print(f"• {node.content}")
+            print(f"  Confidence: {node.current_confidence:.0%} | Reason: {reason}")
+            print()
+    
+    elif args.ep_action == "trace":
+        chain = os.trace(args.content)
+        if not chain:
+            print(f"❌ Not found: {args.content}")
+            return
+        
+        print(f"═══ PROVENANCE CHAIN ═══\n")
+        for entry in chain:
+            indent = "  " * entry["depth"]
+            print(f"{indent}• {entry['content']}")
+            print(f"{indent}  Confidence: {entry['confidence']:.0%} ({entry['label']})")
+            if entry["sources"]:
+                for s in entry["sources"]:
+                    print(f"{indent}  Source: {s}")
+    
+    elif args.ep_action == "import-memory":
+        os.from_memory_palace(args.palace_file)
+        print(f"✅ Imported from {args.palace_file}")
+        print(f"   Total knowledge: {len(os.nodes)}")
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="NetWeaver CLI — Query pipeline state",
@@ -428,6 +553,37 @@ def main():
     kg_subparsers.add_parser("suggest", help="Show cross-pollination suggestions")
     kg_subparsers.add_parser("stats", help="Show knowledge graph statistics")
     
+    # Epistemic OS subcommand
+    ep_parser = subparsers.add_parser("ep", help="Epistemic OS — honest reasoning")
+    ep_subparsers = ep_parser.add_subparsers(dest="ep_action", help="Epistemic action")
+    
+    ep_add = ep_subparsers.add_parser("add", help="Add knowledge with confidence")
+    ep_add.add_argument("content", help="The knowledge content")
+    ep_add.add_argument("--confidence", "-c", type=float, default=0.5, help="Confidence 0.0-1.0")
+    ep_add.add_argument("--topic", "-t", help="Topic/category")
+    ep_add.add_argument("--tags", help="Comma-separated tags")
+    ep_add.add_argument("--context", help="Context/conditions")
+    ep_add.add_argument("--source", "-s", help="Source (type:ref, e.g. benchmark:bench.py)")
+    ep_add.add_argument("--decay", "-d", type=float, default=0.0, help="Decay rate per month")
+    
+    ep_query = ep_subparsers.add_parser("query", help="Query with honest uncertainty")
+    ep_query.add_argument("query", help="Question to answer")
+    
+    ep_subparsers.add_parser("health", help="Show knowledge base health")
+    ep_subparsers.add_parser("stale", help="Show stale/unreliable knowledge")
+    ep_subparsers.add_parser("contradictions", help="Show unresolved contradictions")
+    ep_subparsers.add_parser("recommend", help="Recommend what to verify next")
+    
+    ep_verify = ep_subparsers.add_parser("verify", help="Re-verify a piece of knowledge")
+    ep_verify.add_argument("content", help="Knowledge content or ID")
+    ep_verify.add_argument("--confidence", "-c", type=float, help="New confidence")
+    
+    ep_trace = ep_subparsers.add_parser("trace", help="Trace provenance chain")
+    ep_trace.add_argument("content", help="Knowledge content or ID")
+    
+    ep_import = ep_subparsers.add_parser("import-memory", help="Import from Memory Palace")
+    ep_import.add_argument("palace_file", help="Path to palace JSON file")
+    
     args = parser.parse_args()
     
     if args.command == "status":
@@ -451,6 +607,11 @@ def main():
             cmd_kg(args)
         else:
             kg_parser.print_help()
+    elif args.command == "ep":
+        if hasattr(args, 'ep_action') and args.ep_action:
+            cmd_epistemic(args)
+        else:
+            ep_parser.print_help()
     else:
         parser.print_help()
 

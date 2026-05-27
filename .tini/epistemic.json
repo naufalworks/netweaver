@@ -1,0 +1,199 @@
+{
+  "nodes": {
+    "a66634924faaff1d": {
+      "content": "Scene graph captures DOM with 95% accuracy",
+      "topic": "scene_graph",
+      "tags": [
+        "scene_graph",
+        "accuracy"
+      ],
+      "context": "",
+      "confidence": 0.85,
+      "created": "2026-05-27T16:31:00.176557+00:00",
+      "last_verified": "2026-05-27T16:31:00.176558+00:00",
+      "decay_rate": 0.02,
+      "sources": [
+        {
+          "type": "benchmark",
+          "ref": "tests/test_scene_graph.py",
+          "author": "",
+          "created": "2026-05-27T16:31:00.176439+00:00",
+          "trustworthiness": 0.5
+        }
+      ],
+      "contradictions": [
+        "e4f7e21a908da5fc"
+      ],
+      "supports": [],
+      "depends_on": [],
+      "citations": [],
+      "access_count": 1,
+      "last_accessed": null,
+      "_id": "a66634924faaff1d"
+    },
+    "579ac4534c4be3e2": {
+      "content": "WNAL DSL reduces automation code by 60%",
+      "topic": "wnal",
+      "tags": [
+        "wnal",
+        "productivity"
+      ],
+      "context": "",
+      "confidence": 0.7,
+      "created": "2026-05-27T16:31:04.007583+00:00",
+      "last_verified": "2026-05-27T16:31:04.007693+00:00",
+      "decay_rate": 0.02,
+      "sources": [],
+      "contradictions": [],
+      "supports": [],
+      "depends_on": [],
+      "citations": [],
+      "access_count": 0,
+      "last_accessed": null,
+      "_id": "579ac4534c4be3e2"
+    },
+    "2a4f8d6de11a2442": {
+      "content": "Pipeline generates ~3 plans per day",
+      "topic": "pipeline",
+      "tags": [
+        "pipeline",
+        "throughput"
+      ],
+      "context": "",
+      "confidence": 0.8,
+      "created": "2026-05-27T16:31:04.038952+00:00",
+      "last_verified": "2026-05-27T16:31:04.038952+00:00",
+      "decay_rate": 0.0,
+      "sources": [
+        {
+          "type": "measurement",
+          "ref": "daemon_metrics.json",
+          "author": "",
+          "created": "2026-05-27T16:31:04.038841+00:00",
+          "trustworthiness": 0.5
+        }
+      ],
+      "contradictions": [],
+      "supports": [],
+      "depends_on": [],
+      "citations": [],
+      "access_count": 0,
+      "last_accessed": null,
+      "_id": "2a4f8d6de11a2442"
+    },
+    "e59c13dd268ef6c1": {
+      "content": "Memory Palace improves worker success rate by 15%",
+      "topic": "memory",
+      "tags": [
+        "memory_palace",
+        "worker"
+      ],
+      "context": "",
+      "confidence": 0.65,
+      "created": "2026-05-27T16:31:04.068292+00:00",
+      "last_verified": "2026-05-27T16:31:04.068399+00:00",
+      "decay_rate": 0.0,
+      "sources": [],
+      "contradictions": [],
+      "supports": [],
+      "depends_on": [],
+      "citations": [],
+      "access_count": 0,
+      "last_accessed": null,
+      "_id": "e59c13dd268ef6c1"
+    },
+    "aa2f4b4f98dd7550": {
+      "content": "Circuit breaker prevents cascade failures",
+      "topic": "reliability",
+      "tags": [
+        "circuit_breaker",
+        "reliability"
+      ],
+      "context": "",
+      "confidence": 0.9,
+      "created": "2026-05-27T16:31:04.096974+00:00",
+      "last_verified": "2026-05-27T16:31:04.096975+00:00",
+      "decay_rate": 0.0,
+      "sources": [
+        {
+          "type": "test_result",
+          "ref": "test_circuit_breaker.py",
+          "author": "",
+          "created": "2026-05-27T16:31:04.096868+00:00",
+          "trustworthiness": 0.5
+        }
+      ],
+      "contradictions": [],
+      "supports": [],
+      "depends_on": [],
+      "citations": [],
+      "access_count": 0,
+      "last_accessed": null,
+      "_id": "aa2f4b4f98dd7550"
+    },
+    "01ca44a230d43935": {
+      "content": "Knowledge Graph found 46 cross-project patterns",
+      "topic": "kg",
+      "tags": [
+        "knowledge_graph",
+        "patterns"
+      ],
+      "context": "",
+      "confidence": 0.85,
+      "created": "2026-05-27T16:31:04.125909+00:00",
+      "last_verified": "2026-05-27T16:31:04.126015+00:00",
+      "decay_rate": 0.0,
+      "sources": [],
+      "contradictions": [],
+      "supports": [],
+      "depends_on": [],
+      "citations": [],
+      "access_count": 1,
+      "last_accessed": null,
+      "_id": "01ca44a230d43935"
+    },
+    "e4f7e21a908da5fc": {
+      "content": "Scene graph captures DOM with 70% accuracy on complex pages",
+      "topic": "scene_graph",
+      "tags": [
+        "scene_graph",
+        "accuracy"
+      ],
+      "context": "",
+      "confidence": 0.6,
+      "created": "2026-05-27T16:31:07.495886+00:00",
+      "last_verified": "2026-05-27T16:31:07.495887+00:00",
+      "decay_rate": 0.05,
+      "sources": [
+        {
+          "type": "blog",
+          "ref": "example.com/sg-bench",
+          "author": "",
+          "created": "2026-05-27T16:31:07.495759+00:00",
+          "trustworthiness": 0.5
+        }
+      ],
+      "contradictions": [
+        "a66634924faaff1d"
+      ],
+      "supports": [],
+      "depends_on": [],
+      "citations": [],
+      "access_count": 0,
+      "last_accessed": null,
+      "_id": "e4f7e21a908da5fc"
+    }
+  },
+  "contradictions": [
+    {
+      "node_a_id": "e4f7e21a908da5fc",
+      "node_b_id": "a66634924faaff1d",
+      "severity": 0.5,
+      "reason": "Same topic (scene_graph), overlapping content",
+      "detected": "2026-05-27T16:31:07.495945+00:00",
+      "resolved": false,
+      "resolution": ""
+    }
+  ],
+  "saved_at": "2026-05-27T16:31:07.495980+00:00"
+}
