@@ -1004,6 +1004,9 @@ def main():
         cmd_memory()
     elif args.command == "learn":
         cmd_web_learn()
+    elif args.command == "tasks":
+        action = getattr(args, 'tasks_action', None) or "list"
+        cmd_tasks(action)
     elif args.command == "kg":
         if hasattr(args, 'kg_action') and args.kg_action:
             cmd_kg(args)
