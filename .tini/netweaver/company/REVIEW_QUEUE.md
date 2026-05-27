@@ -47,7 +47,7 @@ Plans are auto-approved by the reviewer agent when LOW risk + clear scope.
 
 ---
 ### NW-031 Observer & Playwright Integration Tests
-**Status**: PENDING
+**Status**: APPROVED — MEDIUM risk, clear scope (tests/ only), testable acceptance criteria (30+ tests, mocked browser, coverage targets), no KANBAN conflicts, no failure history. Reviewed 2026-05-27.
 **Risk**: MEDIUM
 **Scope**: tests/test_observer.py, tests/test_playwright_bridge.py
 **Tiny Goal**: Add comprehensive integration tests for observer.py (301 LOC) and playwright_bridge.py (399 LOC) — the 2 untested modules. Mock browser interactions, test page parsing, action dispatch, error handling. No real browser needed.
@@ -57,7 +57,7 @@ Plans are auto-approved by the reviewer agent when LOW risk + clear scope.
 ---
 
 ### NW-032 End-to-End Demo Pipeline
-**Status**: PENDING
+**Status**: APPROVED — MEDIUM risk, clear scope (netweaver/demo.py + tests/), testable acceptance criteria (DemoModule class, CLI entry, 15+ tests), no KANBAN conflicts, no failure history. Reviewed 2026-05-27.
 **Risk**: MEDIUM
 **Scope**: netweaver/demo.py, tests/test_demo.py, .tini/netweaver/DEMO.md
 **Tiny Goal**: Create a runnable demo that exercises the full stack: URL → Observer → SceneGraph → Planner → Executor → EvidenceReport. Uses mocked browser but real modules end-to-end. Proves architecture works.
@@ -67,7 +67,7 @@ Plans are auto-approved by the reviewer agent when LOW risk + clear scope.
 ---
 
 ### NW-033 Real-Site Golden Snapshot Tests
-**Status**: PENDING
+**Status**: APPROVED — MEDIUM risk, clear scope (tests/ + fixtures only), testable acceptance criteria (3+ golden snapshots, regression detection, 10+ tests), no KANBAN conflicts, no failure history. Reviewed 2026-05-27.
 **Risk**: MEDIUM
 **Scope**: tests/test_real_sites.py, tests/fixtures/golden/
 **Tiny Goal**: Create integration tests using 3-5 real URLs with pre-captured golden snapshots (HTML + network traces). Tests parse real-world complexity — SPAs, infinite scroll, iframes, shadow DOM.
@@ -76,7 +76,7 @@ Plans are auto-approved by the reviewer agent when LOW risk + clear scope.
 
 ---
 ### NW-034 WNAL/BASIL DSL Validator
-**Status**: PENDING
+**Status**: APPROVED — MEDIUM risk, clear scope (netweaver/dsl_validator.py + tests/), testable acceptance criteria (validate fns, schema validation, CLI, 20+ tests), no KANBAN conflicts, no failure history. Reviewed 2026-05-27.
 **Risk**: MEDIUM
 **Scope**: netweaver/dsl_validator.py, tests/test_dsl_validator.py
 **Tiny Goal**: Add a standalone validator for WNAL (Web Navigation Action Language) and BASIL (Browser Automation Script Interface Language) files. Parse, validate schema, check preconditions, detect conflicts.
@@ -86,7 +86,7 @@ Plans are auto-approved by the reviewer agent when LOW risk + clear scope.
 ---
 
 ### NW-035 Site Skill Auto-Learning
-**Status**: PENDING
+**Status**: APPROVED — MEDIUM risk, clear scope (netweaver/skill_learner_auto.py + skill_store.py + tests/), testable acceptance criteria (AutoSkillLearner, dedup, confidence scoring, 25+ tests), no KANBAN conflicts, no failure history. Note: builds on done NW-025 Skill Learner. Reviewed 2026-05-27.
 **Risk**: MEDIUM
 **Scope**: netweaver/skill_learner_auto.py, netweaver/skill_store.py, tests/test_skill_auto_learning.py
 **Tiny Goal**: Implement automatic skill learning from successful navigation flows. When a sequence of actions succeeds (all evidence positive), persist as a reusable site skill. Skills include URL pattern, action sequence, selectors, and success criteria.
@@ -96,7 +96,7 @@ Plans are auto-approved by the reviewer agent when LOW risk + clear scope.
 ---
 
 ### NW-036 Perspective Engine Real-World Tests
-**Status**: PENDING
+**Status**: APPROVED — MEDIUM risk, clear scope (tests/ + fixtures only), testable acceptance criteria (5+ perspectives, 100+ node graphs, perf <100ms, 20+ tests), no KANBAN conflicts, no failure history. Note: P2-006 (ready) touches perspective.py — coordinate to avoid duplication. Reviewed 2026-05-27.
 **Risk**: MEDIUM
 **Scope**: tests/test_perspective_scenarios.py, tests/fixtures/perspectives/
 **Tiny Goal**: Add real-world scenario tests for the perspective engine (570 LOC). Test multi-perspective queries on complex scene graphs — accessibility, security, performance, SEO perspectives on same page.
@@ -105,7 +105,7 @@ Plans are auto-approved by the reviewer agent when LOW risk + clear scope.
 
 ---
 ### NW-037 Thin Module Expansion
-**Status**: PENDING
+**Status**: APPROVED — MEDIUM risk, clear scope (5 netweaver/ modules + tests/), testable acceptance criteria (LOC targets per module, 40+ tests), no KANBAN conflicts, no failure history. Reviewed 2026-05-27.
 **Risk**: MEDIUM
 **Scope**: netweaver/tracker.py, netweaver/skill_view.py, netweaver/product_spec.py, netweaver/roadmap.py, netweaver/skill_doc_extractor.py, tests/test_thin_modules.py
 **Tiny Goal**: Expand the 5 thin modules (<150 LOC) to production quality. Add proper error handling, type annotations, docstrings, and comprehensive tests for each.
@@ -115,7 +115,7 @@ Plans are auto-approved by the reviewer agent when LOW risk + clear scope.
 ---
 
 ### NW-038 Performance Benchmark Suite
-**Status**: PENDING
+**Status**: BLOCKED — Garbled acceptance criteria: plan title says "Performance Benchmark Suite" but acceptance text merges ≥4 unrelated tasks (benchmark suite, AnomalyDetector, FailureDigester, daily health report) into one plan. Scope (backup_verifier.py) doesn't match acceptance criteria. Needs decomposition into separate plans with coherent scope. Reviewed 2026-05-27.
 **Risk**: MEDIUM
 **Scope**: netweaver/backup_verifier.py, tests/test_backup_verifier.py
 **Tiny Goal**: Add backup integrity verification — don't just check backups exist, verify they're restorable. Periodically test-restore from backup, compare with current state, detect corruption.
