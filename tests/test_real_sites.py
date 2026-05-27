@@ -572,14 +572,18 @@ class TestCrossFixtureInvariants:
     @pytest.mark.parametrize("fixture_name", list(GOLDEN_BASELINES.keys()))
     def test_no_browser_imports(self, fixture_name):
         """Test module has no browser/Playwright/vendor imports."""
-        # Verify no actual playwright imports in this test file
+        import ast
         source_file = Path(__file__)
-        source = source_file.read_text()
-        # Check actual import statements, not docstring mentions
-        for line in source.splitlines():
-            stripped = line.strip()
-            # Skip comments and docstrings
-            if stripped.startswith("#") or stripped.startswith('"') or stripped.startswith("'"):
-                continue
-            assert "import playwright" not in stripped, f"Browser import found: {stripped}"
-            assert "from playwright" not in stripped, f"Browser import found: {stripped}"
+        tree = ast.parse(source_file.read_text())
+        browser_modules = {"playwright", "selenium", "puppeteer", "pyppeteer"}
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Import):
+                for alias in node.names:
+                    assert alias.name.split(".")[0] not in browser_modules, (
+                        f"Browser import found: {alias.name}"
+                    )
+            elif isinstance(node, ast.ImportFrom):
+                if node.module:
+                    assert node.module.split(".")[0] not in browser_modules, (
+                        f"Browser import found: from {node.module}"
+                    )
