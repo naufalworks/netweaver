@@ -116,6 +116,48 @@ def now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
+def _load_env():
+    """Load .env file into os.environ if not already set."""
+    env_file = WORKDIR / ".env"
+    if env_file.exists():
+        for line in env_file.read_text().splitlines():
+            if "=" in line and not line.startswith("#"):
+                key, _, value = line.partition("=")
+                key, value = key.strip(), value.strip()
+                if key and key not in os.environ:
+                    os.environ[key] = value
+
+
+def notify_telegram(message: str) -> bool:
+    """Send notification to Telegram. Returns True on success."""
+    try:
+        _load_env()
+        token = os.environ.get("NETWEAVER_TELEGRAM_TOKEN")
+        chat_id = os.environ.get("NETWEAVER_TELEGRAM_CHAT")
+        
+        if not token or not chat_id:
+            logger.warning("Telegram not configured (missing NETWEAVER_TELEGRAM_TOKEN or NETWEAVER_TELEGRAM_CHAT)")
+            return False
+        
+        import requests
+        url = f"https://api.telegram.org/bot{token}/sendMessage"
+        data = {
+            "chat_id": chat_id,
+            "text": message,
+            "parse_mode": "Markdown",
+        }
+        resp = requests.post(url, json=data, timeout=10)
+        if resp.status_code == 200:
+            logger.info(f"Telegram notification sent: {message[:50]}...")
+            return True
+        else:
+            logger.error(f"Telegram send failed: {resp.status_code} {resp.text}")
+            return False
+    except Exception as e:
+        logger.error(f"Telegram notification error: {e}")
+        return False
+
+
 def file_hash(path: Path) -> Optional[str]:
     """Compute MD5 hash of file contents. None if missing."""
     if not path.exists():
