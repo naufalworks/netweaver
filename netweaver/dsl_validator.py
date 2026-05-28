@@ -223,7 +223,7 @@ def _check_wnal_conflicts(actions: List[dict], result: ValidationResult) -> None
             # Check for problematic order: navigate then click on same target
             if "navigate" in types:
                 result.add_warning(
-                    f"Line {action['line']}: Action on '{target}' follows navigate() — "
+                    f"Target '{target}': Action follows navigate() — "
                     f"selector may be stale after page load"
                 )
             # Two fills on same element
