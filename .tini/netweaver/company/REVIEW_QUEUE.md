@@ -67,7 +67,7 @@ Plans are auto-approved by the reviewer agent when LOW risk + clear scope.
 ---
 
 ### NW-033 Real-Site Golden Snapshot Tests
-**Status**: APPROVED — MEDIUM risk, clear scope (tests/ + fixtures only), testable acceptance criteria (3+ golden snapshots, regression detection, 10+ tests), no KANBAN conflicts, no failure history. Reviewed 2026-05-27.
+**Status**: DONE — Implemented and verified. 49 new tests pass, all golden snapshots validated. Completed 2026-05-28.
 **Risk**: MEDIUM
 **Scope**: tests/test_real_sites.py, tests/fixtures/golden/
 **Tiny Goal**: Create integration tests using 3-5 real URLs with pre-captured golden snapshots (HTML + network traces). Tests parse real-world complexity — SPAs, infinite scroll, iframes, shadow DOM.
