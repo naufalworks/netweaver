@@ -40,6 +40,27 @@ acceptance:
 ## Done
 
 
+### NW-033 Real-Site Golden Snapshot Tests
+owner: Worker
+model: claude-combo
+status: done
+completed: 2026-05-28
+scope:
+- tests/test_real_sites.py
+- tests/fixtures/golden/static_blog.json
+- tests/fixtures/golden/ecommerce_spa.json
+- tests/fixtures/golden/complex_dashboard.json
+acceptance:
+- 3+ golden snapshot fixtures (static blog, e-commerce SPA, complex dashboard) ✅
+- Each fixture: raw HTML, network trace JSON, expected SceneGraph structure ✅
+- Test parses HTML → builds SceneGraph → validates structure matches golden ✅
+- Network trace replay: simulates XHR/fetch patterns, validates graph_query results ✅
+- Regression detection: alerts if SceneGraph structure changes after code modifications ✅
+- All tests use mocked browser (no real network) ✅
+- All existing tests remain green ✅
+- 49 new tests (7 test classes: static blog, ecommerce SPA, dashboard, graph query, network trace, regression, cross-fixture invariants) ✅
+
+
 ### NW-032 End-to-End Demo Pipeline
 owner: Worker
 model: claude-combo
