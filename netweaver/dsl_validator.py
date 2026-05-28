@@ -268,10 +268,10 @@ def _check_wnal_preconditions(actions: List[dict], result: ValidationResult) -> 
 
 BASIL_SCRIPT_HEADER_RE = re.compile(r'^script\s+(\S+)')
 BASIL_STEP_RE = re.compile(r'^\s*step:\s*(.+)$')
-BASIL_PRE_RE = re.compile(r'^\s*pre:\s*(.+)$')
-BASIL_POST_RE = re.compile(r'^\s*post:\s*(.+)$')
-BASIL_TARGET_RE = re.compile(r'^\s*target:\s*(.+)$')
-BASIL_IMPORT_RE = re.compile(r'^\s*import:\s*(.+)$')
+BASIL_PRE_RE = re.compile(r'^\s*pre:\s*(.*)$')
+BASIL_POST_RE = re.compile(r'^\s*post:\s*(.*)$')
+BASIL_TARGET_RE = re.compile(r'^\s*target:\s*(.*)$')
+BASIL_IMPORT_RE = re.compile(r'^\s*import:\s*(.*)$')
 
 
 def parse_basil_line(line: str, line_num: int) -> Optional[dict]:
