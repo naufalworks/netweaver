@@ -145,10 +145,14 @@ def parse_wnal_line(line: str, line_num: int) -> Tuple[Optional[dict], List[str]
     if action in WNAL_ACTIONS_REQUIRING_VALUE and not value:
         errors.append(f"Line {line_num}: Action '{action}' requires a value argument")
 
-    if target and not target.startswith(("#", ".", "[", "//", "(")):
-        # Could be a named anchor or tag name
-        if not re.match(r'^[a-zA-Z][\w]*$', target):
-            errors.append(f"Line {line_num}: Invalid selector format '{target}' — should start with #, ., [, //, or be a tag name")
+    # Skip selector validation for actions that don't use CSS selectors
+    if target and action not in ("navigate", "wait", "scroll", "assert"):
+        if target and not target.startswith(("#", ".", "[", "//", "(")):
+            # Could be a named anchor or tag name
+            if not re.match(r'^[a-zA-Z][\w]*$', target):
+                errors.append(f"Line {line_num}: Invalid selector format '{target}' — should start with #, ., [, //, or be a tag name")
+    elif target and action == "navigate" and not target.startswith(("http://", "https://", "/")):
+        errors.append(f"Line {line_num}: Invalid URL '{target}' for navigate — should start with http://, https://, or /")
 
     if target and target.startswith("//"):
         if not XPATH_SELECTOR_PATTERN.match(target):
