@@ -1,7 +1,7 @@
 {
   "agent_type": "daemon",
-  "updated": "2026-05-27T16:01:57.843917+00:00",
-  "count": 3,
+  "updated": "2026-05-29T21:26:29.834328+00:00",
+  "count": 4,
   "memories": [
     {
       "id": "e98659076886",
@@ -60,6 +60,25 @@
         "plan-gen",
         "NW-033",
         "testing"
+      ],
+      "related_memory_ids": []
+    },
+    {
+      "id": "254378953328",
+      "agent_type": "daemon",
+      "decision": "generated plan for NW-035",
+      "context": {
+        "scope": "",
+        "task_id": "NW-035"
+      },
+      "outcome": "pending",
+      "outcome_details": "",
+      "timestamp": 1780089989.8342679,
+      "access_count": 0,
+      "last_accessed": 1780089989.8342679,
+      "tags": [
+        "plan-gen",
+        "NW-035"
       ],
       "related_memory_ids": []
     }

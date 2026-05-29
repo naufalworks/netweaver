@@ -123,3 +123,24 @@ Plans are auto-approved by the reviewer agent when LOW risk + clear scope.
 **Generated**: 2026-05-27T15:42:15.397183+00:00
 
 ---
+### NW-035 Site Skill Auto-Learning
+**Status**: PENDING
+**Risk**: MEDIUM
+**Scope**: netweaver/skill_learner_auto.py, netweaver/skill_store.py, tests/test_skill_auto_learning.py
+**Tiny Goal**: Implement automatic skill learning from successful navigation flows. When a sequence of actions succeeds (all evidence positive), persist as a reusable site skill. Skills include URL pattern, action sequence, selectors, and success criteria.
+**Acceptance**: AutoSkillLearner: observes action sequences with evidence, identifies successful patterns learn_from_execution(execution_log: List[ActionEvidence]) → List[SiteSkill] SkillStore: persist skills to .tini/netweaver/skills/ as JSON URL pattern matching: group skills by site (e.g., github.com/*, amazon.com/product/*) Skill deduplication: merge similar skills, keep highest success rate version Skill retrieval: given new URL + intent, find matching skills Confidence scoring: skills with >5 successful uses get "trusted" status 25+ new tests All existing tests remain green
+**Generated**: 2026-05-29T21:26:29.808739+00:00
+
+**Epistemic Analysis**:
+**Confidence**: 0%
+**Supporting knowledge**: 5 facts
+  - [likely] Task web_learning_cycle outcome: success
+  - [likely] Task explore_https://example.com outcome: success
+  - [likely] Task explore_https://httpbin.org/forms/post outcome: success
+**Warnings**: 2
+  - ⚠️  Low epistemic confidence (0%) — Resolve 46 contradiction(s). Gather more evidence before acting on this.
+  - ⚠️  13 high-severity contradiction(s) — resolve before shipping
+**Recommendation**: Resolve 46 contradiction(s). Gather more evidence before acting on this.
+**Provenance**: 3 sources
+
+---

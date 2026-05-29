@@ -2,17 +2,17 @@
   "agents": {
     "daemon": {
       "agent_id": "daemon",
-      "total_tasks": 1,
-      "successful_tasks": 1,
+      "total_tasks": 2,
+      "successful_tasks": 2,
       "task_type_stats": {
         "plan_gen": {
-          "success": 1,
-          "total": 1
+          "success": 2,
+          "total": 2
         }
       },
       "file_familiarity": {},
-      "avg_duration": 5.2,
-      "last_active": "2026-05-28T00:03:25.662633",
+      "avg_duration": 2.6070765018463136,
+      "last_active": "2026-05-30T04:26:29.845127",
       "specializations": []
     },
     "web_explorer": {
@@ -183,7 +183,17 @@
       "duration_seconds": 11.077435970306396,
       "timestamp": "2026-05-29T12:23:40.313177",
       "context": {}
+    },
+    {
+      "agent_id": "daemon",
+      "task_id": "NW-035",
+      "task_type": "plan_gen",
+      "files_touched": [],
+      "success": true,
+      "duration_seconds": 0.014153003692626953,
+      "timestamp": "2026-05-30T04:26:29.845079",
+      "context": {}
     }
   ],
-  "updated": "2026-05-29T12:23:40.315756"
+  "updated": "2026-05-30T04:26:29.854443"
 }

@@ -98,8 +98,8 @@
       "supports": [],
       "depends_on": [],
       "citations": [],
-      "access_count": 0,
-      "last_accessed": null,
+      "access_count": 1,
+      "last_accessed": "2026-05-29T21:26:29.809176+00:00",
       "_id": "e59c13dd268ef6c1"
     },
     "aa2f4b4f98dd7550": {
@@ -212,8 +212,8 @@
       "supports": [],
       "depends_on": [],
       "citations": [],
-      "access_count": 0,
-      "last_accessed": null,
+      "access_count": 1,
+      "last_accessed": "2026-05-29T21:26:29.809230+00:00",
       "_id": "4d523c4a11dcfb72"
     },
     "8dd9a4df195eb1df": {
@@ -251,13 +251,14 @@
         "6b417e78fdf56a64",
         "63fc2ab13ab471e8",
         "fcc29a1eef0ea8d1",
-        "a0266935729e5f83"
+        "a0266935729e5f83",
+        "4a746b6be6de7965"
       ],
       "supports": [],
       "depends_on": [],
       "citations": [],
-      "access_count": 0,
-      "last_accessed": null,
+      "access_count": 1,
+      "last_accessed": "2026-05-29T21:26:29.809261+00:00",
       "_id": "8dd9a4df195eb1df"
     },
     "2d8e252ace73e907": {
@@ -335,8 +336,8 @@
       "supports": [],
       "depends_on": [],
       "citations": [],
-      "access_count": 0,
-      "last_accessed": null,
+      "access_count": 1,
+      "last_accessed": "2026-05-29T21:26:29.809283+00:00",
       "_id": "291ab36b7898ff61"
     },
     "9d00d4a25043f0e8": {
@@ -407,13 +408,14 @@
         "6b417e78fdf56a64",
         "63fc2ab13ab471e8",
         "fcc29a1eef0ea8d1",
-        "a0266935729e5f83"
+        "a0266935729e5f83",
+        "4a746b6be6de7965"
       ],
       "supports": [],
       "depends_on": [],
       "citations": [],
-      "access_count": 0,
-      "last_accessed": null,
+      "access_count": 1,
+      "last_accessed": "2026-05-29T21:26:29.809302+00:00",
       "_id": "9bcf0a82db58ec34"
     },
     "dcf70d0c5300ebc2": {
@@ -482,13 +484,14 @@
         "a0266935729e5f83",
         "63fc2ab13ab471e8",
         "fcc29a1eef0ea8d1",
-        "a0266935729e5f83"
+        "a0266935729e5f83",
+        "4a746b6be6de7965"
       ],
       "supports": [],
       "depends_on": [],
       "citations": [],
-      "access_count": 0,
-      "last_accessed": null,
+      "access_count": 1,
+      "last_accessed": "2026-05-29T21:26:29.809320+00:00",
       "_id": "6b417e78fdf56a64"
     },
     "b65a5590b2abfad9": {
@@ -560,8 +563,8 @@
       "supports": [],
       "depends_on": [],
       "citations": [],
-      "access_count": 0,
-      "last_accessed": null,
+      "access_count": 1,
+      "last_accessed": "2026-05-29T21:26:29.809339+00:00",
       "_id": "63fc2ab13ab471e8"
     },
     "440ac1bd89ebcf38": {
@@ -631,8 +634,8 @@
       "supports": [],
       "depends_on": [],
       "citations": [],
-      "access_count": 0,
-      "last_accessed": null,
+      "access_count": 1,
+      "last_accessed": "2026-05-29T21:26:29.809371+00:00",
       "_id": "fcc29a1eef0ea8d1"
     },
     "8fb22c6d022cb2e2": {
@@ -702,8 +705,8 @@
       "supports": [],
       "depends_on": [],
       "citations": [],
-      "access_count": 0,
-      "last_accessed": null,
+      "access_count": 1,
+      "last_accessed": "2026-05-29T21:26:29.809392+00:00",
       "_id": "a0266935729e5f83"
     },
     "04fed0d8a6151115": {
@@ -763,13 +766,14 @@
         "4d523c4a11dcfb72",
         "a0266935729e5f83",
         "4d523c4a11dcfb72",
-        "4d523c4a11dcfb72"
+        "4d523c4a11dcfb72",
+        "4a746b6be6de7965"
       ],
       "supports": [],
       "depends_on": [],
       "citations": [],
-      "access_count": 0,
-      "last_accessed": null,
+      "access_count": 1,
+      "last_accessed": "2026-05-29T21:26:29.809429+00:00",
       "_id": "8e737b39d7af5578"
     },
     "32fe205eb469735c": {
@@ -793,6 +797,65 @@
       "access_count": 0,
       "last_accessed": null,
       "_id": "32fe205eb469735c"
+    },
+    "4a746b6be6de7965": {
+      "content": "Task NW-035 outcome: success",
+      "topic": "worker_outcomes",
+      "tags": [
+        "worker",
+        "outcome",
+        "success",
+        "NW-035"
+      ],
+      "context": "{'phase': 'plan_generated', 'cycle': 28}",
+      "confidence": 0.85,
+      "created": "2026-05-29T21:26:29.839650+00:00",
+      "last_verified": "2026-05-29T21:26:29.839651+00:00",
+      "decay_rate": 0.0,
+      "sources": [
+        {
+          "type": "worker_outcome",
+          "ref": "daemon.py:record_outcome(NW-035)",
+          "author": "",
+          "created": "2026-05-29T21:26:29.839596+00:00",
+          "trustworthiness": 0.9
+        }
+      ],
+      "contradictions": [
+        "8dd9a4df195eb1df",
+        "9bcf0a82db58ec34",
+        "6b417e78fdf56a64",
+        "8e737b39d7af5578"
+      ],
+      "supports": [],
+      "depends_on": [],
+      "citations": [],
+      "access_count": 0,
+      "last_accessed": null,
+      "_id": "4a746b6be6de7965"
+    },
+    "8d391a7dfed08e14": {
+      "content": "Agent daemon succeeded at plan_gen task NW-035",
+      "topic": "competence",
+      "tags": [
+        "agent",
+        "daemon",
+        "plan_gen",
+        "outcome"
+      ],
+      "context": "{\"success\": true, \"duration\": 0.014153003692626953, \"files\": []}",
+      "confidence": 0.85,
+      "created": "2026-05-29T21:26:29.846278+00:00",
+      "last_verified": "2026-05-29T21:26:29.846285+00:00",
+      "decay_rate": 0.02,
+      "sources": [],
+      "contradictions": [],
+      "supports": [],
+      "depends_on": [],
+      "citations": [],
+      "access_count": 0,
+      "last_accessed": null,
+      "_id": "8d391a7dfed08e14"
     }
   },
   "contradictions": [
@@ -2100,7 +2163,43 @@
       "detected": "2026-05-29T12:14:27.084916+00:00",
       "resolved": false,
       "resolution": ""
+    },
+    {
+      "node_a_id": "4a746b6be6de7965",
+      "node_b_id": "8dd9a4df195eb1df",
+      "severity": 0.1875,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-29T21:26:29.839803+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "4a746b6be6de7965",
+      "node_b_id": "9bcf0a82db58ec34",
+      "severity": 0.16666666666666666,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-29T21:26:29.839825+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "4a746b6be6de7965",
+      "node_b_id": "6b417e78fdf56a64",
+      "severity": 0.16666666666666666,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-29T21:26:29.839835+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "4a746b6be6de7965",
+      "node_b_id": "8e737b39d7af5578",
+      "severity": 0.21428571428571427,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-29T21:26:29.839869+00:00",
+      "resolved": false,
+      "resolution": ""
     }
   ],
-  "saved_at": "2026-05-29T16:00:49.000537+00:00"
+  "saved_at": "2026-05-29T21:26:29.847014+00:00"
 }
