@@ -76,7 +76,7 @@ Plans are auto-approved by the reviewer agent when LOW risk + clear scope.
 
 ---
 ### NW-034 WNAL/BASIL DSL Validator
-**Status**: APPROVED — MEDIUM risk, clear scope (netweaver/dsl_validator.py + tests/), testable acceptance criteria (validate fns, schema validation, CLI, 20+ tests), no KANBAN conflicts, no failure history. Reviewed 2026-05-27.
+**Status**: DONE — Implemented and verified. 70 new tests pass, 2137 total suite green. Completed 2026-05-29.
 **Risk**: MEDIUM
 **Scope**: netweaver/dsl_validator.py, tests/test_dsl_validator.py
 **Tiny Goal**: Add a standalone validator for WNAL (Web Navigation Action Language) and BASIL (Browser Automation Script Interface Language) files. Parse, validate schema, check preconditions, detect conflicts.
