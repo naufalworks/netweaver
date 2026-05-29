@@ -194,15 +194,15 @@
       ],
       "context": "{'sites': 0, 'successes': 0, 'elements': 0}",
       "confidence": 0.3,
-      "created": "2026-05-29T12:14:27.084467+00:00",
-      "last_verified": "2026-05-29T12:14:27.084470+00:00",
+      "created": "2026-05-29T21:35:43.559288+00:00",
+      "last_verified": "2026-05-29T21:35:43.559289+00:00",
       "decay_rate": 0.05,
       "sources": [
         {
           "type": "worker_outcome",
           "ref": "daemon.py:record_outcome(web_learning_cycle)",
           "author": "",
-          "created": "2026-05-29T12:14:27.084082+00:00",
+          "created": "2026-05-29T21:35:43.559227+00:00",
           "trustworthiness": 0.7
         }
       ],
@@ -212,8 +212,8 @@
       "supports": [],
       "depends_on": [],
       "citations": [],
-      "access_count": 1,
-      "last_accessed": "2026-05-29T21:26:29.809230+00:00",
+      "access_count": 0,
+      "last_accessed": null,
       "_id": "4d523c4a11dcfb72"
     },
     "8dd9a4df195eb1df": {
@@ -767,7 +767,8 @@
         "a0266935729e5f83",
         "4d523c4a11dcfb72",
         "4d523c4a11dcfb72",
-        "4a746b6be6de7965"
+        "4a746b6be6de7965",
+        "4d523c4a11dcfb72"
       ],
       "supports": [],
       "depends_on": [],
@@ -2199,7 +2200,16 @@
       "detected": "2026-05-29T21:26:29.839869+00:00",
       "resolved": false,
       "resolution": ""
+    },
+    {
+      "node_a_id": "4d523c4a11dcfb72",
+      "node_b_id": "8e737b39d7af5578",
+      "severity": 0.75,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-29T21:35:43.559589+00:00",
+      "resolved": false,
+      "resolution": ""
     }
   ],
-  "saved_at": "2026-05-29T21:26:29.847014+00:00"
+  "saved_at": "2026-05-29T21:35:43.560396+00:00"
 }
