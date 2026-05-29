@@ -364,3 +364,76 @@ Consequences:
 - (-) No approval expiry: APPROVED plans execute regardless of age
 - (-) No concurrent execution guard: if multiple APPROVED plans exist, they execute sequentially in one daemon cycle, blocking file polling
 - (-) REVIEW_QUEUE.md status modifications bypass the formal KANBAN handoff mechanism
+
+---
+
+## ADR-018: Epistemic OS — Probabilistic Knowledge Management
+
+Status: Accepted (2026-05-27/28)
+
+Implemented: `netweaver/epistemic.py` (789 LOC), `netweaver/epistemic_verifier.py` (498 LOC), `netweaver/epistemic_site_skill.py` (248 LOC), `netweaver/epistemic_daemon.py` (243 LOC)
+
+Knowledge in autonomous systems is traditionally binary (true/false) — a claim is either stored or not. This creates brittle systems that don't account for uncertainty, staleness, or contradictory evidence.
+
+Decision: An `EpistemicOS` class manages all knowledge as nodes with confidence (0.0–1.0), decay (rate of confidence drop over time), provenance (source of knowledge), contradictions (what conflicts), and context (conditions under which knowledge is true). An `AutoVerifier` re-runs tests/skills to re-calibrate stale knowledge. Epistemic tracking is mixed into `SiteSkill` (`EpistemicSiteSkill`) and the daemon loop (`EpistemicDaemon`).
+
+Consequences:
+- (+) Knowledge is honest about uncertainty rather than pretending certainty
+- (+) Stale knowledge auto-triggers re-verification via `AutoVerifier`
+- (+) Contradictions between knowledge nodes detected and surfaced
+- (+) Contextual knowledge prevents over-generalization
+- (-) Added complexity: ~1,778 LOC across 4 modules for the epistemic subsystem
+- (-) Auto-verifier uses `subprocess` to run tests — adds test-cycle latency
+- (-) Decay and confidence curves are hardcoded; no empirical calibration yet
+- (-) No integration with downstream consumers (planner, orchestrator) yet
+
+---
+
+## ADR-019: Background Analysis Subsystem (Causal + Dreaming)
+
+Status: Accepted (2026-05-27/28)
+
+Implemented: `netweaver/causal.py` (466 LOC), `netweaver/dreaming.py` (490 LOC)
+
+When failures occur, the system needs root-cause analysis beyond surface-level error messages. When idle, the system can generate improvement hypotheses.
+
+Decision: Two background analysis modules:
+- **Causal Chain Analysis** (`causal.py`): Traces test failures back to code changes using git history, import graphs, and dependency analysis. Builds causal chains with confidence scores (e.g., `change → import chain → test failure`).
+- **Dreaming** (`dreaming.py`): Background hypothesis generation — scans codebase for patterns, simulates outcomes of refactoring proposals, stores hypotheses as low-confidence epistemic knowledge. Proposes architectural improvements without being asked.
+
+Consequences:
+- (+) Causal chains improve debugging from symptom-level to root-cause-level
+- (+) Dreaming surfaces refactoring opportunities the system wouldn't otherwise consider
+- (+) Both modules are pure stdlib + `subprocess` (git inspection only)
+- (+) Both feed into EpistemicOS for knowledge management
+- (-) **956 LOC with zero test coverage** — both modules untested
+- (-) Dreaming hypotheses have no validation gate; could recommend incorrect refactors
+- (-) Causal analysis uses `subprocess` for git commands (slow, environment-dependent)
+- (-) Dreaming scheduled by daemon — could consume compute on non-useful hypotheses
+
+---
+
+## ADR-020: Agent Intelligence Layer (Competence Matrix + Memory Palace + Knowledge Graph)
+
+Status: Accepted (2026-05-27/28)
+
+Implemented: `netweaver/competence_matrix.py` (431 LOC), `netweaver/memory_palace.py` (419 LOC), `netweaver/knowledge_graph.py` (390 LOC), `netweaver/knowledge_graph_cli.py` (272 LOC), `netweaver/tracker.py` (82 LOC), `netweaver/roadmap.py` (51 LOC)
+
+Multi-agent coordination needs more than round-robin task assignment and static KANBAN. Agents need: (1) historical task-routing data, (2) persistent decision memory, (3) cross-project ecosystem awareness.
+
+Decision: Three new intelligence modules:
+- **Competence Matrix** (`competence_matrix.py`): Bayesian scoring from execution history — tracks success rate per task type, file familiarity, current load. Routes tasks to most competent agent. Extends `CompetenceRegistry` (ADR-014).
+- **Memory Palace** (`memory_palace.py`): Per-agent persistent memory store (JSON-backed). Stores decisions + outcomes with semantic fingerprinting, temporal decay, and auto-pruning of low-value memories.
+- **Knowledge Graph** (`knowledge_graph.py`): Cross-project dependency graph — maps projects→files→modules→functions via AST scanning. CLI tool (`knowledge_graph_cli.py`) for query/visualize.
+- **Tracker/Roadmap** (`tracker.py`, `roadmap.py`): Unified Item+StateMachine merging Kanban and Roadmap into programmatic API.
+
+Consequences:
+- (+) Task routing improves from round-robin to competence-weighted
+- (+) Agents build institutional memory across sessions (MemoryPalace)
+- (+) Cross-project dependency awareness enables impact analysis
+- (+) Programmatic Tracker API replaces markdown-only KANBAN for machine consumers
+- (-) Competence Matrix uses Bayesian scoring but history is sparse — initial routing is effectively random
+- (-) **Two modules untested**: `competence_matrix.py` (431 LOC), `knowledge_graph_cli.py` (272 LOC)
+- (-) Memory Palace fingerprinting is basic (word overlap); no embedding/semantic search
+- (-) Tracker/Roadmap duplicate existing markdown-based KANBAN — dual system (like event_ledger before it)
+- (-) Knowledge Graph only scans Python files (AST-based); no JS/TS/Go support
