@@ -85,12 +85,12 @@ Plans are auto-approved by the reviewer agent when LOW risk + clear scope.
 
 ---
 
-### NW-035 Site Skill Auto-Learning
-**Status**: APPROVED — MEDIUM risk, clear scope (netweaver/skill_learner_auto.py + skill_store.py + tests/), testable acceptance criteria (AutoSkillLearner, dedup, confidence scoring, 25+ tests), no KANBAN conflicts, no failure history. Note: builds on done NW-025 Skill Learner. Reviewed 2026-05-27.
+|### NW-035 Site Skill Auto-Learning
+**Status**: DONE — Implemented and verified. 58 new tests pass, 2192 total suite green. Completed 2026-05-30.
 **Risk**: MEDIUM
 **Scope**: netweaver/skill_learner_auto.py, netweaver/skill_store.py, tests/test_skill_auto_learning.py
 **Tiny Goal**: Implement automatic skill learning from successful navigation flows. When a sequence of actions succeeds (all evidence positive), persist as a reusable site skill. Skills include URL pattern, action sequence, selectors, and success criteria.
-**Acceptance**: AutoSkillLearner: observes action sequences with evidence, identifies successful patterns learn_from_execution(execution_log: List[ActionEvidence]) → List[SiteSkill] SkillStore: persist skills to .tini/netweaver/skills/ as JSON URL pattern matching: group skills by site (e.g., github.com/*, amazon.com/product/*) Skill deduplication: merge similar skills, keep highest success rate version Skill retrieval: given new URL + intent, find matching skills Confidence scoring: skills with >5 successful uses get "trusted" status 25+ new tests All existing tests remain green
+**Acceptance**: AutoSkillLearner: observes action sequences with evidence, identifies successful patterns learn_from_execution(execution_log: List[ActionEvidence]) → List[SiteSkill] SkillStore: persist skills to .tini/netweaver/skills/ as JSON URL pattern matching: group skills by site (e.g., github.com/*, amazon.com/product/*) Skill deduplication: merge similar skills, keep highest success rate version Skill retrieval: given new URL + intent, find matching skills Confidence scoring: skills with >5 successful uses get "trusted" status 58 new tests All existing tests remain green
 **Generated**: 2026-05-27T15:40:15.383575+00:00
 
 ---
