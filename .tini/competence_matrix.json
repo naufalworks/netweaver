@@ -17,17 +17,17 @@
     },
     "web_explorer": {
       "agent_id": "web_explorer",
-      "total_tasks": 11,
-      "successful_tasks": 11,
+      "total_tasks": 14,
+      "successful_tasks": 14,
       "task_type_stats": {
         "web_interaction": {
-          "success": 11,
-          "total": 11
+          "success": 14,
+          "total": 14
         }
       },
       "file_familiarity": {},
-      "avg_duration": 4.0158984227613965,
-      "last_active": "2026-05-29T12:23:28.536985",
+      "avg_duration": 4.711517759731838,
+      "last_active": "2026-05-29T12:23:40.313188",
       "specializations": [
         "web_interaction"
       ]
@@ -153,7 +153,37 @@
       "duration_seconds": 2.6037631034851074,
       "timestamp": "2026-05-29T12:23:28.536976",
       "context": {}
+    },
+    {
+      "agent_id": "web_explorer",
+      "task_id": "explore_https://en.wikipedia.org/wiki/Wikipedia:Sandbox",
+      "task_type": "web_interaction",
+      "files_touched": [],
+      "success": true,
+      "duration_seconds": 3.445034980773926,
+      "timestamp": "2026-05-29T12:23:40.302283",
+      "context": {}
+    },
+    {
+      "agent_id": "web_explorer",
+      "task_id": "explore_https://donate.wikimedia.org/?wmf_source=donate&wm",
+      "task_type": "web_interaction",
+      "files_touched": [],
+      "success": true,
+      "duration_seconds": 7.263895034790039,
+      "timestamp": "2026-05-29T12:23:40.308082",
+      "context": {}
+    },
+    {
+      "agent_id": "web_explorer",
+      "task_id": "explore_https://en.wikipedia.org/wiki/Web_scraping",
+      "task_type": "web_interaction",
+      "files_touched": [],
+      "success": true,
+      "duration_seconds": 11.077435970306396,
+      "timestamp": "2026-05-29T12:23:40.313177",
+      "context": {}
     }
   ],
-  "updated": "2026-05-29T12:23:28.539922"
+  "updated": "2026-05-29T12:23:40.315756"
 }
