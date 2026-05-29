@@ -728,9 +728,19 @@ class TestEdgeCases:
         store = AutoSkillStore(d)
         assert d.exists()
 
-    def test_learn_with_empty_url(self, learner, sample_execution_log):
+    def test_learn_with_empty_url(self, learner):
         """Execution log with no URL produces no skills."""
-        skills = learner.learn_from_execution(sample_execution_log)
+        log_no_url = [
+            ActionEvidence(
+                action_id="a1", action_type="fill",
+                target_ref="email", status="success", url="",
+            ),
+            ActionEvidence(
+                action_id="a2", action_type="click",
+                target_ref="submit", status="success", url="",
+            ),
+        ]
+        skills = learner.learn_from_execution(log_no_url)
         assert len(skills) == 0
 
     def test_learn_with_goal_extraction(self, learner):
