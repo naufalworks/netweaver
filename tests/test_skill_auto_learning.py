@@ -705,7 +705,7 @@ class TestPollAndLearn:
         for i in range(3):
             tp = tmp_traces_dir / f"trace_{i}.jsonl"
             tp.write_text(
-                f'{{"type":"plan_start","plan_id":"plan-{i}","description":"Plan {i}","step_count":2}}\n'
+                f'{{"type":"plan_start","plan_id":"plan-{i}","description":"Plan {i}","step_count":2,"url":"https://example.com/login"}}\n'
                 f'{{"type":"step_transition","step_index":0,"action_type":"fill","description":"field-{i}","status":"completed"}}\n'
                 f'{{"type":"step_transition","step_index":1,"action_type":"click","description":"btn-{i}","status":"completed"}}\n'
                 f'{{"type":"plan_end","plan_id":"plan-{i}","status":"completed","completed_steps":2,"total_steps":2}}\n'
