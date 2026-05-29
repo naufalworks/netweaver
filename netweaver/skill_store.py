@@ -353,7 +353,10 @@ class AutoSkillStore:
         rate_a = compute_confidence(skill_a.execution_stats)
         rate_b = compute_confidence(skill_b.execution_stats)
 
-        if rate_b > rate_a:
+        # Tiebreaker: higher success_count wins when rates equal
+        if rate_b > rate_a or (rate_b == rate_a and
+                skill_b.execution_stats.get("success_count", 0) >
+                skill_a.execution_stats.get("success_count", 0)):
             primary, secondary = skill_b, skill_a
         else:
             primary, secondary = skill_a, skill_b
