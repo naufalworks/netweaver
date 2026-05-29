@@ -40,6 +40,25 @@ acceptance:
 ## Done
 
 
+### NW-034 WNAL/BASIL DSL Validator
+owner: Worker
+model: claude-combo
+status: done
+completed: 2026-05-29
+scope:
+- netweaver/dsl_validator.py
+- tests/test_dsl_validator.py
+acceptance:
+- validate_wnal() / validate_basil() → ValidationResult with errors/warnings ✅
+- Schema validation: required fields, type checking, enum constraints ✅
+- Precondition checking: element selectors valid, no conflicting actions ✅
+- Conflict detection: two actions targeting same element in wrong order ✅
+- CLI: python -m netweaver.dsl_validator --file <path> ✅
+- 70 new tests covering valid/invalid DSL files ✅
+- No browser/vendor/playwright imports ✅
+- All existing tests remain green (2137 passed) ✅
+
+
 ### NW-033 Real-Site Golden Snapshot Tests
 owner: Worker
 model: claude-combo
