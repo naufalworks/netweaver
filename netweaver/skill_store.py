@@ -218,9 +218,9 @@ class AutoSkillStore:
         """Count the number of persisted skills.
 
         Returns:
-            Integer count of JSON skill files.
+            Integer count of valid skill files (corrupted files skipped).
         """
-        return len(list(self.skills_dir.glob("*.json")))
+        return len(self.list_all())
 
     # ---- Query operations ----
 
