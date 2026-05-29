@@ -639,7 +639,7 @@ class TestPollAndLearn:
         """Parse a completed trace and learn from it."""
         trace_path = tmp_traces_dir / "trace_20260529T120000_test.jsonl"
         trace_content = (
-            '{"type":"plan_start","plan_id":"plan-001","description":"Test plan","step_count":2}\n'
+            '{"type":"plan_start","plan_id":"plan-001","description":"Test plan","step_count":2,"url":"https://example.com/login"}\n'
             '{"type":"step_transition","step_index":0,"action_type":"fill","description":"email field","status":"completed","evidence_chain_ids":["obs-1"]}\n'
             '{"type":"step_transition","step_index":1,"action_type":"click","description":"submit button","status":"completed","evidence_chain_ids":["obs-2"]}\n'
             '{"type":"plan_end","plan_id":"plan-001","status":"completed","completed_steps":2,"total_steps":2}\n'
