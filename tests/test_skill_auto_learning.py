@@ -666,7 +666,7 @@ class TestPollAndLearn:
         """Already processed traces are skipped."""
         trace_path = tmp_traces_dir / "trace_done.jsonl"
         trace_path.write_text(
-            '{"type":"plan_start","plan_id":"plan-003","description":"Done","step_count":2}\n'
+            '{"type":"plan_start","plan_id":"plan-003","description":"Done","step_count":2,"url":"https://example.com/login"}\n'
             '{"type":"step_transition","step_index":0,"action_type":"fill","description":"field","status":"completed"}\n'
             '{"type":"step_transition","step_index":1,"action_type":"click","description":"button","status":"completed"}\n'
             '{"type":"plan_end","plan_id":"plan-003","status":"completed","completed_steps":2,"total_steps":2}\n'
