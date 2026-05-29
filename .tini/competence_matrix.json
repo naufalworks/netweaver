@@ -17,17 +17,17 @@
     },
     "web_explorer": {
       "agent_id": "web_explorer",
-      "total_tasks": 7,
-      "successful_tasks": 7,
+      "total_tasks": 9,
+      "successful_tasks": 9,
       "task_type_stats": {
         "web_interaction": {
-          "success": 7,
-          "total": 7
+          "success": 9,
+          "total": 9
         }
       },
       "file_familiarity": {},
-      "avg_duration": 3.2009143148149763,
-      "last_active": "2026-05-28T01:09:46.683330",
+      "avg_duration": 4.128455135557386,
+      "last_active": "2026-05-29T12:23:19.015760",
       "specializations": [
         "web_interaction"
       ]
@@ -113,7 +113,27 @@
       "duration_seconds": 3.7188169956207275,
       "timestamp": "2026-05-28T01:09:46.683328",
       "context": {}
+    },
+    {
+      "agent_id": "web_explorer",
+      "task_id": "explore_https://example.com",
+      "task_type": "web_interaction",
+      "files_touched": [],
+      "success": true,
+      "duration_seconds": 12.227742910385132,
+      "timestamp": "2026-05-29T12:23:16.369228",
+      "context": {}
+    },
+    {
+      "agent_id": "web_explorer",
+      "task_id": "explore_https://httpbin.org/forms/post",
+      "task_type": "web_interaction",
+      "files_touched": [],
+      "success": true,
+      "duration_seconds": 2.5219531059265137,
+      "timestamp": "2026-05-29T12:23:19.015750",
+      "context": {}
     }
   ],
-  "updated": "2026-05-28T01:09:46.683898"
+  "updated": "2026-05-29T12:23:19.017682"
 }
