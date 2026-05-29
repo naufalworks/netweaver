@@ -40,6 +40,28 @@ acceptance:
 ## Done
 
 
+### NW-035 Site Skill Auto-Learning
+owner: Worker
+model: claude-combo
+status: done
+completed: 2026-05-30
+scope:
+- netweaver/skill_learner_auto.py
+- netweaver/skill_store.py
+- tests/test_skill_auto_learning.py
+acceptance:
+- AutoSkillLearner observes action sequences with evidence, identifies successful patterns ✅
+- learn_from_execution(execution_log) → List[SiteSkill] ✅
+- SkillStore persists skills to .tini/netweaver/skills/ as JSON ✅
+- URL pattern matching: group skills by site domain ✅
+- Skill deduplication: merge similar skills, keep highest success rate version ✅
+- Skill retrieval: find_by_url_and_intent(url, intent) → ranked results ✅
+- Confidence scoring: skills with >5 successful uses get "trusted" status ✅
+- 58 new tests all pass ✅
+- No browser/Playwright/vendor imports ✅
+- All existing tests remain green (2192 passed, 3 pre-existing failures unrelated) ✅
+
+
 ### NW-034 WNAL/BASIL DSL Validator
 owner: Worker
 model: claude-combo
