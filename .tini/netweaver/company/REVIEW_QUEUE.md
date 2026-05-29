@@ -124,7 +124,7 @@ Plans are auto-approved by the reviewer agent when LOW risk + clear scope.
 
 ---
 ### NW-035 Site Skill Auto-Learning
-**Status**: PENDING
+**Status**: BLOCKED — Duplicate: NW-035 already DONE. KANBAN confirms completion (58 tests, 2192 suite green, 2026-05-30). No re-implementation needed.
 **Risk**: MEDIUM
 **Scope**: netweaver/skill_learner_auto.py, netweaver/skill_store.py, tests/test_skill_auto_learning.py
 **Tiny Goal**: Implement automatic skill learning from successful navigation flows. When a sequence of actions succeeds (all evidence positive), persist as a reusable site skill. Skills include URL pattern, action sequence, selectors, and success criteria.
