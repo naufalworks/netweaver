@@ -1,10 +1,10 @@
 # STATE — NetWeaver (project view)
 
-Last updated: 2026-05-29 23:54 UTC
+Last updated: 2026-05-30 07:20 UTC
 
 ## Project Health
 
-- 2195 tests ✅ passing
+- 2194 tests ❌ failing
 - daemon.py: heartbeat ✅, file rollback ✅, cleanup_loop ✅, metrics ✅
 - executor.py: fully reconstructed ✅
 - circuit_breaker.json: active ✅
