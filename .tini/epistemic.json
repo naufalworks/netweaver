@@ -192,17 +192,17 @@
         "failure",
         "web_learning_cycle"
       ],
-      "context": "{'sites': 0, 'successes': 0, 'elements': 0}",
+      "context": "{'sites': 5, 'successes': 0, 'elements': 0}",
       "confidence": 0.3,
-      "created": "2026-05-29T21:35:43.559288+00:00",
-      "last_verified": "2026-05-29T21:35:43.559289+00:00",
+      "created": "2026-05-30T07:45:09.325718+00:00",
+      "last_verified": "2026-05-30T07:45:09.325720+00:00",
       "decay_rate": 0.05,
       "sources": [
         {
           "type": "worker_outcome",
           "ref": "daemon.py:record_outcome(web_learning_cycle)",
           "author": "",
-          "created": "2026-05-29T21:35:43.559227+00:00",
+          "created": "2026-05-30T07:45:09.325681+00:00",
           "trustworthiness": 0.7
         }
       ],
@@ -768,6 +768,7 @@
         "4d523c4a11dcfb72",
         "4d523c4a11dcfb72",
         "4a746b6be6de7965",
+        "4d523c4a11dcfb72",
         "4d523c4a11dcfb72"
       ],
       "supports": [],
@@ -2209,7 +2210,16 @@
       "detected": "2026-05-29T21:35:43.559589+00:00",
       "resolved": false,
       "resolution": ""
+    },
+    {
+      "node_a_id": "4d523c4a11dcfb72",
+      "node_b_id": "8e737b39d7af5578",
+      "severity": 0.75,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-30T07:45:09.326001+00:00",
+      "resolved": false,
+      "resolution": ""
     }
   ],
-  "saved_at": "2026-05-29T21:35:43.560396+00:00"
+  "saved_at": "2026-05-30T07:45:09.326980+00:00"
 }
