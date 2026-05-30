@@ -536,3 +536,24 @@ None — no changes made.
 - Architect to create follow-up task for orchestrator→SkillLearner/planner→SkillMatcher integration
 - QA Benchmark to create Skill Real-World Benchmark once integration lands
 
+---
+
+# WNAL Engineer DEV_LOG — 2026-05-30
+
+## Task: Ready queue maintenance (no active WNAL tasks)
+
+### Scope
+KANBAN inspection only. No WNAL-assigned ready tasks found.
+
+### Changes
+None — idle cycle. Ready queue has 2 tasks (P2-006 → Safety Reviewer, NW-008 → CEO/Product), neither WNAL-scoped.
+
+### Verification
+- KANBAN.md inspected: P2-006 (owner: Safety Reviewer), NW-008 (owner: CEO/Product) are the only ready entries
+- `.tini/netweaver/company/KANBAN.md` cross-ref confirms: no WNAL owner in ready section
+- WNAL past tasks (P2-003, NW-010, NW-005, NW-002) all done
+- Circuit breaker: wnal-engineer — 0 consecutive failures, not paused
+
+### Acceptance
+- No WNAL tasks in ready queue → idle cycle, nothing to execute
+|
