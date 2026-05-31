@@ -191,7 +191,8 @@ class Roadmap:
         phase = self.phases.get(phase_name)
         if not phase:
             return []
-        return [item for item in self.tracker.all_items()
+        all_items = self.tracker.all_items()
+        return [item for item in all_items
                 if item.id in phase.item_ids]
 
     def _add_to_phase(self, phase_name: str, item_id: str) -> None:
