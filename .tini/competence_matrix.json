@@ -17,17 +17,17 @@
     },
     "web_explorer": {
       "agent_id": "web_explorer",
-      "total_tasks": 14,
-      "successful_tasks": 14,
+      "total_tasks": 15,
+      "successful_tasks": 15,
       "task_type_stats": {
         "web_interaction": {
-          "success": 14,
-          "total": 14
+          "success": 15,
+          "total": 15
         }
       },
       "file_familiarity": {},
-      "avg_duration": 4.711517759731838,
-      "last_active": "2026-05-29T12:23:40.313188",
+      "avg_duration": 4.900032027562459,
+      "last_active": "2026-05-31T19:44:44.096005",
       "specializations": [
         "web_interaction"
       ]
@@ -193,7 +193,17 @@
       "duration_seconds": 0.014153003692626953,
       "timestamp": "2026-05-30T04:26:29.845079",
       "context": {}
+    },
+    {
+      "agent_id": "web_explorer",
+      "task_id": "explore_https://example.com",
+      "task_type": "web_interaction",
+      "files_touched": [],
+      "success": true,
+      "duration_seconds": 7.539231777191162,
+      "timestamp": "2026-05-31T19:44:44.095997",
+      "context": {}
     }
   ],
-  "updated": "2026-05-30T04:26:29.854443"
+  "updated": "2026-05-31T19:44:44.097180"
 }
