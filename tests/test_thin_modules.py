@@ -877,10 +877,13 @@ class TestSkillDocExtractorExpanded:
 
         content = "# H1\n\n## H2\n\n### H3\n\n#### H4\n\nBody"
         result = extract_skill_doc_md(content)
-        assert len(result.sections) >= 2
-        # H3 is subsection of H2, H4 is subsection of H3
-        if result.sections[0].subsections:
-            assert result.sections[0].subsections[0].level == 3
+        assert len(result.sections) == 1  # H1
+        assert result.sections[0].heading == "H1"
+        assert len(result.sections[0].subsections) == 1
+        assert result.sections[0].subsections[0].heading == "H2"
+        assert result.sections[0].subsections[0].level == 2
+        assert len(result.sections[0].subsections[0].subsections) == 1
+        assert result.sections[0].subsections[0].subsections[0].heading == "H3"
 
     def test_detect_format_empty(self):
         from netweaver.skill_doc_extractor import detect_format
