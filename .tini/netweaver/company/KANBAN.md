@@ -60,6 +60,23 @@ acceptance:
 - All existing tests remain green (2195 + 47 = 2242 passed) ✅
 
 
+### NW-037 Thin Module Expansion
+owner: Worker
+model: claude-combo
+status: done
+completed: 2026-05-31
+scope:
+- netweaver/skill_doc_extractor.py
+- tests/test_thin_modules.py
+acceptance:
+- skill_doc_extractor.py expanded from 70→640 LOC with multi-format extraction (md, html, rst) ✅
+- SkillExtractor class with format detection, section extraction, metadata extraction ✅
+- test_thin_modules.py created with 94 tests covering all 5 modules ✅
+- Pre-existing test_get_all_items failure fixed (empty title → valid title) ✅
+- No browser/Playwright/vendor imports ✅
+- All existing tests remain green (2305 passed) ✅
+
+
 ### NW-035 Site Skill Auto-Learning
 owner: Worker
 model: claude-combo
