@@ -205,9 +205,8 @@ class Roadmap:
     def get_items_by_milestone(self, milestone: str) -> List[Item]:
         """Get all items associated with a milestone."""
         item_ids = self.milestones.get(milestone, [])
-        return [self.tracker.get_item(iid)
-                for iid in item_ids
-                if self.tracker.get_item(iid)]
+        all_items = self.tracker.all_items()
+        return [item for item in all_items if item.id in item_ids]
 
     def _add_to_milestone(self, milestone: str, item_id: str) -> None:
         if milestone not in self.milestones:
