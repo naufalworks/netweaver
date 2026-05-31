@@ -654,16 +654,17 @@ class TestPerspectiveComposition:
     def test_custom_mobile_perspective(self, engine):
         """Mobile perspective: flags visibility and interaction issues."""
         action = ClickAction(selector="#small-btn")
-        evidence = build_evidence(visible=False, pointer_events=False)
+        evidence = build_evidence(visible=False, attached=False, pointer_events=False)
         context = {
             "is_hidden": True,
             "is_obscured": True,
+            "element_role": "presentation",
         }
         enabled = {PerspectiveType.VISUAL, PerspectiveType.DOM, PerspectiveType.USER}
         result = engine.analyze(
             action, evidence, context, enabled_perspectives=enabled
         )
-        # Hidden, obscured, no pointer events → poor mobile UX
+        # Hidden + detached + no pointer events → poor mobile UX
         unsafe = [a for a in result.assessments if not a.safe]
         assert len(unsafe) >= 2
 
