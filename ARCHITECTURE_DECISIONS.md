@@ -461,3 +461,75 @@ Consequences:
 - (-) Skill dedup threshold (Jaccard > 0.5) is hardcoded; no empirical calibration
 - (-) No integration with ActionOrchestrator post-execution hook yet (noted P2-005 gap)
 - (-) Confidence scoring increments only; no decay mechanism for stale skills
+
+---
+
+## ADR-022: DSL Validator for WNAL and BASIL Syntax
+
+Status: Accepted (2026-05-31)
+
+Implemented: `netweaver/dsl_validator.py` (497 LOC), `tests/test_dsl_validator.py` (70 tests) — NW-034
+
+WNAL (Web Navigation Action Language) and BASIL (Browser Automation Script Interface Language) are DSLs used to express action sequences (e.g., `click(#login)`, `fill(#user, val)`). Early swarm development relied on ad-hoc string parsing with no validation layer, leading to fragile error reporting and inconsistent action formats across agents.
+
+Decision: A dedicated `DslValidator` with two entry points (`validate_wnal()` / `validate_basil()`) that produce a `ValidationResult` containing errors, warnings, and an `is_valid` flag. Validation includes:
+- **Schema validation**: required fields, type checking, enum constraint enforcement
+- **Precondition checking**: element selector validity, no conflicting actions
+- **Conflict detection**: two actions targeting the same element in incompatible order
+
+Consequences:
+- (+) Consistent error messages across all agents — no ad-hoc parsing
+- (+) Early detection of malformed DSL before execution (safety gain)
+- (+) 70 tests cover valid/invalid DSL, edge cases, conflict scenarios
+- (+) Pure data validation — no browser/vendor/playwright imports
+- (+) CLI entry for manual validation: `python -m netweaver.dsl_validator --file <path>`
+- (-) DSL syntax is defined by validator, not by formal grammar — no BNF/EBNF spec
+- (-) Conflict detection is rule-based; complex cross-step interactions may be missed
+- (-) No integration with planner or orchestrator — validation is standalone
+
+---
+
+## ADR-023: Quality Automation Tooling Suite
+
+Status: Accepted (2026-05-31)
+
+Implemented: `netweaver/backlog_generator.py` (694 LOC), `netweaver/test_healer.py` (394 LOC), `netweaver/evidence_report.py` (418 LOC), `netweaver/dashboard.py` (373 LOC) — NW-027, NW-028, NW-029
+
+The project grew from 17 to 49 modules with no automated quality tooling beyond pytest. Technical debt (TODO/FIXME), flaky tests, and evidence readability were managed manually. The TUI dashboard was built ad-hoc for internal debugging.
+
+Decision: Four utility modules that form a quality automation toolchain:
+- **Backlog Generator** (`backlog_generator.py`, NW-028): Scans netweaver codebase for TODO/FIXME/HACKs, identifies modules with <50% test coverage, auto-generates BACKLOG.md entries with deduplication against existing backlog.
+- **Test Healer** (`test_healer.py`, NW-027): Detects flaky tests via configurable retry + exponential backoff (1s/2s/4s). Quarantines consistently-failing tests to `.tini/quarantined_tests.json`. Provides a pytest plugin hook to skip quarantined tests.
+- **Evidence Report Renderer** (`evidence_report.py`, NW-029): Renders `EvidenceReport` objects as human-readable markdown — claim statuses, evidence chain, recommendations. Decouples report presentation from evidence data model.
+- **TUI Dashboard** (`dashboard.py`): Rich-based live terminal dashboard showing daemon status, KANBAN state, recent events, and test counts.
+
+Consequences:
+- (+) Automated tech debt tracking reduces manual backlog grooming
+- (+) Flaky test quarantine prevents false CI failures
+- (+) Evidence report markdown is usable for audit trails and human review
+- (+) Dashboard provides at-a-glance project health
+- (-) Backlog generator is heuristic — may generate noisy entries from common patterns
+- (-) Test healer uses `pytest` import directly, creating a hard dependency
+- (-) Dashboard imports `rich` — adds a non-stdlib dependency for TUI use only
+- (-) Dashboard is path-hardcoded to `~/Documents/myhermes/.tini` — not portable
+
+---
+
+## ADR-024: File Lease Coordination for Multi-Agent Swarm
+
+Status: Accepted (2026-05-31)
+
+Implemented: `netweaver/leases.py` (382 LOC)
+
+The multi-agent swarm uses concurrent cron jobs (architect, runtime, QA, WNAL engineers) that may edit the same files. Without coordination, parallel agents risk clobbering each other's edits — especially on shared files like KANBAN.md, DEV_LOG.md, and ARCHITECTURE_DECISIONS.md.
+
+Decision: A `LeaseManager` with `FileLease` dataclass providing agent-id-scoped, TTL-bounded exclusive file access. Leases are persisted as JSON under `.tini/netweaver/leases/`. `acquire()` checks for conflicts and existing active leases, `release()` frees the lease, `renew()` extends the TTL. Expired leases are reclaimed on next acquire attempt.
+
+Consequences:
+- (+) Prevents concurrent-writer corruption on shared coordination files
+- (+) STD lib only (dataclasses, json, uuid, time) — zero dependencies
+- (+) TTL prevents stale lock accumulation from crashed agents
+- (+) Lease metadata includes agent_id, file_paths, acquired_at, expires_at for audit
+- (-) All agents must cooperate — a non-leasing agent can still clobber files
+- (-) Lease granularity is file-level, not section-level (cannot lock single KANBAN line)
+- (-) No distributed coordination — leases only work within single filesystem
