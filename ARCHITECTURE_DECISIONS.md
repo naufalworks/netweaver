@@ -533,3 +533,83 @@ Consequences:
 - (-) All agents must cooperate — a non-leasing agent can still clobber files
 - (-) Lease granularity is file-level, not section-level (cannot lock single KANBAN line)
 - (-) No distributed coordination — leases only work within single filesystem
+
+---
+
+## ADR-025: Autonomous Web Explorer (web_learner.py)
+
+Status: Accepted (2026-05-31)
+
+Implemented: `netweaver/web_learner.py` (452 LOC)
+
+NetWeaver needs autonomous site discovery and exploration to build skills without manual seeding. The `WebLearner` is a self-directed agent that discovers websites (seed + follow links), builds scene graphs via `SceneGraphBuilder`, learns reusable skills via `SkillLearner`, and records outcomes to the epistemic system.
+
+Decision: Exploration is a first-class agent with its own lifecycle (discover → observe → learn → decide next), not a passive crawl. It reuses the same `VerifiedExecutor`/`CloakBrowserBridge`/`SkillLearner` stack as the orchestrator. A visited registry prevents repeat exploration of the same site.
+
+Consequences:
+- (+) Skills accumulate without manual seeding — autonomous exploration feeds the skill store
+- (+) Shared stack with orchestrator means learned skills are immediately usable
+- (-) 452 LOC with zero test coverage — exploration logic is untested
+- (-) No ADR until now (3rd consecutive architect review flag) — architectural intent was undocumented
+- (-) No exploration budget/rate-limit — could exhaust browser/driver resources
+
+---
+
+## ADR-026: YAML Task Scheduler for Automated Web Monitoring (task_scheduler.py)
+
+Status: Accepted (2026-05-31)
+
+Implemented: `netweaver/task_scheduler.py` (350 LOC)
+
+Certain use cases require recurring web monitoring: check a page, extract structured data, detect changes, notify. Rather than requiring a full orchestration pipeline, `TaskScheduler` reads YAML task definitions (URL + schedule + extractors) and runs them on a cron-like schedule. Uses `CloakBrowserBridge` for headless extraction.
+
+Decision: Scheduling is a separate module from the orchestrator because monitoring tasks have different guarantees (no stateful sequences, no rollback, pure extraction). YAML is chosen over JSON for human readability of task definitions. Change detection uses hash comparison, not full graph diff.
+
+Consequences:
+- (+) Simple YAML task definitions are accessible to non-developer operators
+- (+) Reuses CloakBrowserBridge — no new browser dependency
+- (+) Hash-based change detection is cheap compared to full graph diff
+- (-) 350 LOC with zero test coverage
+- (-) Imports `yaml` (third-party) — adds dependency not shared by rest of netweaver
+- (-) Telegram integration is hardcoded; alert channel is not pluggable
+- (-) No ADR until now (3rd consecutive flag) — architectural intent undocumented
+
+---
+
+## ADR-027: External Alert Dispatch (alerts.py)
+
+Status: Accepted (2026-05-31)
+
+Implemented: `netweaver/alerts.py` (236 LOC)
+
+NetWeaver agents need to notify operators when tasks fail, circuit breakers trip, or critical events occur. `alerts.py` provides Telegram and Slack webhook dispatch with suppression and rate-limiting.
+
+Decision: Alert dispatch is a standalone utility, not embedded in the daemon or orchestrator. `requests` is an optional import (guarded try/except) to avoid a hard dependency. Suppression state (last_sent timestamps) is persisted to JSON.
+
+Consequences:
+- (+) Decoupled from daemon/orchestrator — usable by any agent
+- (+) Optional `requests` import — no hard dependency
+- (-) 236 LOC with zero test coverage
+- (-) Hard-coded path (`Path.home() / "Documents/myhermes/.tini"`) — not portable
+- (-) No retry logic — single failure drops the alert
+- (-) No ADR until now (3rd consecutive flag)
+
+---
+
+## ADR-028: Action-Level Event Ledger (ledger.py)
+
+Status: Accepted (2026-05-31)
+
+Implemented: `netweaver/ledger.py` (273 LOC)
+
+Distinct from the daemon coordination ledger (`event_ledger.py`, ADR-013), the action ledger (`ledger.py`) records agent action events — state transitions, file changes, test runs, evidence attachments — as append-only JSONL. Each event carries timestamp, agent identity, and structured payload.
+
+Decision: Two ledgers serve different purposes: `event_ledger.py` records daemon lifecycle events (start/stop/schedule), while `ledger.py` records agent action events (execute/verify/learn). Both are append-only JSONL. The action ledger integrates with `EvidenceBundle` for validation before append.
+
+Consequences:
+- (+) Full audit trail of all agent actions — not just daemon lifecycle
+- (+) EvidenceBundle validation ensures ledger integrity
+- (-) Dual-ledger system creates confusion about which to use
+- (-) 273 LOC with zero test coverage
+- (-) No migration plan toward a unified event store
+- (-) No ADR until now (3rd consecutive flag)
