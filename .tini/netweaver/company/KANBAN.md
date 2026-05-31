@@ -40,6 +40,26 @@ acceptance:
 ## Done
 
 
+### NW-036 Perspective Engine Real-World Tests
+owner: Worker
+model: claude-combo
+status: done
+completed: 2026-05-31
+scope:
+- tests/test_perspective_scenarios.py
+- tests/fixtures/perspectives/
+acceptance:
+- 5+ perspective definitions (accessibility, security, performance, SEO, mobile) ✅
+- Test complex scene graph with 100+ nodes (135 nodes, 162 edges) ✅
+- Perspective queries return filtered subgraphs with correct node counts ✅
+- Cross-perspective analysis: find nodes flagged by multiple perspectives ✅
+- Perspective composition: combine accessibility + security into custom view ✅
+- Performance: 1000 assessments < 100ms ✅
+- 47 new tests all pass ✅
+- No browser/Playwright/vendor imports ✅
+- All existing tests remain green (2195 + 47 = 2242 passed) ✅
+
+
 ### NW-035 Site Skill Auto-Learning
 owner: Worker
 model: claude-combo
