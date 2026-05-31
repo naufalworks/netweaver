@@ -23,7 +23,7 @@ SKILL_META_PATTERN = r"<<<SKILL_DOC_META:([^>]+)>>>"
 def extract_skill_doc(
     prompt: str,
     start_tag: str = SKILL_DOC_START,
-    end_tag: string = SKILL_DOC_END,
+    end_tag: str = SKILL_DOC_END,
 ) -> Optional[str]:
     """Extract content between start_tag and end_tag markers.
 
@@ -275,7 +275,7 @@ class _HTMLSkillParser(html.parser.HTMLParser):
         super().__init__()
         self.sections: List[ExtractedSection] = []
         self.current_tag: str = ""
-        self.current_attrs: Dict[str, str] = {}
+        self.current_attrs: Dict[str, Optional[str]] = {}
         self.heading_text: str = ""
         self.body_text: List[str] = []
         self.in_body: bool = False
