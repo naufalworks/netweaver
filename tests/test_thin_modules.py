@@ -702,9 +702,12 @@ class TestSkillDocExtractorExpanded:
 
         content = "# Main\n\n## Section\n\n### Sub\n\nSub body"
         result = extract_skill_doc_md(content)
-        assert len(result.sections) == 1
+        assert len(result.sections) == 1  # Main (H1)
+        assert result.sections[0].heading == "Main"
         assert len(result.sections[0].subsections) == 1
-        assert result.sections[0].subsections[0].heading == "Sub"
+        assert result.sections[0].subsections[0].heading == "Section"
+        assert len(result.sections[0].subsections[0].subsections) == 1
+        assert result.sections[0].subsections[0].subsections[0].heading == "Sub"
 
     def test_extract_markdown_with_frontmatter(self):
         from netweaver.skill_doc_extractor import extract_skill_doc_md
