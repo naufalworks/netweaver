@@ -17,17 +17,17 @@
     },
     "web_explorer": {
       "agent_id": "web_explorer",
-      "total_tasks": 17,
-      "successful_tasks": 17,
+      "total_tasks": 18,
+      "successful_tasks": 18,
       "task_type_stats": {
         "web_interaction": {
-          "success": 17,
-          "total": 17
+          "success": 18,
+          "total": 18
         }
       },
       "file_familiarity": {},
-      "avg_duration": 5.501090624753167,
-      "last_active": "2026-05-31T19:45:04.857522",
+      "avg_duration": 5.289076924324036,
+      "last_active": "2026-05-31T19:45:06.693328",
       "specializations": [
         "web_interaction"
       ]
@@ -223,7 +223,17 @@
       "duration_seconds": 3.507167100906372,
       "timestamp": "2026-05-31T19:45:04.857518",
       "context": {}
+    },
+    {
+      "agent_id": "web_explorer",
+      "task_id": "explore_https://quotes.toscrape.com",
+      "task_type": "web_interaction",
+      "files_touched": [],
+      "success": true,
+      "duration_seconds": 1.6848440170288086,
+      "timestamp": "2026-05-31T19:45:06.693323",
+      "context": {}
     }
   ],
-  "updated": "2026-05-31T19:45:04.858705"
+  "updated": "2026-05-31T19:45:06.694538"
 }
