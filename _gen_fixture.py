@@ -111,7 +111,10 @@ for cat_name, cat in categories.items():
         
         # Add containment edges (parent-child hierarchy)
         if i > 0:
-            parent_id = f"n{node_id - 1}" if i % 3 != 0 else f"n{node_id - (i % 5 + 1)}"
+            parent_idx = node_id - (i % 3 + 1)  # stagger parents
+            if parent_idx < 0:
+                parent_idx = 0
+            parent_id = f"n{parent_idx}"
             edges.append({
                 "edge_id": f"e{edge_id}",
                 "source_id": parent_id,
