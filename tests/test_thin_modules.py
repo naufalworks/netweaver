@@ -684,9 +684,10 @@ class TestSkillDocExtractorExpanded:
         result = extract_skill_doc_md(content)
         assert result.format == "markdown"
         assert result.title == "Title"
-        assert len(result.sections) == 2  # "Title" (H1) + "Section 1" (H2)
+        assert len(result.sections) == 1  # "Title" (H1 with "Section 1" as subsection)
         assert result.sections[0].heading == "Title"
-        assert result.sections[1].heading == "Section 1"
+        assert len(result.sections[0].subsections) == 1
+        assert result.sections[0].subsections[0].heading == "Section 1"
 
     def test_extract_markdown_multiple_sections(self):
         from netweaver.skill_doc_extractor import extract_skill_doc_md
