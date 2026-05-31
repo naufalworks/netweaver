@@ -723,8 +723,9 @@ class TestSkillDocExtractorExpanded:
 
         content = "# Doc\n\n## Section\n\nThis is the body.\nIt has multiple lines."
         result = extract_skill_doc_md(content)
-        assert result.sections[0].body
-        assert "body" in result.sections[0].body.lower()
+        assert result.sections[0].heading == "Doc"
+        assert len(result.sections[0].subsections) == 1
+        assert "body" in result.sections[0].subsections[0].body.lower()
 
     def test_extract_html_basic(self):
         from netweaver.skill_doc_extractor import extract_skill_doc_html
