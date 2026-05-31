@@ -338,7 +338,7 @@ def extract_skill_doc_html(content: str) -> ExtractionResult:
     parser = _HTMLSkillParser()
     try:
         parser.feed(content)
-    except html.parser.HTMLParseError:
+    except Exception:
         # fallback: treat as plain text
         return ExtractionResult(
             format="html",
