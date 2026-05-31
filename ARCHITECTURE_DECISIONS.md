@@ -437,3 +437,27 @@ Consequences:
 - (-) Memory Palace fingerprinting is basic (word overlap); no embedding/semantic search
 - (-) Tracker/Roadmap duplicate existing markdown-based KANBAN — dual system (like event_ledger before it)
 - (-) Knowledge Graph only scans Python files (AST-based); no JS/TS/Go support
+
+---
+
+## ADR-021: Auto-Skill Learning Subsystem
+
+Status: Accepted (2026-05-31)
+
+Implemented: `netweaver/skill_learner_auto.py` (572 LOC), `netweaver/skill_store.py` (383 LOC), `tests/test_skill_auto_learning.py` (58 tests) — NW-035
+
+The core Skill Learner (ADR-007) learns from successful orchestration results, but the learning loop was manual: someone needed to call `learn_and_store()` with execution results. Without an auto-learning layer, skills never accumulate organically from real agent activity.
+
+Decision: Two new modules extend ADR-007:
+- **SkillStore** (`skill_store.py`): Persistent skill storage under `.tini/netweaver/skills/` as JSON files. Supports CRUD, URL-pattern grouping, deduplication via Jaccard similarity (>0.5 overlap merges skills), confidence scoring (>5 uses → "trusted" status), and `find_by_url_and_intent(url, intent)` query.
+- **AutoSkillLearner** (`skill_learner_auto.py`): Observes action sequences with evidence, identifies successful patterns via `learn_from_execution(execution_log)`, persists to SkillStore. Integrates with the daemon loop for background learning.
+
+Consequences:
+- (+) Skills accumulate automatically from agent activity without manual recording
+- (+) SkillStore provides persistence + dedup + confidence scoring out of the box
+- (+) URL-pattern grouping enables cross-page skill matching (same domain, different paths)
+- (+) 58 tests cover both modules; no browser/vendor/playwright imports
+- (-) Auto-learner is daemon-coupled; standalone usage requires daemon context
+- (-) Skill dedup threshold (Jaccard > 0.5) is hardcoded; no empirical calibration
+- (-) No integration with ActionOrchestrator post-execution hook yet (noted P2-005 gap)
+- (-) Confidence scoring increments only; no decay mechanism for stale skills
