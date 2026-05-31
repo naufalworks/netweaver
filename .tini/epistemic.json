@@ -194,15 +194,15 @@
       ],
       "context": "{'sites': 0, 'successes': 0, 'elements': 0}",
       "confidence": 0.3,
-      "created": "2026-05-31T14:57:18.432091+00:00",
-      "last_verified": "2026-05-31T14:57:18.432092+00:00",
+      "created": "2026-05-31T14:45:51.466589+00:00",
+      "last_verified": "2026-05-31T14:45:51.466590+00:00",
       "decay_rate": 0.05,
       "sources": [
         {
           "type": "worker_outcome",
           "ref": "daemon.py:record_outcome(web_learning_cycle)",
           "author": "",
-          "created": "2026-05-31T14:57:18.432065+00:00",
+          "created": "2026-05-31T14:45:51.466570+00:00",
           "trustworthiness": 0.7
         }
       ],
@@ -794,7 +794,6 @@
         "a0266935729e5f83",
         "4a746b6be6de7965",
         "4d523c4a11dcfb72",
-        "4d523c4a11dcfb72",
         "4d523c4a11dcfb72"
       ],
       "supports": [],
@@ -819,7 +818,8 @@
       "decay_rate": 0.045000000000000005,
       "sources": [],
       "contradictions": [
-        "b2f8f730e0191c87"
+        "b2f8f730e0191c87",
+        "261947eb2e5090aa"
       ],
       "supports": [],
       "depends_on": [],
@@ -907,7 +907,8 @@
       "decay_rate": 0.045000000000000005,
       "sources": [],
       "contradictions": [
-        "32fe205eb469735c"
+        "32fe205eb469735c",
+        "261947eb2e5090aa"
       ],
       "supports": [],
       "depends_on": [],
@@ -915,6 +916,31 @@
       "access_count": 0,
       "last_accessed": null,
       "_id": "b2f8f730e0191c87"
+    },
+    "261947eb2e5090aa": {
+      "content": "What if we parallelized vendor/CloakBrowser/cloakbrowser/human/__init__.py tests (2782 tests)?",
+      "topic": "hypothesis",
+      "tags": [
+        "dream",
+        "test_parallelism",
+        "unvalidated"
+      ],
+      "context": "{\"simulated_outcome\": \"Could reduce test runtime by ~40% (from ~27s to ~11s)\", \"validation_method\": \"Run with pytest-xdist, measure speedup\", \"hypothesis_id\": \"261947eb2e5090aa\"}",
+      "confidence": 0.45,
+      "created": "2026-05-31T14:57:41.112972+00:00",
+      "last_verified": "2026-05-31T14:57:41.112974+00:00",
+      "decay_rate": 0.045000000000000005,
+      "sources": [],
+      "contradictions": [
+        "32fe205eb469735c",
+        "b2f8f730e0191c87"
+      ],
+      "supports": [],
+      "depends_on": [],
+      "citations": [],
+      "access_count": 0,
+      "last_accessed": null,
+      "_id": "261947eb2e5090aa"
     }
   },
   "contradictions": [
@@ -3493,14 +3519,23 @@
       "resolution": ""
     },
     {
-      "node_a_id": "4d523c4a11dcfb72",
-      "node_b_id": "8e737b39d7af5578",
-      "severity": 0.75,
-      "reason": "Same topic (worker_outcomes), overlapping content",
-      "detected": "2026-05-31T14:57:18.432391+00:00",
+      "node_a_id": "261947eb2e5090aa",
+      "node_b_id": "32fe205eb469735c",
+      "severity": 0.5,
+      "reason": "Same topic (hypothesis), overlapping content",
+      "detected": "2026-05-31T14:57:41.113001+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "261947eb2e5090aa",
+      "node_b_id": "b2f8f730e0191c87",
+      "severity": 0.5,
+      "reason": "Same topic (hypothesis), overlapping content",
+      "detected": "2026-05-31T14:57:41.113006+00:00",
       "resolved": false,
       "resolution": ""
     }
   ],
-  "saved_at": "2026-05-31T14:57:18.433320+00:00"
+  "saved_at": "2026-05-31T14:57:41.113290+00:00"
 }
