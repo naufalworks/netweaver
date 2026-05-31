@@ -569,6 +569,8 @@ class TestRoadmapModule:
         r = Roadmap()
         r.create_roadmap_item("1", "A")
         r.create_roadmap_item("2", "B")
+        r.move_item("2", ItemState.IN_PROGRESS)
+        r.move_item("2", ItemState.REVIEW)
         r.move_item("2", ItemState.DONE)
         r.add_dependency("1", "2", "blocks")
         assert not r.is_item_blocked("1")
