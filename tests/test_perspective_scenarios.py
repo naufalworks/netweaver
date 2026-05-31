@@ -473,15 +473,24 @@ class TestPerspectiveEngineIntegration:
     def test_multiple_high_confidence_unsafe_aborts(
         self, engine, sample_action, sample_evidence
     ):
+        """Detached element (DOM HIGH) + no event handlers (JS MEDIUM)
+        + loading (JS MEDIUM) + no history (safe LOW) = all unsafe or
+        low-confidence safe → single high-confidence unsafe (DOM) with
+        no recover path → ABORT."""
         context = {
             "user_goal": "",
             "element_role": "button",
-            "auth_state": "expired",
+            "auth_state": "valid",
             "risk_level": "low",
             "has_event_handlers": False,
-            "js_error": "Script error",
+            "js_error": None,
+            "is_loading": True,
+            "past_failures": 0,
         }
-        result = engine.analyze(sample_action, sample_evidence, context)
+        evidence = build_evidence(visible=False, attached=False)
+        result = engine.analyze(sample_action, evidence, context)
+        # DOM not attached = HIGH unsafe, JS no handlers = MEDIUM unsafe
+        # JS loading = MEDIUM unsafe → single high-confidence + no recover = ABORT
         assert result.strategy == ResolutionStrategy.ABORT
 
     def test_custom_enabled_perspectives(self, engine, sample_action, sample_evidence):
