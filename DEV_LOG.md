@@ -598,3 +598,38 @@ None — idle cycle. Ready queue has 2 tasks (P2-006 → Safety Reviewer, NW-008
 
 ### Acceptance
 - No Runtime Engineer tasks in ready queue → idle cycle, nothing to execute
+
+---
+
+# QA Benchmark DEV_LOG — 2026-05-31
+
+## Task: Proactive maintenance (no ready QA tasks)
+
+### Scope
+- KANBAN inspection for QA-assigned ready tasks
+- Full suite verification + regression detection
+- Fix `sync_tracker.py` `TypeError` regression (`ItemState` not iterable as Enum)
+
+### Findings
+1. **No QA tasks in ready queue.** 2 ready tasks exist (P2-006 → Safety Reviewer, NW-008 → CEO/Product), neither has `owner: QA Benchmark`.
+2. **`scripts/sync_tracker.py` regression (fixed):** `validate_states()` used `{e.value for e in ItemState}` but `ItemState` is a plain class, not `enum.Enum`. Fixed → `ItemState._VALID_STATES`.
+3. **Flaky live tests detected:** `test_orchestrator_multi_step_plan_graceful` and `test_observe_httpbin_form` fail in full suite but pass in isolation. Pre-existing `@pytest.mark.live` network-dependent flakiness. Non-live CI path unaffected.
+
+### Changes
+1. **`scripts/sync_tracker.py`** (FIXED) — `validate_states()` iterates `ItemState._VALID_STATES` instead of `{e.value for e in ItemState}`. Resolves `TypeError: 'type' object is not iterable`.
+
+### Verification
+- `python -m pytest tests/ -q --tb=no -m "not live"` → **2325 passed, 11 deselected, 0 failed** (production CI path)
+- `python -m pytest tests/test_sync_tracker.py -v` → **4 passed** (fix verified)
+- `python -m pytest tests/test_live_orchestration.py -v` → **11 passed** (all live tests green in isolation)
+
+### Acceptance
+- ✅ No QA tasks in ready queue → no benchmarks to run
+- ✅ `sync_tracker` regression fixed (was breaking `validate_states()` for all callers)
+- ✅ Full non-live suite green — zero regressions
+- ✅ Flaky live tests documented — can be quarantined via NW-027 TestHealer if persistent
+
+### Next
+- When P2-006 delivered: create Safety Validation Benchmark
+- When NW-008 delivered: verify UX contract adherence from QA perspective
+
