@@ -129,10 +129,11 @@ class TestTrackerModule:
         try:
             tracker.save(path)
             loaded = Tracker.load(path)
-            assert loaded.get_item("1") is not None
-            assert loaded.get_item("1").title == "title"
-            assert loaded.get_item("1").state == "in_progress"
-            assert loaded.get_item("1").description == "desc"
+            item = loaded.get_item("1")
+            assert item is not None
+            assert item.title == "title"
+            assert item.state == "in_progress"
+            assert item.description == "desc"
             assert len(loaded.get_events()) == 2
         finally:
             os.unlink(path)
