@@ -613,3 +613,64 @@ Consequences:
 - (-) 273 LOC with zero test coverage
 - (-) No migration plan toward a unified event store
 - (-) No ADR until now (3rd consecutive flag)
+
+---
+
+## ADR-029: Demo Module for End-to-End Pipeline Validation (demo.py)
+
+Status: Accepted (2026-06-01)
+
+Implemented: `netweaver/demo.py` (587 LOC), `tests/test_demo.py` (34 tests)
+
+The full NetWeaver stack (Observer→SceneGraphBuilder→GoalTranslator→ActionOrchestrator→EvidenceReport) had no single entry point to validate end-to-end behavior without a real browser. Each module was tested in isolation or via benchmarks, creating a gap between unit tests and real pipeline execution.
+
+Decision: A `DemoModule` class chains all real implementations (not mocks) with `observe_page_mock()` as the only replaced layer. The demo accepts a URL (for metadata) and CLI action strings, runs the full pipeline, and produces an `EvidenceReport` with ≥3 claims. `parse_actions()` converts CLI action strings to typed `ActionStep` objects. Supports JSON output for programmatic consumers.
+
+Consequences:
+- (+) One-command pipeline validation without browser dependency
+- (+) Catches integration failures between modules (wiring, schema drift, import chains)
+- (+) 34 tests cover full pipeline, edge cases, and error paths
+- (+) Reusable by CI, demo scripts, and developer workflow
+- (-) Mock observations may diverge from real PageObservation shapes in Phase 2
+- (-) Action string parsing is regex-based and fragile; no formal grammar
+
+---
+
+## ADR-030: Product Specification Data Model (product_spec.py)
+
+Status: Accepted (2026-06-01)
+
+Implemented: `netweaver/product_spec.py` (254 LOC), `tests/test_product_spec.py` (34 tests — implicit via product_spec testing fixtures)
+
+NetWeaver tracks execution milestones across phases (Phase 1 mock, Phase 2 live, Phase 3 intent compiler) with component-level statuses. Before `product_spec.py`, phase tracking was scattered across KANBAN.md, ROADMAP.md, and ad-hoc comments — no programmatic model for generating reports or validating transitions.
+
+Decision: A `ProductSpec` dataclass with versioned phases (`SpecPhase`), components (`SpecComponent`), JSON persistence (`save()`/`load()`), validation (`validate()`/`is_valid()`), and aggregate metrics (`overall_completion()`). Schema is JSON-serializable for programmatic consumers. Phase constants (`PHASE2_TITLE`, `EXECUTOR_COMPONENT_STATUS`) define current project state.
+
+Consequences:
+- (+) Programmatic spec enables automated progress reporting
+- (+) Validation catches inconsistent status transitions early
+- (+) JSON persistence decouples spec storage from markdown coordination files
+- (+) 254 LOC is self-contained — zero dependencies beyond stdlib
+- (-) Phase constants are hardcoded; no config file or CLI override
+- (-) No integration with KANBAN or Tracker — spec is standalone
+
+---
+
+## ADR-031: NetWeaver CLI for Pipeline State Queries (cli.py)
+
+Status: Accepted (2026-06-01)
+
+Implemented: `netweaver/cli.py` (1040 LOC)
+
+Agents and operators had no fast path to query pipeline state without reading coordination files (KANBAN, DEV_LOG, STATUS). Every status check required grep/wc on markdown files or running the full test suite. This created friction for cron jobs, error diagnostics, and automated health checks.
+
+Decision: A `netweaver/cli.py` module providing subcommands (`status`, `test`, `evidence`, `graph`, `skill`, `kanban`, `alerts`, `config`, `health`, `trace`) that query pipeline state programmatically. Output defaults to human-readable text with `--json` flag for machine consumers. Paths are hardcoded to `~/Documents/myhermes/.tini/`. The CLI is a standalone module — no imports from other netweaver modules — minimizing import chains and boot time.
+
+Consequences:
+- (+) Fast pipeline queries without reading coordination files
+- (+) JSON output enables automated alerting and dashboard consumption
+- (+) 1,040 LOC with **zero test coverage** — tested via manual or integration-only
+- (-) Path hardcoded to `~/Documents/myhermes/.tini/` — not portable
+- (-) Standalone design duplicates file-reading logic from other modules
+- (-) No CLI argument validation beyond argparse basics
+- (-) Large file (1,040 LOC) with no subcommand-level modularization — hard to test
