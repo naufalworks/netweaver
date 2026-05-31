@@ -107,7 +107,7 @@ def update_product_spec(kanban_data: dict) -> int:
 def validate_states(kanban_data: dict) -> list[str]:
     """Check if all task statuses are valid ItemState values. Returns list of invalid IDs."""
     invalid = []
-    valid_values = {e.value for e in ItemState}
+    valid_values = ItemState._VALID_STATES
     tasks = list(kanban_data.get("tasks", []))
     for col_key in ("todo", "in-progress", "ready", "done"):
         tasks.extend(kanban_data.get(col_key, []))
