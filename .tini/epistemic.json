@@ -208,6 +208,7 @@
       ],
       "contradictions": [
         "8e737b39d7af5578",
+        "8e737b39d7af5578",
         "8e737b39d7af5578"
       ],
       "supports": [],
@@ -253,7 +254,10 @@
         "6b417e78fdf56a64",
         "63fc2ab13ab471e8",
         "fcc29a1eef0ea8d1",
-        "a0266935729e5f83"
+        "a0266935729e5f83",
+        "fcc29a1eef0ea8d1",
+        "63fc2ab13ab471e8",
+        "fcc29a1eef0ea8d1"
       ],
       "supports": [],
       "depends_on": [],
@@ -289,7 +293,10 @@
         "b65a5590b2abfad9",
         "440ac1bd89ebcf38",
         "8fb22c6d022cb2e2",
-        "04fed0d8a6151115"
+        "04fed0d8a6151115",
+        "8fb22c6d022cb2e2",
+        "440ac1bd89ebcf38",
+        "8fb22c6d022cb2e2"
       ],
       "supports": [],
       "depends_on": [],
@@ -332,7 +339,10 @@
         "6b417e78fdf56a64",
         "63fc2ab13ab471e8",
         "fcc29a1eef0ea8d1",
-        "a0266935729e5f83"
+        "a0266935729e5f83",
+        "fcc29a1eef0ea8d1",
+        "63fc2ab13ab471e8",
+        "fcc29a1eef0ea8d1"
       ],
       "supports": [],
       "depends_on": [],
@@ -367,7 +377,10 @@
         "b65a5590b2abfad9",
         "440ac1bd89ebcf38",
         "8fb22c6d022cb2e2",
-        "04fed0d8a6151115"
+        "04fed0d8a6151115",
+        "8fb22c6d022cb2e2",
+        "440ac1bd89ebcf38",
+        "8fb22c6d022cb2e2"
       ],
       "supports": [],
       "depends_on": [],
@@ -410,7 +423,10 @@
         "6b417e78fdf56a64",
         "63fc2ab13ab471e8",
         "fcc29a1eef0ea8d1",
-        "a0266935729e5f83"
+        "a0266935729e5f83",
+        "fcc29a1eef0ea8d1",
+        "63fc2ab13ab471e8",
+        "fcc29a1eef0ea8d1"
       ],
       "supports": [],
       "depends_on": [],
@@ -444,7 +460,10 @@
         "b65a5590b2abfad9",
         "440ac1bd89ebcf38",
         "8fb22c6d022cb2e2",
-        "04fed0d8a6151115"
+        "04fed0d8a6151115",
+        "8fb22c6d022cb2e2",
+        "440ac1bd89ebcf38",
+        "8fb22c6d022cb2e2"
       ],
       "supports": [],
       "depends_on": [],
@@ -486,7 +505,10 @@
         "4a746b6be6de7965",
         "63fc2ab13ab471e8",
         "fcc29a1eef0ea8d1",
-        "a0266935729e5f83"
+        "a0266935729e5f83",
+        "fcc29a1eef0ea8d1",
+        "63fc2ab13ab471e8",
+        "fcc29a1eef0ea8d1"
       ],
       "supports": [],
       "depends_on": [],
@@ -519,7 +541,10 @@
         "04fed0d8a6151115",
         "440ac1bd89ebcf38",
         "8fb22c6d022cb2e2",
-        "04fed0d8a6151115"
+        "04fed0d8a6151115",
+        "8fb22c6d022cb2e2",
+        "440ac1bd89ebcf38",
+        "8fb22c6d022cb2e2"
       ],
       "supports": [],
       "depends_on": [],
@@ -537,17 +562,17 @@
         "success",
         "explore_https://en.wikipedia.org/wiki/Wikipedia:Sandbox"
       ],
-      "context": "{'elements': 37, 'actions': 0, 'links': 1, 'depth': 2}",
+      "context": "{'elements': 55, 'actions': 0, 'links': 1, 'depth': 1}",
       "confidence": 0.85,
-      "created": "2026-05-31T12:45:12.017159+00:00",
-      "last_verified": "2026-05-31T12:45:12.017159+00:00",
+      "created": "2026-05-31T13:15:20.873953+00:00",
+      "last_verified": "2026-05-31T13:15:20.873953+00:00",
       "decay_rate": 0.0,
       "sources": [
         {
           "type": "worker_outcome",
           "ref": "daemon.py:record_outcome(explore_https://en.wikipedia.org/wiki/Wikipedia:Sandbox)",
           "author": "",
-          "created": "2026-05-31T12:45:12.017153+00:00",
+          "created": "2026-05-31T13:15:20.873948+00:00",
           "trustworthiness": 0.9
         }
       ],
@@ -558,8 +583,7 @@
         "6b417e78fdf56a64",
         "fcc29a1eef0ea8d1",
         "a0266935729e5f83",
-        "fcc29a1eef0ea8d1",
-        "a0266935729e5f83"
+        "fcc29a1eef0ea8d1"
       ],
       "supports": [],
       "depends_on": [],
@@ -577,10 +601,10 @@
         "web_interaction",
         "outcome"
       ],
-      "context": "{\"success\": true, \"duration\": 1.7232379913330078, \"files\": []}",
+      "context": "{\"success\": true, \"duration\": 5.265276908874512, \"files\": []}",
       "confidence": 0.85,
-      "created": "2026-05-31T12:45:12.018954+00:00",
-      "last_verified": "2026-05-31T12:45:12.018962+00:00",
+      "created": "2026-05-31T13:15:20.876826+00:00",
+      "last_verified": "2026-05-31T13:15:20.876827+00:00",
       "decay_rate": 0.02,
       "sources": [],
       "contradictions": [
@@ -590,8 +614,7 @@
         "b65a5590b2abfad9",
         "8fb22c6d022cb2e2",
         "04fed0d8a6151115",
-        "8fb22c6d022cb2e2",
-        "04fed0d8a6151115"
+        "8fb22c6d022cb2e2"
       ],
       "supports": [],
       "depends_on": [],
@@ -609,17 +632,17 @@
         "success",
         "explore_https://donate.wikimedia.org/?wmf_source=donate&wm"
       ],
-      "context": "{'elements': 55, 'actions': 0, 'links': 5, 'depth': 1}",
+      "context": "{'elements': 73, 'actions': 0, 'links': 5, 'depth': 0}",
       "confidence": 0.85,
-      "created": "2026-05-31T12:45:12.021939+00:00",
-      "last_verified": "2026-05-31T12:45:12.021939+00:00",
+      "created": "2026-05-31T13:15:20.880315+00:00",
+      "last_verified": "2026-05-31T13:15:20.880315+00:00",
       "decay_rate": 0.0,
       "sources": [
         {
           "type": "worker_outcome",
           "ref": "daemon.py:record_outcome(explore_https://donate.wikimedia.org/?wmf_source=donate&wm)",
           "author": "",
-          "created": "2026-05-31T12:45:12.021933+00:00",
+          "created": "2026-05-31T13:15:20.880310+00:00",
           "trustworthiness": 0.9
         }
       ],
@@ -629,7 +652,6 @@
         "9bcf0a82db58ec34",
         "6b417e78fdf56a64",
         "63fc2ab13ab471e8",
-        "a0266935729e5f83",
         "a0266935729e5f83"
       ],
       "supports": [],
@@ -648,10 +670,10 @@
         "web_interaction",
         "outcome"
       ],
-      "context": "{\"success\": true, \"duration\": 3.836693048477173, \"files\": []}",
+      "context": "{\"success\": true, \"duration\": 8.334465980529785, \"files\": []}",
       "confidence": 0.85,
-      "created": "2026-05-31T12:45:12.023510+00:00",
-      "last_verified": "2026-05-31T12:45:12.023511+00:00",
+      "created": "2026-05-31T13:15:20.883472+00:00",
+      "last_verified": "2026-05-31T13:15:20.883473+00:00",
       "decay_rate": 0.02,
       "sources": [],
       "contradictions": [
@@ -660,7 +682,6 @@
         "dcf70d0c5300ebc2",
         "b65a5590b2abfad9",
         "440ac1bd89ebcf38",
-        "04fed0d8a6151115",
         "04fed0d8a6151115"
       ],
       "supports": [],
@@ -701,6 +722,10 @@
         "63fc2ab13ab471e8",
         "fcc29a1eef0ea8d1",
         "8e737b39d7af5578",
+        "8e737b39d7af5578",
+        "fcc29a1eef0ea8d1",
+        "63fc2ab13ab471e8",
+        "fcc29a1eef0ea8d1",
         "8e737b39d7af5578"
       ],
       "supports": [],
@@ -731,6 +756,9 @@
         "dcf70d0c5300ebc2",
         "b65a5590b2abfad9",
         "440ac1bd89ebcf38",
+        "8fb22c6d022cb2e2",
+        "8fb22c6d022cb2e2",
+        "440ac1bd89ebcf38",
         "8fb22c6d022cb2e2"
       ],
       "supports": [],
@@ -749,17 +777,17 @@
         "success",
         "web_learning_cycle"
       ],
-      "context": "{'sites': 5, 'successes': 5, 'elements': 136}",
+      "context": "{'sites': 1, 'successes': 1, 'elements': 73}",
       "confidence": 0.85,
-      "created": "2026-05-31T12:45:12.552775+00:00",
-      "last_verified": "2026-05-31T12:45:12.552775+00:00",
+      "created": "2026-05-31T13:15:22.146113+00:00",
+      "last_verified": "2026-05-31T13:15:22.146114+00:00",
       "decay_rate": 0.0,
       "sources": [
         {
           "type": "worker_outcome",
           "ref": "daemon.py:record_outcome(web_learning_cycle)",
           "author": "",
-          "created": "2026-05-31T12:45:12.552770+00:00",
+          "created": "2026-05-31T13:15:22.146101+00:00",
           "trustworthiness": 0.9
         }
       ],
@@ -828,6 +856,7 @@
         "8dd9a4df195eb1df",
         "9bcf0a82db58ec34",
         "6b417e78fdf56a64",
+        "8e737b39d7af5578",
         "8e737b39d7af5578"
       ],
       "supports": [],
@@ -3057,7 +3086,358 @@
       "detected": "2026-05-31T12:45:12.552835+00:00",
       "resolved": false,
       "resolution": ""
+    },
+    {
+      "node_a_id": "fcc29a1eef0ea8d1",
+      "node_b_id": "8dd9a4df195eb1df",
+      "severity": 0.19230769230769232,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-31T13:15:20.865347+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "fcc29a1eef0ea8d1",
+      "node_b_id": "291ab36b7898ff61",
+      "severity": 0.21428571428571427,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-31T13:15:20.865357+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "fcc29a1eef0ea8d1",
+      "node_b_id": "9bcf0a82db58ec34",
+      "severity": 0.17857142857142858,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-31T13:15:20.865387+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "fcc29a1eef0ea8d1",
+      "node_b_id": "6b417e78fdf56a64",
+      "severity": 0.17857142857142858,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-31T13:15:20.865401+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "fcc29a1eef0ea8d1",
+      "node_b_id": "63fc2ab13ab471e8",
+      "severity": 0.2,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-31T13:15:20.865416+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "fcc29a1eef0ea8d1",
+      "node_b_id": "a0266935729e5f83",
+      "severity": 0.1875,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-31T13:15:20.865424+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "8fb22c6d022cb2e2",
+      "node_b_id": "2d8e252ace73e907",
+      "severity": 0.2647058823529412,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-31T13:15:20.870128+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "8fb22c6d022cb2e2",
+      "node_b_id": "9d00d4a25043f0e8",
+      "severity": 0.2777777777777778,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-31T13:15:20.870138+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "8fb22c6d022cb2e2",
+      "node_b_id": "dcf70d0c5300ebc2",
+      "severity": 0.25,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-31T13:15:20.870144+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "8fb22c6d022cb2e2",
+      "node_b_id": "b65a5590b2abfad9",
+      "severity": 0.25,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-31T13:15:20.870154+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "8fb22c6d022cb2e2",
+      "node_b_id": "440ac1bd89ebcf38",
+      "severity": 0.2631578947368421,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-31T13:15:20.870162+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "8fb22c6d022cb2e2",
+      "node_b_id": "04fed0d8a6151115",
+      "severity": 0.2631578947368421,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-31T13:15:20.870169+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "63fc2ab13ab471e8",
+      "node_b_id": "8dd9a4df195eb1df",
+      "severity": 0.20833333333333334,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-31T13:15:20.873996+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "63fc2ab13ab471e8",
+      "node_b_id": "291ab36b7898ff61",
+      "severity": 0.23076923076923078,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-31T13:15:20.874003+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "63fc2ab13ab471e8",
+      "node_b_id": "9bcf0a82db58ec34",
+      "severity": 0.19230769230769232,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-31T13:15:20.874009+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "63fc2ab13ab471e8",
+      "node_b_id": "6b417e78fdf56a64",
+      "severity": 0.19230769230769232,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-31T13:15:20.874014+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "63fc2ab13ab471e8",
+      "node_b_id": "fcc29a1eef0ea8d1",
+      "severity": 0.2,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-31T13:15:20.874021+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "63fc2ab13ab471e8",
+      "node_b_id": "a0266935729e5f83",
+      "severity": 0.375,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-31T13:15:20.874027+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "440ac1bd89ebcf38",
+      "node_b_id": "2d8e252ace73e907",
+      "severity": 0.28125,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-31T13:15:20.876859+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "440ac1bd89ebcf38",
+      "node_b_id": "9d00d4a25043f0e8",
+      "severity": 0.29411764705882354,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-31T13:15:20.876866+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "440ac1bd89ebcf38",
+      "node_b_id": "dcf70d0c5300ebc2",
+      "severity": 0.2647058823529412,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-31T13:15:20.876873+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "440ac1bd89ebcf38",
+      "node_b_id": "b65a5590b2abfad9",
+      "severity": 0.2647058823529412,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-31T13:15:20.876879+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "440ac1bd89ebcf38",
+      "node_b_id": "8fb22c6d022cb2e2",
+      "severity": 0.2631578947368421,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-31T13:15:20.876887+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "440ac1bd89ebcf38",
+      "node_b_id": "04fed0d8a6151115",
+      "severity": 0.43333333333333335,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-31T13:15:20.876894+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "fcc29a1eef0ea8d1",
+      "node_b_id": "8dd9a4df195eb1df",
+      "severity": 0.19230769230769232,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-31T13:15:20.880349+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "fcc29a1eef0ea8d1",
+      "node_b_id": "291ab36b7898ff61",
+      "severity": 0.21428571428571427,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-31T13:15:20.880356+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "fcc29a1eef0ea8d1",
+      "node_b_id": "9bcf0a82db58ec34",
+      "severity": 0.17857142857142858,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-31T13:15:20.880361+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "fcc29a1eef0ea8d1",
+      "node_b_id": "6b417e78fdf56a64",
+      "severity": 0.17857142857142858,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-31T13:15:20.880366+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "fcc29a1eef0ea8d1",
+      "node_b_id": "63fc2ab13ab471e8",
+      "severity": 0.2,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-31T13:15:20.880371+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "fcc29a1eef0ea8d1",
+      "node_b_id": "a0266935729e5f83",
+      "severity": 0.1875,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-31T13:15:20.880377+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "8fb22c6d022cb2e2",
+      "node_b_id": "2d8e252ace73e907",
+      "severity": 0.2647058823529412,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-31T13:15:20.883506+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "8fb22c6d022cb2e2",
+      "node_b_id": "9d00d4a25043f0e8",
+      "severity": 0.2777777777777778,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-31T13:15:20.883513+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "8fb22c6d022cb2e2",
+      "node_b_id": "dcf70d0c5300ebc2",
+      "severity": 0.25,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-31T13:15:20.883519+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "8fb22c6d022cb2e2",
+      "node_b_id": "b65a5590b2abfad9",
+      "severity": 0.25,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-31T13:15:20.883525+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "8fb22c6d022cb2e2",
+      "node_b_id": "440ac1bd89ebcf38",
+      "severity": 0.2631578947368421,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-31T13:15:20.883531+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "8fb22c6d022cb2e2",
+      "node_b_id": "04fed0d8a6151115",
+      "severity": 0.2631578947368421,
+      "reason": "Same topic (competence), overlapping content",
+      "detected": "2026-05-31T13:15:20.883537+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "8e737b39d7af5578",
+      "node_b_id": "4d523c4a11dcfb72",
+      "severity": 0.03571428571428575,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-31T13:15:22.146158+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "8e737b39d7af5578",
+      "node_b_id": "a0266935729e5f83",
+      "severity": 0.15384615384615385,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-31T13:15:22.146194+00:00",
+      "resolved": false,
+      "resolution": ""
+    },
+    {
+      "node_a_id": "8e737b39d7af5578",
+      "node_b_id": "4a746b6be6de7965",
+      "severity": 0.21428571428571427,
+      "reason": "Same topic (worker_outcomes), overlapping content",
+      "detected": "2026-05-31T13:15:22.146199+00:00",
+      "resolved": false,
+      "resolution": ""
     }
   ],
-  "saved_at": "2026-05-31T12:45:12.553074+00:00"
+  "saved_at": "2026-05-31T13:15:22.146660+00:00"
 }

@@ -52,5 +52,21 @@
       "https://donate.wikimedia.org/?wmf_source=donate&wmf_medium=sidebar&wmf_campaign=en.wikipedia.org&uselang=en"
     ],
     "error": ""
+  },
+  "https://donate.wikimedia.org/?wmf_source=donate&wmf_medium=sidebar&wmf_campaign=en.wikipedia.org&uselang=en": {
+    "url": "https://donate.wikimedia.org/?wmf_source=donate&wmf_medium=sidebar&wmf_campaign=en.wikipedia.org&uselang=en",
+    "last_visited": "2026-05-31T20:15:20.886587",
+    "success_count": 1,
+    "fail_count": 0,
+    "elements_found": 73,
+    "actions_succeeded": 0,
+    "discovered_links": [
+      "https://en.wikipedia.org/wiki/Wikipedia:Sandbox",
+      "https://en.wikipedia.org/wiki/Special:UserLogin/signup",
+      "https://en.wikipedia.org/wiki/Help:Introduction",
+      "https://donate.wikimedia.org/wiki/Special:LandingPage",
+      "https://collab.wikimedia.org/wiki/Fundraising/Donatewiki_documentation"
+    ],
+    "error": ""
   }
 }
