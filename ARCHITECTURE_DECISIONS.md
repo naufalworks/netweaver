@@ -674,3 +674,20 @@ Consequences:
 - (-) Standalone design duplicates file-reading logic from other modules
 - (-) No CLI argument validation beyond argparse basics
 - (-) Large file (1,040 LOC) with no subcommand-level modularization — hard to test
+
+---
+
+## ADR-032: Unified Kanban — Root KANBAN.md as Canonical Redirect
+
+Status: Accepted (2026-06-03)
+
+Multiple agents (architect, runtime, QA, WNAL) reference KANBAN.md from two locations: root `~/Documents/myhermes/KANBAN.md` and `.tini/netweaver/company/KANBAN.md`. These have diverged repeatedly: root Kanban lists 28 done/2 ready; canonical Kanban has 34+ tasks including NW-036/NW-037 with no root equivalent. Prior reviews flagged this 5+ consecutive times (HANDOFF.md May 23–Jun 1) with Priority 2 items recurring unresolved.
+
+Decision: Root `KANBAN.md` becomes a lightweight redirect referencing `.tini/netweaver/company/KANBAN.md` as canonical. Remove the duplicate task table from root. The root doc becomes: header, redirect note to canonical, cross-project setup table, summary counts read from canonical. Agents that need task state read `.tini/netweaver/company/KANBAN.md` directly.
+
+Consequences:
+- (+) Eliminates recurring root-vs-canonical drift (5+ review cycles of unresolved debt)
+- (+) Single source of truth for all agents
+- (+) Root KANBAN.md still usable for human readers (redirect + summary)
+- (-) Any cron job or agent that parses the root task table must switch to canonical path or parse summary-only
+- (-) Requires one-time rewrite of root KANBAN.md to redirect format
