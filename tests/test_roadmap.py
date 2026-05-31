@@ -34,8 +34,8 @@ class TestRoadmap:
         assert self.roadmap.get_item("non_existent") is None
 
     def test_get_all_items(self):
-        self.roadmap.create_roadmap_item("a", "")
-        self.roadmap.create_roadmap_item("b", "")
+        self.roadmap.create_roadmap_item("a", "Item A")
+        self.roadmap.create_roadmap_item("b", "Item B")
         assert len(self.roadmap.get_all_items()) == 2
 
     def test_item_initial_state_default(self):
