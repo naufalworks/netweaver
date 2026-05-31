@@ -96,7 +96,7 @@ Plans are auto-approved by the reviewer agent when LOW risk + clear scope.
 ---
 
 ### NW-036 Perspective Engine Real-World Tests
-**Status**: DONE — Implemented and verified. 47 new tests pass, 2242 total suite green. Completed $(date +%Y-%m-%d).
+**Status**: DONE — Implemented and verified. 47 new tests pass, 2242 total suite green. Completed 2026-05-31.
 **Risk**: MEDIUM
 **Scope**: tests/test_perspective_scenarios.py, tests/fixtures/perspectives/
 **Tiny Goal**: Add real-world scenario tests for the perspective engine (570 LOC). Test multi-perspective queries on complex scene graphs — accessibility, security, performance, SEO perspectives on same page.
