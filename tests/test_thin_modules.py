@@ -691,8 +691,10 @@ class TestSkillDocExtractorExpanded:
 
         content = "# Doc\n\n## A\n\nBody A\n\n## B\n\nBody B"
         result = extract_skill_doc_md(content)
-        assert len(result.sections) == 2
-        assert result.sections[0].heading == "A"
+        assert len(result.sections) == 2  # Doc (H1, has sub "A") + B (H2, top-level)
+        assert result.sections[0].heading == "Doc"
+        assert len(result.sections[0].subsections) == 1
+        assert result.sections[0].subsections[0].heading == "A"
         assert result.sections[1].heading == "B"
 
     def test_extract_markdown_subsections(self):
