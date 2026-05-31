@@ -210,23 +210,25 @@ def extract_skill_doc_md(content: str) -> ExtractionResult:
     sections: List[ExtractedSection] = []
     current_section: Optional[ExtractedSection] = None
     current_body: List[str] = []
-    in_frontmatter = content.startswith("---")
-    frontmatter_done = not in_frontmatter
+    in_frontmatter = False
     metadata: Dict[str, str] = {}
+
+    # Check for YAML frontmatter
+    remaining = content
+    if remaining.startswith("---"):
+        end_idx = remaining.find("---", 3)
+        if end_idx != -1:
+            fm_lines = remaining[3:end_idx].strip().split("\n")
+            for fm_line in fm_lines:
+                if ":" in fm_line:
+                    key, _, val = fm_line.partition(":")
+                    metadata[key.strip()] = val.strip()
+            # Advance past frontmatter block
+            remaining = remaining[end_idx + 3:].strip()
+            in_frontmatter = True  # mark that we had frontmatter
+
+    lines = remaining.split("\n")
     first_heading_found = False
-
-    for line in lines:
-        stripped = line.strip()
-
-        # skip YAML frontmatter
-        if in_frontmatter and stripped == "---":
-            in_frontmatter = False
-            continue
-        if in_frontmatter:
-            if ":" in stripped:
-                key, _, val = stripped.partition(":")
-                metadata[key.strip()] = val.strip()
-            continue
 
         heading = _parse_markdown_heading(line)
 
