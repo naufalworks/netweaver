@@ -817,7 +817,9 @@
       "last_verified": "2026-05-29T16:00:48.999953+00:00",
       "decay_rate": 0.045000000000000005,
       "sources": [],
-      "contradictions": [],
+      "contradictions": [
+        "b2f8f730e0191c87"
+      ],
       "supports": [],
       "depends_on": [],
       "citations": [],
@@ -888,6 +890,30 @@
       "access_count": 0,
       "last_accessed": null,
       "_id": "8d391a7dfed08e14"
+    },
+    "b2f8f730e0191c87": {
+      "content": "What if we parallelized vendor/CloakBrowser/cloakbrowser/human/__init__.py tests (2688 tests)?",
+      "topic": "hypothesis",
+      "tags": [
+        "dream",
+        "test_parallelism",
+        "unvalidated"
+      ],
+      "context": "{\"simulated_outcome\": \"Could reduce test runtime by ~40% (from ~26s to ~10s)\", \"validation_method\": \"Run with pytest-xdist, measure speedup\", \"hypothesis_id\": \"b2f8f730e0191c87\"}",
+      "confidence": 0.45,
+      "created": "2026-05-31T14:01:02.969823+00:00",
+      "last_verified": "2026-05-31T14:01:02.969825+00:00",
+      "decay_rate": 0.045000000000000005,
+      "sources": [],
+      "contradictions": [
+        "32fe205eb469735c"
+      ],
+      "supports": [],
+      "depends_on": [],
+      "citations": [],
+      "access_count": 0,
+      "last_accessed": null,
+      "_id": "b2f8f730e0191c87"
     }
   },
   "contradictions": [
@@ -3437,7 +3463,16 @@
       "detected": "2026-05-31T13:15:22.146199+00:00",
       "resolved": false,
       "resolution": ""
+    },
+    {
+      "node_a_id": "b2f8f730e0191c87",
+      "node_b_id": "32fe205eb469735c",
+      "severity": 0.5,
+      "reason": "Same topic (hypothesis), overlapping content",
+      "detected": "2026-05-31T14:01:02.969957+00:00",
+      "resolved": false,
+      "resolution": ""
     }
   ],
-  "saved_at": "2026-05-31T13:15:22.146660+00:00"
+  "saved_at": "2026-05-31T14:01:02.970539+00:00"
 }
