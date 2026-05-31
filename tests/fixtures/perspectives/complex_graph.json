@@ -1,0 +1,4540 @@
+{
+  "graph": {
+    "nodes": [
+      {
+        "node_id": "n0",
+        "node_type": "dom",
+        "label": "nav",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#nav",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for nav"
+        },
+        "observation_ids": [
+          "obs-n0"
+        ],
+        "metadata": {
+          "category": "header",
+          "index": 0
+        }
+      },
+      {
+        "node_id": "n1",
+        "node_type": "dom",
+        "label": "logo",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#logo",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for logo"
+        },
+        "observation_ids": [
+          "obs-n1"
+        ],
+        "metadata": {
+          "category": "header",
+          "index": 1
+        }
+      },
+      {
+        "node_id": "n2",
+        "node_type": "dom",
+        "label": "search-input",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#search-input",
+          "visible": true,
+          "interactive": true,
+          "text_content": "Label for search-input"
+        },
+        "observation_ids": [
+          "obs-n2"
+        ],
+        "metadata": {
+          "category": "header",
+          "index": 2
+        }
+      },
+      {
+        "node_id": "n3",
+        "node_type": "dom",
+        "label": "search-btn",
+        "properties": {
+          "tag": "div",
+          "role": "button",
+          "selector": "#search-btn",
+          "visible": true,
+          "interactive": true,
+          "text_content": "Label for search-btn"
+        },
+        "observation_ids": [
+          "obs-n3"
+        ],
+        "metadata": {
+          "category": "header",
+          "index": 3
+        }
+      },
+      {
+        "node_id": "n4",
+        "node_type": "dom",
+        "label": "cart-icon",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#cart-icon",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for cart-icon"
+        },
+        "observation_ids": [
+          "obs-n4"
+        ],
+        "metadata": {
+          "category": "header",
+          "index": 4
+        }
+      },
+      {
+        "node_id": "n5",
+        "node_type": "dom",
+        "label": "account-menu",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#account-menu",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for account-menu"
+        },
+        "observation_ids": [
+          "obs-n5"
+        ],
+        "metadata": {
+          "category": "header",
+          "index": 5
+        }
+      },
+      {
+        "node_id": "n6",
+        "node_type": "dom",
+        "label": "wishlist-btn",
+        "properties": {
+          "tag": "div",
+          "role": "button",
+          "selector": "#wishlist-btn",
+          "visible": true,
+          "interactive": true,
+          "text_content": "Label for wishlist-btn"
+        },
+        "observation_ids": [
+          "obs-n6"
+        ],
+        "metadata": {
+          "category": "header",
+          "index": 6
+        }
+      },
+      {
+        "node_id": "n7",
+        "node_type": "dom",
+        "label": "hamburger-menu",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#hamburger-menu",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for hamburger-menu"
+        },
+        "observation_ids": [
+          "obs-n7"
+        ],
+        "metadata": {
+          "category": "header",
+          "index": 7
+        }
+      },
+      {
+        "node_id": "n8",
+        "node_type": "dom",
+        "label": "breadcrumbs",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#breadcrumbs",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for breadcrumbs"
+        },
+        "observation_ids": [
+          "obs-n8"
+        ],
+        "metadata": {
+          "category": "header",
+          "index": 8
+        }
+      },
+      {
+        "node_id": "n9",
+        "node_type": "dom",
+        "label": "category-dropdown",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#category-dropdown",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for category-dropdown"
+        },
+        "observation_ids": [
+          "obs-n9"
+        ],
+        "metadata": {
+          "category": "header",
+          "index": 9
+        }
+      },
+      {
+        "node_id": "n10",
+        "node_type": "dom",
+        "label": "promo-banner",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#promo-banner",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for promo-banner"
+        },
+        "observation_ids": [
+          "obs-n10"
+        ],
+        "metadata": {
+          "category": "header",
+          "index": 10
+        }
+      },
+      {
+        "node_id": "n11",
+        "node_type": "dom",
+        "label": "country-selector",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#country-selector",
+          "visible": true,
+          "interactive": true,
+          "text_content": "Label for country-selector"
+        },
+        "observation_ids": [
+          "obs-n11"
+        ],
+        "metadata": {
+          "category": "header",
+          "index": 11
+        }
+      },
+      {
+        "node_id": "n12",
+        "node_type": "dom",
+        "label": "main-image",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#main-image",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for main-image"
+        },
+        "observation_ids": [
+          "obs-n12"
+        ],
+        "metadata": {
+          "category": "product-gallery",
+          "index": 0
+        }
+      },
+      {
+        "node_id": "n13",
+        "node_type": "dom",
+        "label": "thumb-1",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#thumb-1",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for thumb-1"
+        },
+        "observation_ids": [
+          "obs-n13"
+        ],
+        "metadata": {
+          "category": "product-gallery",
+          "index": 1
+        }
+      },
+      {
+        "node_id": "n14",
+        "node_type": "dom",
+        "label": "thumb-2",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#thumb-2",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for thumb-2"
+        },
+        "observation_ids": [
+          "obs-n14"
+        ],
+        "metadata": {
+          "category": "product-gallery",
+          "index": 2
+        }
+      },
+      {
+        "node_id": "n15",
+        "node_type": "dom",
+        "label": "thumb-3",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#thumb-3",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for thumb-3"
+        },
+        "observation_ids": [
+          "obs-n15"
+        ],
+        "metadata": {
+          "category": "product-gallery",
+          "index": 3
+        }
+      },
+      {
+        "node_id": "n16",
+        "node_type": "dom",
+        "label": "thumb-4",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#thumb-4",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for thumb-4"
+        },
+        "observation_ids": [
+          "obs-n16"
+        ],
+        "metadata": {
+          "category": "product-gallery",
+          "index": 4
+        }
+      },
+      {
+        "node_id": "n17",
+        "node_type": "dom",
+        "label": "thumb-5",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#thumb-5",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for thumb-5"
+        },
+        "observation_ids": [
+          "obs-n17"
+        ],
+        "metadata": {
+          "category": "product-gallery",
+          "index": 5
+        }
+      },
+      {
+        "node_id": "n18",
+        "node_type": "dom",
+        "label": "zoom-view",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#zoom-view",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for zoom-view"
+        },
+        "observation_ids": [
+          "obs-n18"
+        ],
+        "metadata": {
+          "category": "product-gallery",
+          "index": 6
+        }
+      },
+      {
+        "node_id": "n19",
+        "node_type": "dom",
+        "label": "image-carousel",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#image-carousel",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for image-carousel"
+        },
+        "observation_ids": [
+          "obs-n19"
+        ],
+        "metadata": {
+          "category": "product-gallery",
+          "index": 7
+        }
+      },
+      {
+        "node_id": "n20",
+        "node_type": "dom",
+        "label": "video-thumb",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#video-thumb",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for video-thumb"
+        },
+        "observation_ids": [
+          "obs-n20"
+        ],
+        "metadata": {
+          "category": "product-gallery",
+          "index": 8
+        }
+      },
+      {
+        "node_id": "n21",
+        "node_type": "dom",
+        "label": "360-view-btn",
+        "properties": {
+          "tag": "div",
+          "role": "button",
+          "selector": "#360-view-btn",
+          "visible": true,
+          "interactive": true,
+          "text_content": "Label for 360-view-btn"
+        },
+        "observation_ids": [
+          "obs-n21"
+        ],
+        "metadata": {
+          "category": "product-gallery",
+          "index": 9
+        }
+      },
+      {
+        "node_id": "n22",
+        "node_type": "dom",
+        "label": "share-btn",
+        "properties": {
+          "tag": "div",
+          "role": "button",
+          "selector": "#share-btn",
+          "visible": true,
+          "interactive": true,
+          "text_content": "Label for share-btn"
+        },
+        "observation_ids": [
+          "obs-n22"
+        ],
+        "metadata": {
+          "category": "product-gallery",
+          "index": 10
+        }
+      },
+      {
+        "node_id": "n23",
+        "node_type": "dom",
+        "label": "fullscreen-btn",
+        "properties": {
+          "tag": "div",
+          "role": "button",
+          "selector": "#fullscreen-btn",
+          "visible": true,
+          "interactive": true,
+          "text_content": "Label for fullscreen-btn"
+        },
+        "observation_ids": [
+          "obs-n23"
+        ],
+        "metadata": {
+          "category": "product-gallery",
+          "index": 11
+        }
+      },
+      {
+        "node_id": "n24",
+        "node_type": "dom",
+        "label": "pinch-zone",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#pinch-zone",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for pinch-zone"
+        },
+        "observation_ids": [
+          "obs-n24"
+        ],
+        "metadata": {
+          "category": "product-gallery",
+          "index": 12
+        }
+      },
+      {
+        "node_id": "n25",
+        "node_type": "dom",
+        "label": "badge-sale",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#badge-sale",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for badge-sale"
+        },
+        "observation_ids": [
+          "obs-n25"
+        ],
+        "metadata": {
+          "category": "product-gallery",
+          "index": 13
+        }
+      },
+      {
+        "node_id": "n26",
+        "node_type": "dom",
+        "label": "badge-new",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#badge-new",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for badge-new"
+        },
+        "observation_ids": [
+          "obs-n26"
+        ],
+        "metadata": {
+          "category": "product-gallery",
+          "index": 14
+        }
+      },
+      {
+        "node_id": "n27",
+        "node_type": "dom",
+        "label": "product-title",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#product-title",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for product-title"
+        },
+        "observation_ids": [
+          "obs-n27"
+        ],
+        "metadata": {
+          "category": "product-info",
+          "index": 0
+        }
+      },
+      {
+        "node_id": "n28",
+        "node_type": "dom",
+        "label": "rating-stars",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#rating-stars",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for rating-stars"
+        },
+        "observation_ids": [
+          "obs-n28"
+        ],
+        "metadata": {
+          "category": "product-info",
+          "index": 1
+        }
+      },
+      {
+        "node_id": "n29",
+        "node_type": "dom",
+        "label": "review-count",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#review-count",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for review-count"
+        },
+        "observation_ids": [
+          "obs-n29"
+        ],
+        "metadata": {
+          "category": "product-info",
+          "index": 2
+        }
+      },
+      {
+        "node_id": "n30",
+        "node_type": "dom",
+        "label": "price-current",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#price-current",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for price-current"
+        },
+        "observation_ids": [
+          "obs-n30"
+        ],
+        "metadata": {
+          "category": "product-info",
+          "index": 3
+        }
+      },
+      {
+        "node_id": "n31",
+        "node_type": "dom",
+        "label": "price-original",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#price-original",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for price-original"
+        },
+        "observation_ids": [
+          "obs-n31"
+        ],
+        "metadata": {
+          "category": "product-info",
+          "index": 4
+        }
+      },
+      {
+        "node_id": "n32",
+        "node_type": "dom",
+        "label": "discount-badge",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#discount-badge",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for discount-badge"
+        },
+        "observation_ids": [
+          "obs-n32"
+        ],
+        "metadata": {
+          "category": "product-info",
+          "index": 5
+        }
+      },
+      {
+        "node_id": "n33",
+        "node_type": "dom",
+        "label": "size-selector",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#size-selector",
+          "visible": true,
+          "interactive": true,
+          "text_content": "Label for size-selector"
+        },
+        "observation_ids": [
+          "obs-n33"
+        ],
+        "metadata": {
+          "category": "product-info",
+          "index": 6
+        }
+      },
+      {
+        "node_id": "n34",
+        "node_type": "dom",
+        "label": "color-swatch-1",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#color-swatch-1",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for color-swatch-1"
+        },
+        "observation_ids": [
+          "obs-n34"
+        ],
+        "metadata": {
+          "category": "product-info",
+          "index": 7
+        }
+      },
+      {
+        "node_id": "n35",
+        "node_type": "dom",
+        "label": "color-swatch-2",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#color-swatch-2",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for color-swatch-2"
+        },
+        "observation_ids": [
+          "obs-n35"
+        ],
+        "metadata": {
+          "category": "product-info",
+          "index": 8
+        }
+      },
+      {
+        "node_id": "n36",
+        "node_type": "dom",
+        "label": "color-swatch-3",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#color-swatch-3",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for color-swatch-3"
+        },
+        "observation_ids": [
+          "obs-n36"
+        ],
+        "metadata": {
+          "category": "product-info",
+          "index": 9
+        }
+      },
+      {
+        "node_id": "n37",
+        "node_type": "dom",
+        "label": "color-swatch-4",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#color-swatch-4",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for color-swatch-4"
+        },
+        "observation_ids": [
+          "obs-n37"
+        ],
+        "metadata": {
+          "category": "product-info",
+          "index": 10
+        }
+      },
+      {
+        "node_id": "n38",
+        "node_type": "dom",
+        "label": "quantity-input",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#quantity-input",
+          "visible": true,
+          "interactive": true,
+          "text_content": "Label for quantity-input"
+        },
+        "observation_ids": [
+          "obs-n38"
+        ],
+        "metadata": {
+          "category": "product-info",
+          "index": 11
+        }
+      },
+      {
+        "node_id": "n39",
+        "node_type": "dom",
+        "label": "add-to-cart-btn",
+        "properties": {
+          "tag": "div",
+          "role": "button",
+          "selector": "#add-to-cart-btn",
+          "visible": true,
+          "interactive": true,
+          "text_content": "Label for add-to-cart-btn"
+        },
+        "observation_ids": [
+          "obs-n39"
+        ],
+        "metadata": {
+          "category": "product-info",
+          "index": 12
+        }
+      },
+      {
+        "node_id": "n40",
+        "node_type": "dom",
+        "label": "buy-now-btn",
+        "properties": {
+          "tag": "div",
+          "role": "button",
+          "selector": "#buy-now-btn",
+          "visible": true,
+          "interactive": true,
+          "text_content": "Label for buy-now-btn"
+        },
+        "observation_ids": [
+          "obs-n40"
+        ],
+        "metadata": {
+          "category": "product-info",
+          "index": 13
+        }
+      },
+      {
+        "node_id": "n41",
+        "node_type": "dom",
+        "label": "wishlist-btn2",
+        "properties": {
+          "tag": "div",
+          "role": "button",
+          "selector": "#wishlist-btn2",
+          "visible": true,
+          "interactive": true,
+          "text_content": "Label for wishlist-btn2"
+        },
+        "observation_ids": [
+          "obs-n41"
+        ],
+        "metadata": {
+          "category": "product-info",
+          "index": 14
+        }
+      },
+      {
+        "node_id": "n42",
+        "node_type": "dom",
+        "label": "compare-btn",
+        "properties": {
+          "tag": "div",
+          "role": "button",
+          "selector": "#compare-btn",
+          "visible": true,
+          "interactive": true,
+          "text_content": "Label for compare-btn"
+        },
+        "observation_ids": [
+          "obs-n42"
+        ],
+        "metadata": {
+          "category": "product-info",
+          "index": 15
+        }
+      },
+      {
+        "node_id": "n43",
+        "node_type": "dom",
+        "label": "stock-status",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#stock-status",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for stock-status"
+        },
+        "observation_ids": [
+          "obs-n43"
+        ],
+        "metadata": {
+          "category": "product-info",
+          "index": 16
+        }
+      },
+      {
+        "node_id": "n44",
+        "node_type": "dom",
+        "label": "delivery-estimate",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#delivery-estimate",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for delivery-estimate"
+        },
+        "observation_ids": [
+          "obs-n44"
+        ],
+        "metadata": {
+          "category": "product-info",
+          "index": 17
+        }
+      },
+      {
+        "node_id": "n45",
+        "node_type": "dom",
+        "label": "trust-badge",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#trust-badge",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for trust-badge"
+        },
+        "observation_ids": [
+          "obs-n45"
+        ],
+        "metadata": {
+          "category": "product-info",
+          "index": 18
+        }
+      },
+      {
+        "node_id": "n46",
+        "node_type": "dom",
+        "label": "description-toggle",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#description-toggle",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for description-toggle"
+        },
+        "observation_ids": [
+          "obs-n46"
+        ],
+        "metadata": {
+          "category": "product-info",
+          "index": 19
+        }
+      },
+      {
+        "node_id": "n47",
+        "node_type": "dom",
+        "label": "review-section-header",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#review-section-header",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for review-section-header"
+        },
+        "observation_ids": [
+          "obs-n47"
+        ],
+        "metadata": {
+          "category": "reviews",
+          "index": 0
+        }
+      },
+      {
+        "node_id": "n48",
+        "node_type": "dom",
+        "label": "sort-dropdown",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#sort-dropdown",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for sort-dropdown"
+        },
+        "observation_ids": [
+          "obs-n48"
+        ],
+        "metadata": {
+          "category": "reviews",
+          "index": 1
+        }
+      },
+      {
+        "node_id": "n49",
+        "node_type": "dom",
+        "label": "filter-rating-5",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#filter-rating-5",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for filter-rating-5"
+        },
+        "observation_ids": [
+          "obs-n49"
+        ],
+        "metadata": {
+          "category": "reviews",
+          "index": 2
+        }
+      },
+      {
+        "node_id": "n50",
+        "node_type": "dom",
+        "label": "filter-rating-4",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#filter-rating-4",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for filter-rating-4"
+        },
+        "observation_ids": [
+          "obs-n50"
+        ],
+        "metadata": {
+          "category": "reviews",
+          "index": 3
+        }
+      },
+      {
+        "node_id": "n51",
+        "node_type": "dom",
+        "label": "filter-rating-3",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#filter-rating-3",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for filter-rating-3"
+        },
+        "observation_ids": [
+          "obs-n51"
+        ],
+        "metadata": {
+          "category": "reviews",
+          "index": 4
+        }
+      },
+      {
+        "node_id": "n52",
+        "node_type": "dom",
+        "label": "write-review-btn",
+        "properties": {
+          "tag": "div",
+          "role": "button",
+          "selector": "#write-review-btn",
+          "visible": true,
+          "interactive": true,
+          "text_content": "Label for write-review-btn"
+        },
+        "observation_ids": [
+          "obs-n52"
+        ],
+        "metadata": {
+          "category": "reviews",
+          "index": 5
+        }
+      },
+      {
+        "node_id": "n53",
+        "node_type": "dom",
+        "label": "review-card-1",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#review-card-1",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for review-card-1"
+        },
+        "observation_ids": [
+          "obs-n53"
+        ],
+        "metadata": {
+          "category": "reviews",
+          "index": 6
+        }
+      },
+      {
+        "node_id": "n54",
+        "node_type": "dom",
+        "label": "review-card-2",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#review-card-2",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for review-card-2"
+        },
+        "observation_ids": [
+          "obs-n54"
+        ],
+        "metadata": {
+          "category": "reviews",
+          "index": 7
+        }
+      },
+      {
+        "node_id": "n55",
+        "node_type": "dom",
+        "label": "review-card-3",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#review-card-3",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for review-card-3"
+        },
+        "observation_ids": [
+          "obs-n55"
+        ],
+        "metadata": {
+          "category": "reviews",
+          "index": 8
+        }
+      },
+      {
+        "node_id": "n56",
+        "node_type": "dom",
+        "label": "review-card-4",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#review-card-4",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for review-card-4"
+        },
+        "observation_ids": [
+          "obs-n56"
+        ],
+        "metadata": {
+          "category": "reviews",
+          "index": 9
+        }
+      },
+      {
+        "node_id": "n57",
+        "node_type": "dom",
+        "label": "review-card-5",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#review-card-5",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for review-card-5"
+        },
+        "observation_ids": [
+          "obs-n57"
+        ],
+        "metadata": {
+          "category": "reviews",
+          "index": 10
+        }
+      },
+      {
+        "node_id": "n58",
+        "node_type": "dom",
+        "label": "review-card-6",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#review-card-6",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for review-card-6"
+        },
+        "observation_ids": [
+          "obs-n58"
+        ],
+        "metadata": {
+          "category": "reviews",
+          "index": 11
+        }
+      },
+      {
+        "node_id": "n59",
+        "node_type": "dom",
+        "label": "review-card-7",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#review-card-7",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for review-card-7"
+        },
+        "observation_ids": [
+          "obs-n59"
+        ],
+        "metadata": {
+          "category": "reviews",
+          "index": 12
+        }
+      },
+      {
+        "node_id": "n60",
+        "node_type": "dom",
+        "label": "review-card-8",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#review-card-8",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for review-card-8"
+        },
+        "observation_ids": [
+          "obs-n60"
+        ],
+        "metadata": {
+          "category": "reviews",
+          "index": 13
+        }
+      },
+      {
+        "node_id": "n61",
+        "node_type": "dom",
+        "label": "review-card-9",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#review-card-9",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for review-card-9"
+        },
+        "observation_ids": [
+          "obs-n61"
+        ],
+        "metadata": {
+          "category": "reviews",
+          "index": 14
+        }
+      },
+      {
+        "node_id": "n62",
+        "node_type": "dom",
+        "label": "review-card-10",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#review-card-10",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for review-card-10"
+        },
+        "observation_ids": [
+          "obs-n62"
+        ],
+        "metadata": {
+          "category": "reviews",
+          "index": 15
+        }
+      },
+      {
+        "node_id": "n63",
+        "node_type": "dom",
+        "label": "review-helpful-btn-1",
+        "properties": {
+          "tag": "div",
+          "role": "button",
+          "selector": "#review-helpful-btn-1",
+          "visible": true,
+          "interactive": true,
+          "text_content": "Label for review-helpful-btn-1"
+        },
+        "observation_ids": [
+          "obs-n63"
+        ],
+        "metadata": {
+          "category": "reviews",
+          "index": 16
+        }
+      },
+      {
+        "node_id": "n64",
+        "node_type": "dom",
+        "label": "review-helpful-btn-2",
+        "properties": {
+          "tag": "div",
+          "role": "button",
+          "selector": "#review-helpful-btn-2",
+          "visible": true,
+          "interactive": true,
+          "text_content": "Label for review-helpful-btn-2"
+        },
+        "observation_ids": [
+          "obs-n64"
+        ],
+        "metadata": {
+          "category": "reviews",
+          "index": 17
+        }
+      },
+      {
+        "node_id": "n65",
+        "node_type": "dom",
+        "label": "review-report-btn",
+        "properties": {
+          "tag": "div",
+          "role": "button",
+          "selector": "#review-report-btn",
+          "visible": true,
+          "interactive": true,
+          "text_content": "Label for review-report-btn"
+        },
+        "observation_ids": [
+          "obs-n65"
+        ],
+        "metadata": {
+          "category": "reviews",
+          "index": 18
+        }
+      },
+      {
+        "node_id": "n66",
+        "node_type": "dom",
+        "label": "review-photo-1",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#review-photo-1",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for review-photo-1"
+        },
+        "observation_ids": [
+          "obs-n66"
+        ],
+        "metadata": {
+          "category": "reviews",
+          "index": 19
+        }
+      },
+      {
+        "node_id": "n67",
+        "node_type": "dom",
+        "label": "review-photo-2",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#review-photo-2",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for review-photo-2"
+        },
+        "observation_ids": [
+          "obs-n67"
+        ],
+        "metadata": {
+          "category": "reviews",
+          "index": 20
+        }
+      },
+      {
+        "node_id": "n68",
+        "node_type": "dom",
+        "label": "pagination-prev",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#pagination-prev",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for pagination-prev"
+        },
+        "observation_ids": [
+          "obs-n68"
+        ],
+        "metadata": {
+          "category": "reviews",
+          "index": 21
+        }
+      },
+      {
+        "node_id": "n69",
+        "node_type": "dom",
+        "label": "pagination-next",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#pagination-next",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for pagination-next"
+        },
+        "observation_ids": [
+          "obs-n69"
+        ],
+        "metadata": {
+          "category": "reviews",
+          "index": 22
+        }
+      },
+      {
+        "node_id": "n70",
+        "node_type": "dom",
+        "label": "page-indicator",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#page-indicator",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for page-indicator"
+        },
+        "observation_ids": [
+          "obs-n70"
+        ],
+        "metadata": {
+          "category": "reviews",
+          "index": 23
+        }
+      },
+      {
+        "node_id": "n71",
+        "node_type": "dom",
+        "label": "average-rating-chart",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#average-rating-chart",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for average-rating-chart"
+        },
+        "observation_ids": [
+          "obs-n71"
+        ],
+        "metadata": {
+          "category": "reviews",
+          "index": 24
+        }
+      },
+      {
+        "node_id": "n72",
+        "node_type": "dom",
+        "label": "recommended-section",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#recommended-section",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for recommended-section"
+        },
+        "observation_ids": [
+          "obs-n72"
+        ],
+        "metadata": {
+          "category": "sidebar",
+          "index": 0
+        }
+      },
+      {
+        "node_id": "n73",
+        "node_type": "dom",
+        "label": "rec-product-1",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#rec-product-1",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for rec-product-1"
+        },
+        "observation_ids": [
+          "obs-n73"
+        ],
+        "metadata": {
+          "category": "sidebar",
+          "index": 1
+        }
+      },
+      {
+        "node_id": "n74",
+        "node_type": "dom",
+        "label": "rec-product-2",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#rec-product-2",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for rec-product-2"
+        },
+        "observation_ids": [
+          "obs-n74"
+        ],
+        "metadata": {
+          "category": "sidebar",
+          "index": 2
+        }
+      },
+      {
+        "node_id": "n75",
+        "node_type": "dom",
+        "label": "rec-product-3",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#rec-product-3",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for rec-product-3"
+        },
+        "observation_ids": [
+          "obs-n75"
+        ],
+        "metadata": {
+          "category": "sidebar",
+          "index": 3
+        }
+      },
+      {
+        "node_id": "n76",
+        "node_type": "dom",
+        "label": "rec-product-4",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#rec-product-4",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for rec-product-4"
+        },
+        "observation_ids": [
+          "obs-n76"
+        ],
+        "metadata": {
+          "category": "sidebar",
+          "index": 4
+        }
+      },
+      {
+        "node_id": "n77",
+        "node_type": "dom",
+        "label": "recently-viewed",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#recently-viewed",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for recently-viewed"
+        },
+        "observation_ids": [
+          "obs-n77"
+        ],
+        "metadata": {
+          "category": "sidebar",
+          "index": 5
+        }
+      },
+      {
+        "node_id": "n78",
+        "node_type": "dom",
+        "label": "ad-banner-1",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#ad-banner-1",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for ad-banner-1"
+        },
+        "observation_ids": [
+          "obs-n78"
+        ],
+        "metadata": {
+          "category": "sidebar",
+          "index": 6
+        }
+      },
+      {
+        "node_id": "n79",
+        "node_type": "dom",
+        "label": "ad-banner-2",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#ad-banner-2",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for ad-banner-2"
+        },
+        "observation_ids": [
+          "obs-n79"
+        ],
+        "metadata": {
+          "category": "sidebar",
+          "index": 7
+        }
+      },
+      {
+        "node_id": "n80",
+        "node_type": "dom",
+        "label": "newsletter-signup",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#newsletter-signup",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for newsletter-signup"
+        },
+        "observation_ids": [
+          "obs-n80"
+        ],
+        "metadata": {
+          "category": "sidebar",
+          "index": 8
+        }
+      },
+      {
+        "node_id": "n81",
+        "node_type": "dom",
+        "label": "wishlist-summary",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#wishlist-summary",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for wishlist-summary"
+        },
+        "observation_ids": [
+          "obs-n81"
+        ],
+        "metadata": {
+          "category": "sidebar",
+          "index": 9
+        }
+      },
+      {
+        "node_id": "n82",
+        "node_type": "dom",
+        "label": "cart-summary",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#cart-summary",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for cart-summary"
+        },
+        "observation_ids": [
+          "obs-n82"
+        ],
+        "metadata": {
+          "category": "sidebar",
+          "index": 10
+        }
+      },
+      {
+        "node_id": "n83",
+        "node_type": "dom",
+        "label": "price-tracker",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#price-tracker",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for price-tracker"
+        },
+        "observation_ids": [
+          "obs-n83"
+        ],
+        "metadata": {
+          "category": "sidebar",
+          "index": 11
+        }
+      },
+      {
+        "node_id": "n84",
+        "node_type": "dom",
+        "label": "size-guide-link",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#size-guide-link",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for size-guide-link"
+        },
+        "observation_ids": [
+          "obs-n84"
+        ],
+        "metadata": {
+          "category": "sidebar",
+          "index": 12
+        }
+      },
+      {
+        "node_id": "n85",
+        "node_type": "dom",
+        "label": "care-instructions",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#care-instructions",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for care-instructions"
+        },
+        "observation_ids": [
+          "obs-n85"
+        ],
+        "metadata": {
+          "category": "sidebar",
+          "index": 13
+        }
+      },
+      {
+        "node_id": "n86",
+        "node_type": "dom",
+        "label": "return-policy-link",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#return-policy-link",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for return-policy-link"
+        },
+        "observation_ids": [
+          "obs-n86"
+        ],
+        "metadata": {
+          "category": "sidebar",
+          "index": 14
+        }
+      },
+      {
+        "node_id": "n87",
+        "node_type": "dom",
+        "label": "company-links",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#company-links",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for company-links"
+        },
+        "observation_ids": [
+          "obs-n87"
+        ],
+        "metadata": {
+          "category": "footer",
+          "index": 0
+        }
+      },
+      {
+        "node_id": "n88",
+        "node_type": "dom",
+        "label": "help-center",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#help-center",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for help-center"
+        },
+        "observation_ids": [
+          "obs-n88"
+        ],
+        "metadata": {
+          "category": "footer",
+          "index": 1
+        }
+      },
+      {
+        "node_id": "n89",
+        "node_type": "dom",
+        "label": "shipping-info",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#shipping-info",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for shipping-info"
+        },
+        "observation_ids": [
+          "obs-n89"
+        ],
+        "metadata": {
+          "category": "footer",
+          "index": 2
+        }
+      },
+      {
+        "node_id": "n90",
+        "node_type": "dom",
+        "label": "returns-policy",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#returns-policy",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for returns-policy"
+        },
+        "observation_ids": [
+          "obs-n90"
+        ],
+        "metadata": {
+          "category": "footer",
+          "index": 3
+        }
+      },
+      {
+        "node_id": "n91",
+        "node_type": "dom",
+        "label": "privacy-policy",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#privacy-policy",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for privacy-policy"
+        },
+        "observation_ids": [
+          "obs-n91"
+        ],
+        "metadata": {
+          "category": "footer",
+          "index": 4
+        }
+      },
+      {
+        "node_id": "n92",
+        "node_type": "dom",
+        "label": "terms-of-service",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#terms-of-service",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for terms-of-service"
+        },
+        "observation_ids": [
+          "obs-n92"
+        ],
+        "metadata": {
+          "category": "footer",
+          "index": 5
+        }
+      },
+      {
+        "node_id": "n93",
+        "node_type": "dom",
+        "label": "social-facebook",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#social-facebook",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for social-facebook"
+        },
+        "observation_ids": [
+          "obs-n93"
+        ],
+        "metadata": {
+          "category": "footer",
+          "index": 6
+        }
+      },
+      {
+        "node_id": "n94",
+        "node_type": "dom",
+        "label": "social-twitter",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#social-twitter",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for social-twitter"
+        },
+        "observation_ids": [
+          "obs-n94"
+        ],
+        "metadata": {
+          "category": "footer",
+          "index": 7
+        }
+      },
+      {
+        "node_id": "n95",
+        "node_type": "dom",
+        "label": "social-instagram",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#social-instagram",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for social-instagram"
+        },
+        "observation_ids": [
+          "obs-n95"
+        ],
+        "metadata": {
+          "category": "footer",
+          "index": 8
+        }
+      },
+      {
+        "node_id": "n96",
+        "node_type": "dom",
+        "label": "social-youtube",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#social-youtube",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for social-youtube"
+        },
+        "observation_ids": [
+          "obs-n96"
+        ],
+        "metadata": {
+          "category": "footer",
+          "index": 9
+        }
+      },
+      {
+        "node_id": "n97",
+        "node_type": "dom",
+        "label": "app-store-badge",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#app-store-badge",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for app-store-badge"
+        },
+        "observation_ids": [
+          "obs-n97"
+        ],
+        "metadata": {
+          "category": "footer",
+          "index": 10
+        }
+      },
+      {
+        "node_id": "n98",
+        "node_type": "dom",
+        "label": "play-store-badge",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#play-store-badge",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for play-store-badge"
+        },
+        "observation_ids": [
+          "obs-n98"
+        ],
+        "metadata": {
+          "category": "footer",
+          "index": 11
+        }
+      },
+      {
+        "node_id": "n99",
+        "node_type": "dom",
+        "label": "payment-methods",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#payment-methods",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for payment-methods"
+        },
+        "observation_ids": [
+          "obs-n99"
+        ],
+        "metadata": {
+          "category": "footer",
+          "index": 12
+        }
+      },
+      {
+        "node_id": "n100",
+        "node_type": "dom",
+        "label": "ssl-badge",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#ssl-badge",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for ssl-badge"
+        },
+        "observation_ids": [
+          "obs-n100"
+        ],
+        "metadata": {
+          "category": "footer",
+          "index": 13
+        }
+      },
+      {
+        "node_id": "n101",
+        "node_type": "dom",
+        "label": "newsletter-input",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#newsletter-input",
+          "visible": true,
+          "interactive": true,
+          "text_content": "Label for newsletter-input"
+        },
+        "observation_ids": [
+          "obs-n101"
+        ],
+        "metadata": {
+          "category": "footer",
+          "index": 14
+        }
+      },
+      {
+        "node_id": "n102",
+        "node_type": "dom",
+        "label": "cookie-consent",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#cookie-consent",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for cookie-consent"
+        },
+        "observation_ids": [
+          "obs-n102"
+        ],
+        "metadata": {
+          "category": "overlays",
+          "index": 0
+        }
+      },
+      {
+        "node_id": "n103",
+        "node_type": "dom",
+        "label": "newsletter-modal",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#newsletter-modal",
+          "visible": false,
+          "interactive": false,
+          "text_content": "Label for newsletter-modal"
+        },
+        "observation_ids": [
+          "obs-n103"
+        ],
+        "metadata": {
+          "category": "overlays",
+          "index": 1
+        }
+      },
+      {
+        "node_id": "n104",
+        "node_type": "dom",
+        "label": "chat-widget",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#chat-widget",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for chat-widget"
+        },
+        "observation_ids": [
+          "obs-n104"
+        ],
+        "metadata": {
+          "category": "overlays",
+          "index": 2
+        }
+      },
+      {
+        "node_id": "n105",
+        "node_type": "dom",
+        "label": "chat-minimize-btn",
+        "properties": {
+          "tag": "div",
+          "role": "button",
+          "selector": "#chat-minimize-btn",
+          "visible": true,
+          "interactive": true,
+          "text_content": "Label for chat-minimize-btn"
+        },
+        "observation_ids": [
+          "obs-n105"
+        ],
+        "metadata": {
+          "category": "overlays",
+          "index": 3
+        }
+      },
+      {
+        "node_id": "n106",
+        "node_type": "dom",
+        "label": "size-guide-modal",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#size-guide-modal",
+          "visible": false,
+          "interactive": false,
+          "text_content": "Label for size-guide-modal"
+        },
+        "observation_ids": [
+          "obs-n106"
+        ],
+        "metadata": {
+          "category": "overlays",
+          "index": 4
+        }
+      },
+      {
+        "node_id": "n107",
+        "node_type": "dom",
+        "label": "image-zoom-overlay",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#image-zoom-overlay",
+          "visible": false,
+          "interactive": false,
+          "text_content": "Label for image-zoom-overlay"
+        },
+        "observation_ids": [
+          "obs-n107"
+        ],
+        "metadata": {
+          "category": "overlays",
+          "index": 5
+        }
+      },
+      {
+        "node_id": "n108",
+        "node_type": "dom",
+        "label": "quick-view-modal",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#quick-view-modal",
+          "visible": false,
+          "interactive": false,
+          "text_content": "Label for quick-view-modal"
+        },
+        "observation_ids": [
+          "obs-n108"
+        ],
+        "metadata": {
+          "category": "overlays",
+          "index": 6
+        }
+      },
+      {
+        "node_id": "n109",
+        "node_type": "dom",
+        "label": "cart-drawer",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#cart-drawer",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for cart-drawer"
+        },
+        "observation_ids": [
+          "obs-n109"
+        ],
+        "metadata": {
+          "category": "overlays",
+          "index": 7
+        }
+      },
+      {
+        "node_id": "n110",
+        "node_type": "accessibility",
+        "label": "skip-to-content",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#skip-to-content",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for skip-to-content"
+        },
+        "observation_ids": [
+          "obs-n110"
+        ],
+        "metadata": {
+          "category": "accessibility",
+          "index": 0
+        }
+      },
+      {
+        "node_id": "n111",
+        "node_type": "accessibility",
+        "label": "aria-live-region",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#aria-live-region",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for aria-live-region"
+        },
+        "observation_ids": [
+          "obs-n111"
+        ],
+        "metadata": {
+          "category": "accessibility",
+          "index": 1
+        }
+      },
+      {
+        "node_id": "n112",
+        "node_type": "accessibility",
+        "label": "focus-trap-modal",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#focus-trap-modal",
+          "visible": false,
+          "interactive": false,
+          "text_content": "Label for focus-trap-modal"
+        },
+        "observation_ids": [
+          "obs-n112"
+        ],
+        "metadata": {
+          "category": "accessibility",
+          "index": 2
+        }
+      },
+      {
+        "node_id": "n113",
+        "node_type": "accessibility",
+        "label": "keyboard-nav",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#keyboard-nav",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for keyboard-nav"
+        },
+        "observation_ids": [
+          "obs-n113"
+        ],
+        "metadata": {
+          "category": "accessibility",
+          "index": 3
+        }
+      },
+      {
+        "node_id": "n114",
+        "node_type": "accessibility",
+        "label": "screen-reader-only-desc",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#screen-reader-only-desc",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for screen-reader-only-desc"
+        },
+        "observation_ids": [
+          "obs-n114"
+        ],
+        "metadata": {
+          "category": "accessibility",
+          "index": 4
+        }
+      },
+      {
+        "node_id": "n115",
+        "node_type": "accessibility",
+        "label": "aria-label-close",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#aria-label-close",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for aria-label-close"
+        },
+        "observation_ids": [
+          "obs-n115"
+        ],
+        "metadata": {
+          "category": "accessibility",
+          "index": 5
+        }
+      },
+      {
+        "node_id": "n116",
+        "node_type": "accessibility",
+        "label": "role-alert-dialog",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#role-alert-dialog",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for role-alert-dialog"
+        },
+        "observation_ids": [
+          "obs-n116"
+        ],
+        "metadata": {
+          "category": "accessibility",
+          "index": 6
+        }
+      },
+      {
+        "node_id": "n117",
+        "node_type": "accessibility",
+        "label": "tabindex-order",
+        "properties": {
+          "tag": "div",
+          "role": "text",
+          "selector": "#tabindex-order",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for tabindex-order"
+        },
+        "observation_ids": [
+          "obs-n117"
+        ],
+        "metadata": {
+          "category": "accessibility",
+          "index": 7
+        }
+      },
+      {
+        "node_id": "n118",
+        "node_type": "network",
+        "label": "product-api",
+        "properties": {
+          "tag": "xhr",
+          "role": "text",
+          "selector": "#product-api",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for product-api"
+        },
+        "observation_ids": [
+          "obs-n118"
+        ],
+        "metadata": {
+          "category": "network",
+          "index": 0
+        }
+      },
+      {
+        "node_id": "n119",
+        "node_type": "network",
+        "label": "reviews-api",
+        "properties": {
+          "tag": "xhr",
+          "role": "text",
+          "selector": "#reviews-api",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for reviews-api"
+        },
+        "observation_ids": [
+          "obs-n119"
+        ],
+        "metadata": {
+          "category": "network",
+          "index": 1
+        }
+      },
+      {
+        "node_id": "n120",
+        "node_type": "network",
+        "label": "recommendations-api",
+        "properties": {
+          "tag": "xhr",
+          "role": "text",
+          "selector": "#recommendations-api",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for recommendations-api"
+        },
+        "observation_ids": [
+          "obs-n120"
+        ],
+        "metadata": {
+          "category": "network",
+          "index": 2
+        }
+      },
+      {
+        "node_id": "n121",
+        "node_type": "network",
+        "label": "cart-api",
+        "properties": {
+          "tag": "xhr",
+          "role": "text",
+          "selector": "#cart-api",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for cart-api"
+        },
+        "observation_ids": [
+          "obs-n121"
+        ],
+        "metadata": {
+          "category": "network",
+          "index": 3
+        }
+      },
+      {
+        "node_id": "n122",
+        "node_type": "network",
+        "label": "auth-check",
+        "properties": {
+          "tag": "xhr",
+          "role": "text",
+          "selector": "#auth-check",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for auth-check"
+        },
+        "observation_ids": [
+          "obs-n122"
+        ],
+        "metadata": {
+          "category": "network",
+          "index": 4
+        }
+      },
+      {
+        "node_id": "n123",
+        "node_type": "network",
+        "label": "search-suggestions",
+        "properties": {
+          "tag": "xhr",
+          "role": "text",
+          "selector": "#search-suggestions",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for search-suggestions"
+        },
+        "observation_ids": [
+          "obs-n123"
+        ],
+        "metadata": {
+          "category": "network",
+          "index": 5
+        }
+      },
+      {
+        "node_id": "n124",
+        "node_type": "network",
+        "label": "analytics-pixel",
+        "properties": {
+          "tag": "xhr",
+          "role": "text",
+          "selector": "#analytics-pixel",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for analytics-pixel"
+        },
+        "observation_ids": [
+          "obs-n124"
+        ],
+        "metadata": {
+          "category": "network",
+          "index": 6
+        }
+      },
+      {
+        "node_id": "n125",
+        "node_type": "network",
+        "label": "ad-server",
+        "properties": {
+          "tag": "xhr",
+          "role": "text",
+          "selector": "#ad-server",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for ad-server"
+        },
+        "observation_ids": [
+          "obs-n125"
+        ],
+        "metadata": {
+          "category": "network",
+          "index": 7
+        }
+      },
+      {
+        "node_id": "n126",
+        "node_type": "network",
+        "label": "cdn-images",
+        "properties": {
+          "tag": "xhr",
+          "role": "text",
+          "selector": "#cdn-images",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for cdn-images"
+        },
+        "observation_ids": [
+          "obs-n126"
+        ],
+        "metadata": {
+          "category": "network",
+          "index": 8
+        }
+      },
+      {
+        "node_id": "n127",
+        "node_type": "network",
+        "label": "web-socket-chat",
+        "properties": {
+          "tag": "xhr",
+          "role": "text",
+          "selector": "#web-socket-chat",
+          "visible": true,
+          "interactive": false,
+          "text_content": "Label for web-socket-chat"
+        },
+        "observation_ids": [
+          "obs-n127"
+        ],
+        "metadata": {
+          "category": "network",
+          "index": 9
+        }
+      },
+      {
+        "node_id": "n1000",
+        "node_type": "intent",
+        "label": "page-purpose",
+        "properties": {
+          "intent": "product_view",
+          "confidence": 0.95
+        }
+      },
+      {
+        "node_id": "n1001",
+        "node_type": "intent",
+        "label": "user-intent-purchase",
+        "properties": {
+          "intent": "purchase",
+          "confidence": 0.7
+        }
+      },
+      {
+        "node_id": "n1002",
+        "node_type": "intent",
+        "label": "user-intent-compare",
+        "properties": {
+          "intent": "compare",
+          "confidence": 0.3
+        }
+      },
+      {
+        "node_id": "n1003",
+        "node_type": "intent",
+        "label": "user-intent-review",
+        "properties": {
+          "intent": "read_reviews",
+          "confidence": 0.6
+        }
+      },
+      {
+        "node_id": "n1004",
+        "node_type": "intent",
+        "label": "page-analytics-cart",
+        "properties": {
+          "intent": "add_to_cart",
+          "confidence": 0.5
+        }
+      },
+      {
+        "node_id": "n1005",
+        "node_type": "visual",
+        "label": "viewport-main",
+        "properties": {
+          "width": 1440,
+          "height": 900,
+          "scroll_y": 0
+        }
+      },
+      {
+        "node_id": "n1006",
+        "node_type": "visual",
+        "label": "viewport-mobile",
+        "properties": {
+          "width": 375,
+          "height": 812,
+          "scroll_y": 120
+        }
+      }
+    ],
+    "edges": [
+      {
+        "edge_id": "e0",
+        "source_id": "n0",
+        "target_id": "obs-n0",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n0"
+        ]
+      },
+      {
+        "edge_id": "e1",
+        "source_id": "n0",
+        "target_id": "n1",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e2",
+        "source_id": "n1",
+        "target_id": "n2",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e3",
+        "source_id": "n-1",
+        "target_id": "n3",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e4",
+        "source_id": "n3",
+        "target_id": "obs-n3",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n3"
+        ]
+      },
+      {
+        "edge_id": "e5",
+        "source_id": "n3",
+        "target_id": "n4",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e6",
+        "source_id": "n4",
+        "target_id": "n5",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e7",
+        "source_id": "n4",
+        "target_id": "n6",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e8",
+        "source_id": "n6",
+        "target_id": "obs-n6",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n6"
+        ]
+      },
+      {
+        "edge_id": "e9",
+        "source_id": "n6",
+        "target_id": "n7",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e10",
+        "source_id": "n7",
+        "target_id": "n8",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e11",
+        "source_id": "n4",
+        "target_id": "n9",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e12",
+        "source_id": "n9",
+        "target_id": "obs-n9",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n9"
+        ]
+      },
+      {
+        "edge_id": "e13",
+        "source_id": "n9",
+        "target_id": "n10",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e14",
+        "source_id": "n10",
+        "target_id": "n11",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e15",
+        "source_id": "n12",
+        "target_id": "obs-n12",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n12"
+        ]
+      },
+      {
+        "edge_id": "e16",
+        "source_id": "n12",
+        "target_id": "n13",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e17",
+        "source_id": "n13",
+        "target_id": "n14",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e18",
+        "source_id": "n11",
+        "target_id": "n15",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e19",
+        "source_id": "n15",
+        "target_id": "obs-n15",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n15"
+        ]
+      },
+      {
+        "edge_id": "e20",
+        "source_id": "n15",
+        "target_id": "n16",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e21",
+        "source_id": "n16",
+        "target_id": "n17",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e22",
+        "source_id": "n16",
+        "target_id": "n18",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e23",
+        "source_id": "n18",
+        "target_id": "obs-n18",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n18"
+        ]
+      },
+      {
+        "edge_id": "e24",
+        "source_id": "n18",
+        "target_id": "n19",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e25",
+        "source_id": "n19",
+        "target_id": "n20",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e26",
+        "source_id": "n16",
+        "target_id": "n21",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e27",
+        "source_id": "n21",
+        "target_id": "obs-n21",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n21"
+        ]
+      },
+      {
+        "edge_id": "e28",
+        "source_id": "n21",
+        "target_id": "n22",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e29",
+        "source_id": "n22",
+        "target_id": "n23",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e30",
+        "source_id": "n21",
+        "target_id": "n24",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e31",
+        "source_id": "n24",
+        "target_id": "obs-n24",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n24"
+        ]
+      },
+      {
+        "edge_id": "e32",
+        "source_id": "n24",
+        "target_id": "n25",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e33",
+        "source_id": "n25",
+        "target_id": "n26",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e34",
+        "source_id": "n27",
+        "target_id": "obs-n27",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n27"
+        ]
+      },
+      {
+        "edge_id": "e35",
+        "source_id": "n27",
+        "target_id": "n28",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e36",
+        "source_id": "n28",
+        "target_id": "n29",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e37",
+        "source_id": "n26",
+        "target_id": "n30",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e38",
+        "source_id": "n30",
+        "target_id": "obs-n30",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n30"
+        ]
+      },
+      {
+        "edge_id": "e39",
+        "source_id": "n30",
+        "target_id": "n31",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e40",
+        "source_id": "n31",
+        "target_id": "n32",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e41",
+        "source_id": "n31",
+        "target_id": "n33",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e42",
+        "source_id": "n33",
+        "target_id": "obs-n33",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n33"
+        ]
+      },
+      {
+        "edge_id": "e43",
+        "source_id": "n33",
+        "target_id": "n34",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e44",
+        "source_id": "n34",
+        "target_id": "n35",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e45",
+        "source_id": "n31",
+        "target_id": "n36",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e46",
+        "source_id": "n36",
+        "target_id": "obs-n36",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n36"
+        ]
+      },
+      {
+        "edge_id": "e47",
+        "source_id": "n36",
+        "target_id": "n37",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e48",
+        "source_id": "n37",
+        "target_id": "n38",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e49",
+        "source_id": "n36",
+        "target_id": "n39",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e50",
+        "source_id": "n39",
+        "target_id": "obs-n39",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n39"
+        ]
+      },
+      {
+        "edge_id": "e51",
+        "source_id": "n39",
+        "target_id": "n40",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e52",
+        "source_id": "n40",
+        "target_id": "n41",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e53",
+        "source_id": "n41",
+        "target_id": "n42",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e54",
+        "source_id": "n42",
+        "target_id": "obs-n42",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n42"
+        ]
+      },
+      {
+        "edge_id": "e55",
+        "source_id": "n42",
+        "target_id": "n43",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e56",
+        "source_id": "n43",
+        "target_id": "n44",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e57",
+        "source_id": "n41",
+        "target_id": "n45",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e58",
+        "source_id": "n45",
+        "target_id": "obs-n45",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n45"
+        ]
+      },
+      {
+        "edge_id": "e59",
+        "source_id": "n45",
+        "target_id": "n46",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e60",
+        "source_id": "n47",
+        "target_id": "n48",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e61",
+        "source_id": "n48",
+        "target_id": "obs-n48",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n48"
+        ]
+      },
+      {
+        "edge_id": "e62",
+        "source_id": "n48",
+        "target_id": "n49",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e63",
+        "source_id": "n46",
+        "target_id": "n50",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e64",
+        "source_id": "n50",
+        "target_id": "n51",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e65",
+        "source_id": "n51",
+        "target_id": "obs-n51",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n51"
+        ]
+      },
+      {
+        "edge_id": "e66",
+        "source_id": "n51",
+        "target_id": "n52",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e67",
+        "source_id": "n51",
+        "target_id": "n53",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e68",
+        "source_id": "n53",
+        "target_id": "n54",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e69",
+        "source_id": "n54",
+        "target_id": "obs-n54",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n54"
+        ]
+      },
+      {
+        "edge_id": "e70",
+        "source_id": "n54",
+        "target_id": "n55",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e71",
+        "source_id": "n51",
+        "target_id": "n56",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e72",
+        "source_id": "n56",
+        "target_id": "n57",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e73",
+        "source_id": "n57",
+        "target_id": "obs-n57",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n57"
+        ]
+      },
+      {
+        "edge_id": "e74",
+        "source_id": "n57",
+        "target_id": "n58",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e75",
+        "source_id": "n56",
+        "target_id": "n59",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e76",
+        "source_id": "n59",
+        "target_id": "n60",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e77",
+        "source_id": "n60",
+        "target_id": "obs-n60",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n60"
+        ]
+      },
+      {
+        "edge_id": "e78",
+        "source_id": "n60",
+        "target_id": "n61",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e79",
+        "source_id": "n61",
+        "target_id": "n62",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e80",
+        "source_id": "n62",
+        "target_id": "n63",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e81",
+        "source_id": "n63",
+        "target_id": "obs-n63",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n63"
+        ]
+      },
+      {
+        "edge_id": "e82",
+        "source_id": "n63",
+        "target_id": "n64",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e83",
+        "source_id": "n61",
+        "target_id": "n65",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e84",
+        "source_id": "n65",
+        "target_id": "n66",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e85",
+        "source_id": "n66",
+        "target_id": "obs-n66",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n66"
+        ]
+      },
+      {
+        "edge_id": "e86",
+        "source_id": "n66",
+        "target_id": "n67",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e87",
+        "source_id": "n66",
+        "target_id": "n68",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e88",
+        "source_id": "n68",
+        "target_id": "n69",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e89",
+        "source_id": "n69",
+        "target_id": "obs-n69",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n69"
+        ]
+      },
+      {
+        "edge_id": "e90",
+        "source_id": "n69",
+        "target_id": "n70",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e91",
+        "source_id": "n66",
+        "target_id": "n71",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e92",
+        "source_id": "n72",
+        "target_id": "obs-n72",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n72"
+        ]
+      },
+      {
+        "edge_id": "e93",
+        "source_id": "n72",
+        "target_id": "n73",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e94",
+        "source_id": "n73",
+        "target_id": "n74",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e95",
+        "source_id": "n71",
+        "target_id": "n75",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e96",
+        "source_id": "n75",
+        "target_id": "obs-n75",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n75"
+        ]
+      },
+      {
+        "edge_id": "e97",
+        "source_id": "n75",
+        "target_id": "n76",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e98",
+        "source_id": "n76",
+        "target_id": "n77",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e99",
+        "source_id": "n76",
+        "target_id": "n78",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e100",
+        "source_id": "n78",
+        "target_id": "obs-n78",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n78"
+        ]
+      },
+      {
+        "edge_id": "e101",
+        "source_id": "n78",
+        "target_id": "n79",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e102",
+        "source_id": "n79",
+        "target_id": "n80",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e103",
+        "source_id": "n76",
+        "target_id": "n81",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e104",
+        "source_id": "n81",
+        "target_id": "obs-n81",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n81"
+        ]
+      },
+      {
+        "edge_id": "e105",
+        "source_id": "n81",
+        "target_id": "n82",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e106",
+        "source_id": "n82",
+        "target_id": "n83",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e107",
+        "source_id": "n81",
+        "target_id": "n84",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e108",
+        "source_id": "n84",
+        "target_id": "obs-n84",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n84"
+        ]
+      },
+      {
+        "edge_id": "e109",
+        "source_id": "n84",
+        "target_id": "n85",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e110",
+        "source_id": "n85",
+        "target_id": "n86",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e111",
+        "source_id": "n87",
+        "target_id": "obs-n87",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n87"
+        ]
+      },
+      {
+        "edge_id": "e112",
+        "source_id": "n87",
+        "target_id": "n88",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e113",
+        "source_id": "n88",
+        "target_id": "n89",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e114",
+        "source_id": "n86",
+        "target_id": "n90",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e115",
+        "source_id": "n90",
+        "target_id": "obs-n90",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n90"
+        ]
+      },
+      {
+        "edge_id": "e116",
+        "source_id": "n90",
+        "target_id": "n91",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e117",
+        "source_id": "n91",
+        "target_id": "n92",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e118",
+        "source_id": "n91",
+        "target_id": "n93",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e119",
+        "source_id": "n93",
+        "target_id": "obs-n93",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n93"
+        ]
+      },
+      {
+        "edge_id": "e120",
+        "source_id": "n93",
+        "target_id": "n94",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e121",
+        "source_id": "n94",
+        "target_id": "n95",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e122",
+        "source_id": "n91",
+        "target_id": "n96",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e123",
+        "source_id": "n96",
+        "target_id": "obs-n96",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n96"
+        ]
+      },
+      {
+        "edge_id": "e124",
+        "source_id": "n96",
+        "target_id": "n97",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e125",
+        "source_id": "n97",
+        "target_id": "n98",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e126",
+        "source_id": "n96",
+        "target_id": "n99",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e127",
+        "source_id": "n99",
+        "target_id": "obs-n99",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n99"
+        ]
+      },
+      {
+        "edge_id": "e128",
+        "source_id": "n99",
+        "target_id": "n100",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e129",
+        "source_id": "n100",
+        "target_id": "n101",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e130",
+        "source_id": "n102",
+        "target_id": "obs-n102",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n102"
+        ]
+      },
+      {
+        "edge_id": "e131",
+        "source_id": "n102",
+        "target_id": "n103",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e132",
+        "source_id": "n103",
+        "target_id": "n104",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e133",
+        "source_id": "n101",
+        "target_id": "n105",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e134",
+        "source_id": "n105",
+        "target_id": "obs-n105",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n105"
+        ]
+      },
+      {
+        "edge_id": "e135",
+        "source_id": "n105",
+        "target_id": "n106",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e136",
+        "source_id": "n106",
+        "target_id": "n107",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e137",
+        "source_id": "n106",
+        "target_id": "n108",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e138",
+        "source_id": "n108",
+        "target_id": "obs-n108",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n108"
+        ]
+      },
+      {
+        "edge_id": "e139",
+        "source_id": "n108",
+        "target_id": "n109",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e140",
+        "source_id": "n110",
+        "target_id": "n111",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e141",
+        "source_id": "n111",
+        "target_id": "obs-n111",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n111"
+        ]
+      },
+      {
+        "edge_id": "e142",
+        "source_id": "n111",
+        "target_id": "n112",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e143",
+        "source_id": "n109",
+        "target_id": "n113",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e144",
+        "source_id": "n113",
+        "target_id": "n114",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e145",
+        "source_id": "n114",
+        "target_id": "obs-n114",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n114"
+        ]
+      },
+      {
+        "edge_id": "e146",
+        "source_id": "n114",
+        "target_id": "n115",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e147",
+        "source_id": "n114",
+        "target_id": "n116",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e148",
+        "source_id": "n116",
+        "target_id": "n117",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e149",
+        "source_id": "n117",
+        "target_id": "obs-n117",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n117"
+        ]
+      },
+      {
+        "edge_id": "e150",
+        "source_id": "n118",
+        "target_id": "n119",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e151",
+        "source_id": "n119",
+        "target_id": "n120",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e152",
+        "source_id": "n120",
+        "target_id": "obs-n120",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n120"
+        ]
+      },
+      {
+        "edge_id": "e153",
+        "source_id": "n117",
+        "target_id": "n121",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e154",
+        "source_id": "n121",
+        "target_id": "n122",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e155",
+        "source_id": "n122",
+        "target_id": "n123",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e156",
+        "source_id": "n123",
+        "target_id": "obs-n123",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n123"
+        ]
+      },
+      {
+        "edge_id": "e157",
+        "source_id": "n122",
+        "target_id": "n124",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e158",
+        "source_id": "n124",
+        "target_id": "n125",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e159",
+        "source_id": "n125",
+        "target_id": "n126",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      },
+      {
+        "edge_id": "e160",
+        "source_id": "n126",
+        "target_id": "obs-n126",
+        "edge_type": "evidence",
+        "weight": 0.95,
+        "properties": {},
+        "observation_ids": [
+          "obs-n126"
+        ]
+      },
+      {
+        "edge_id": "e161",
+        "source_id": "n122",
+        "target_id": "n127",
+        "edge_type": "containment",
+        "weight": 1.0,
+        "properties": {},
+        "observation_ids": []
+      }
+    ]
+  },
+  "metadata": {
+    "url": "https://example.com/products/smart-watch-pro",
+    "title": "Smart Watch Pro - Product Page",
+    "node_count": 135,
+    "edge_count": 162,
+    "page_type": "ecommerce_product",
+    "description": "Complex e-commerce product page with gallery, reviews, sidebar, and overlays"
+  },
+  "scenarios": [
+    {
+      "name": "add-to-cart-safe",
+      "description": "User clicks add-to-cart on visible, interactive button",
+      "action_type": "click",
+      "selector": "#add-to-cart-btn",
+      "evidence": {
+        "visible": true,
+        "enabled": true,
+        "attached": true,
+        "stable": true,
+        "pointer_events": true
+      },
+      "context": {
+        "user_goal": "Purchase Smart Watch Pro",
+        "element_role": "button",
+        "auth_state": "valid",
+        "risk_level": "low",
+        "is_payment": false,
+        "has_event_handlers": true,
+        "is_loading": false,
+        "past_failures": 0
+      },
+      "expected_strategies": [
+        "action"
+      ],
+      "enabled_perspectives": [
+        "user",
+        "dom",
+        "visual",
+        "network",
+        "js",
+        "safety",
+        "history"
+      ]
+    },
+    {
+      "name": "payment-critical-risk",
+      "description": "Payment action with critical risk level triggers ABORT",
+      "action_type": "click",
+      "selector": "#buy-now-btn",
+      "evidence": {
+        "visible": true,
+        "enabled": true,
+        "attached": true,
+        "stable": true,
+        "pointer_events": true
+      },
+      "context": {
+        "user_goal": "Purchase Smart Watch Pro",
+        "element_role": "button",
+        "auth_state": "valid",
+        "risk_level": "critical",
+        "action_category": "payment",
+        "is_payment": true,
+        "payment_amount": "$299.99",
+        "has_event_handlers": true,
+        "is_loading": false,
+        "past_failures": 0
+      },
+      "expected_strategies": [
+        "abort"
+      ],
+      "enabled_perspectives": [
+        "user",
+        "dom",
+        "visual",
+        "network",
+        "js",
+        "safety",
+        "history"
+      ]
+    },
+    {
+      "name": "hidden-element-click",
+      "description": "Trying to click a hidden/collapsed element",
+      "action_type": "click",
+      "selector": "#hamburger-menu",
+      "evidence": {
+        "visible": false,
+        "enabled": true,
+        "attached": true,
+        "stable": true,
+        "pointer_events": false
+      },
+      "context": {
+        "user_goal": "Open mobile menu",
+        "element_role": "button",
+        "auth_state": "valid",
+        "risk_level": "low",
+        "is_hidden": true,
+        "has_event_handlers": true,
+        "is_loading": false,
+        "past_failures": 0
+      },
+      "expected_strategies": [
+        "abort",
+        "ask"
+      ],
+      "enabled_perspectives": [
+        "user",
+        "dom",
+        "visual",
+        "network",
+        "js",
+        "safety",
+        "history"
+      ]
+    },
+    {
+      "name": "rate-limited-api-call",
+      "description": "Action blocked due to API rate limiting",
+      "action_type": "click",
+      "selector": "#search-btn",
+      "evidence": {
+        "visible": true,
+        "enabled": true,
+        "attached": true,
+        "stable": true,
+        "pointer_events": true
+      },
+      "context": {
+        "user_goal": "Search products",
+        "element_role": "button",
+        "auth_state": "valid",
+        "risk_level": "low",
+        "rate_limit_remaining": 0,
+        "has_event_handlers": true,
+        "is_loading": false,
+        "past_failures": 0
+      },
+      "expected_strategies": [
+        "abort",
+        "recover"
+      ],
+      "enabled_perspectives": [
+        "user",
+        "dom",
+        "visual",
+        "network",
+        "js",
+        "safety",
+        "history"
+      ]
+    },
+    {
+      "name": "expired-auth-form-fill",
+      "description": "Filling a form with expired authentication",
+      "action_type": "fill",
+      "selector": "#newsletter-input",
+      "evidence": {
+        "visible": true,
+        "enabled": true,
+        "attached": true,
+        "stable": true,
+        "editable": true
+      },
+      "context": {
+        "user_goal": "Subscribe to newsletter",
+        "element_role": "textbox",
+        "auth_state": "expired",
+        "risk_level": "low",
+        "has_event_handlers": true,
+        "is_loading": false,
+        "past_failures": 0
+      },
+      "expected_strategies": [
+        "recover"
+      ],
+      "enabled_perspectives": [
+        "user",
+        "dom",
+        "visual",
+        "network",
+        "js",
+        "safety",
+        "history"
+      ]
+    },
+    {
+      "name": "obscured-element",
+      "description": "Clicking an element obscured by another element",
+      "action_type": "click",
+      "selector": "#quick-view-modal",
+      "evidence": {
+        "visible": true,
+        "enabled": true,
+        "attached": true,
+        "stable": true,
+        "pointer_events": true
+      },
+      "context": {
+        "user_goal": "Quick view product",
+        "element_role": "dialog",
+        "auth_state": "valid",
+        "risk_level": "low",
+        "is_obscured": true,
+        "has_event_handlers": true,
+        "is_loading": false,
+        "past_failures": 0
+      },
+      "expected_strategies": [
+        "recover"
+      ],
+      "enabled_perspectives": [
+        "user",
+        "dom",
+        "visual",
+        "network",
+        "js",
+        "safety",
+        "history"
+      ]
+    },
+    {
+      "name": "cross-perspective-high-risk",
+      "description": "Multiple perspectives flag an issue (detached + JS error)",
+      "action_type": "click",
+      "selector": "#chat-widget",
+      "evidence": {
+        "visible": false,
+        "enabled": false,
+        "attached": false,
+        "stable": false,
+        "pointer_events": false
+      },
+      "context": {
+        "user_goal": "Open chat",
+        "element_role": "button",
+        "auth_state": "valid",
+        "risk_level": "medium",
+        "has_event_handlers": false,
+        "js_error": "chat-script.js:550 TypeError: t is not a function",
+        "is_loading": true,
+        "past_failures": 5
+      },
+      "expected_strategies": [
+        "abort"
+      ],
+      "enabled_perspectives": [
+        "user",
+        "dom",
+        "visual",
+        "network",
+        "js",
+        "safety",
+        "history"
+      ]
+    },
+    {
+      "name": "known-success-pattern",
+      "description": "Action matches a known successful pattern from history",
+      "action_type": "click",
+      "selector": "#login-btn",
+      "evidence": {
+        "visible": true,
+        "enabled": true,
+        "attached": true,
+        "stable": true,
+        "pointer_events": true
+      },
+      "context": {
+        "user_goal": "Log in",
+        "element_role": "button",
+        "auth_state": "valid",
+        "risk_level": "low",
+        "has_event_handlers": true,
+        "is_loading": false,
+        "past_failures": 0,
+        "known_pattern": "success"
+      },
+      "expected_strategies": [
+        "action"
+      ],
+      "enabled_perspectives": [
+        "user",
+        "dom",
+        "visual",
+        "network",
+        "js",
+        "safety",
+        "history"
+      ]
+    },
+    {
+      "name": "mixed-safe-unsafe",
+      "description": "Mixed safety results \u2014 safe lowest confidence",
+      "action_type": "click",
+      "selector": "#compare-btn",
+      "evidence": {
+        "visible": true,
+        "enabled": true,
+        "attached": true,
+        "stable": true,
+        "pointer_events": true
+      },
+      "context": {
+        "user_goal": "",
+        "element_role": "button",
+        "auth_state": "valid",
+        "risk_level": "low",
+        "has_event_handlers": true,
+        "is_loading": false,
+        "past_failures": 2
+      },
+      "expected_strategies": [
+        "action"
+      ],
+      "enabled_perspectives": [
+        "user",
+        "dom",
+        "visual",
+        "network",
+        "js",
+        "safety",
+        "history"
+      ]
+    },
+    {
+      "name": "cross-perspective-safety-veto",
+      "description": "Safety critical veto overrides all other perspectives",
+      "action_type": "click",
+      "selector": "#delete-account-btn",
+      "evidence": {
+        "visible": true,
+        "enabled": true,
+        "attached": true,
+        "stable": true,
+        "pointer_events": true
+      },
+      "context": {
+        "user_goal": "Delete account",
+        "element_role": "button",
+        "auth_state": "valid",
+        "risk_level": "critical",
+        "action_category": "account_deletion",
+        "is_payment": false,
+        "has_event_handlers": true,
+        "is_loading": false,
+        "past_failures": 0
+      },
+      "expected_strategies": [
+        "abort"
+      ],
+      "enabled_perspectives": [
+        "user",
+        "dom",
+        "visual",
+        "network",
+        "js",
+        "safety",
+        "history"
+      ]
+    }
+  ]
+}
