@@ -96,7 +96,7 @@ Plans are auto-approved by the reviewer agent when LOW risk + clear scope.
 ---
 
 ### NW-036 Perspective Engine Real-World Tests
-**Status**: APPROVED — MEDIUM risk, clear scope (tests/ + fixtures only), testable acceptance criteria (5+ perspectives, 100+ node graphs, perf <100ms, 20+ tests), no KANBAN conflicts, no failure history. Note: P2-006 (ready) touches perspective.py — coordinate to avoid duplication. Reviewed 2026-05-27.
+**Status**: DONE — Implemented and verified. 47 new tests pass, 2242 total suite green. Completed $(date +%Y-%m-%d).
 **Risk**: MEDIUM
 **Scope**: tests/test_perspective_scenarios.py, tests/fixtures/perspectives/
 **Tiny Goal**: Add real-world scenario tests for the perspective engine (570 LOC). Test multi-perspective queries on complex scene graphs — accessibility, security, performance, SEO perspectives on same page.
